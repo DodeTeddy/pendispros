@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                           ]
                         )
                       ),
-                      const SizedBox(height: 20),
+                      SizedBox(height: 20),
                       CustomContainer(
                         padding: const EdgeInsets.all(20),
                         child: Row(
