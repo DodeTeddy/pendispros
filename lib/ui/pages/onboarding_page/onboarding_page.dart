@@ -15,7 +15,6 @@ class OnboardingPage extends StatefulWidget {
 }
 
 class _OnboardingPageState extends State<OnboardingPage> {
-  late PageController _pageController;
   int currentPage = 0;
   List<Widget> pageView = const [
     GetStartedPage(),
@@ -24,17 +23,20 @@ class _OnboardingPageState extends State<OnboardingPage> {
     ThirdOnboardingPage()
   ];
 
-  @override
-  void initState() {
-    _pageController = PageController(initialPage: 0);
-    super.initState();
-  }
+  late PageController _pageController;
 
   @override
   void dispose() {
     _pageController.dispose();
     super.dispose();
   }
+
+  @override
+  void initState() {
+    _pageController = PageController(initialPage: 0);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

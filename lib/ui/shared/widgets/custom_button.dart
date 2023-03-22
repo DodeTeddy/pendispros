@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:tugas_akhir_app/ui/shared/theme/constant.dart';
 
 class CustomButton extends StatelessWidget {
+  const CustomButton({super.key, required this.onTap, this.isLoading = false});
+
+  final bool isLoading;
   final Function() onTap;
-  const CustomButton({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,7 @@ class CustomButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: primaryColor,
           borderRadius: BorderRadius.circular(50),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               blurRadius: 4,
               color: inActiveColor,
@@ -22,8 +24,12 @@ class CustomButton extends StatelessWidget {
             )
           ]
         ),
-        child: const Center(
-          child: Text(
+        child: Center(
+          child: isLoading 
+          ? const CircularProgressIndicator(
+            color: Colors.white,
+          )
+          : const Text(
             'Continue',
             style: TextStyle(
               color: Colors.white,

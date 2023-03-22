@@ -5,7 +5,7 @@ import 'constant.dart';
 ThemeData theme = ThemeData(
   scaffoldBackgroundColor: secondaryColor,
   fontFamily: GoogleFonts.roboto().fontFamily,
-  textTheme: TextTheme(
+  textTheme: const TextTheme(
     bodySmall: TextStyle(
       color: primaryColor
     ),

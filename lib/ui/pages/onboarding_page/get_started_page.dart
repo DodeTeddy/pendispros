@@ -18,7 +18,7 @@ class GetStartedPage extends StatelessWidget {
               ),
               RichText(
                 text: TextSpan(
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 25,
                     color: primaryColor
                   ),

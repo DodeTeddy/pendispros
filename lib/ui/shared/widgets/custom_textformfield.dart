@@ -4,17 +4,20 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../theme/constant.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  final String title;
-  final bool obscureText;
-  final bool isHide;
-  final Function() onTap;
   const CustomTextFormField({
     super.key, 
+    required this.controller,
     required this.title, 
     this.obscureText = false, 
     this.isHide = true,
     required this.onTap, 
   });
+
+  final TextEditingController controller;
+  final bool isHide;
+  final bool obscureText;
+  final Function() onTap;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +35,9 @@ class CustomTextFormField extends StatelessWidget {
           const SizedBox(height: 5),
           obscureText
           ? TextFormField(
+            controller: controller,
             cursorColor: primaryColor,
-            style: TextStyle(
+            style: const TextStyle(
               color: primaryColor
             ),
             obscureText: isHide,
@@ -50,14 +54,14 @@ class CustomTextFormField extends StatelessWidget {
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: secondaryColor,
                   width: 2
                 )
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: primaryColor,
                   width: 2
                 )
@@ -65,22 +69,23 @@ class CustomTextFormField extends StatelessWidget {
             ),
           )
           : TextFormField(
+            controller: controller,
             cursorColor: primaryColor,
-            style: TextStyle(
+            style: const TextStyle(
               color: primaryColor
             ),
             obscureText: obscureText,
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: secondaryColor,
                   width: 2
                 )
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: primaryColor,
                   width: 2
                 )

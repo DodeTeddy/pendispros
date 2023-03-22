@@ -13,6 +13,10 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool isHide = true;
+
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,10 +46,12 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: [
                     CustomTextFormField(
+                      controller: _usernameController,
                       onTap: () => null,
                       title: 'Username or password',
                     ),
                     CustomTextFormField(
+                      controller: _passwordController,
                       onTap: () {
                         setState(() {
                           isHide = !isHide;

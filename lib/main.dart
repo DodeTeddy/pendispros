@@ -35,14 +35,14 @@ class MyApp extends StatelessWidget {
         ]
       ),
       theme: theme,
-      // routes: {
-      //   '/' :(context) => const SplashScreen(),
-      //   '/onboarding' :(context) => const OnboardingPage(),
-      //   '/login' :(context) => const LoginPage(),
-      //   '/registration' :(context) => const RegistrationPage(),
-      //   '/main' :(context) => const MainPage()
-      // },
-      home: const MainPage()
+      routes: {
+        '/' :(context) => const SplashScreen(),
+        '/onboarding' :(context) => const OnboardingPage(),
+        '/login' :(context) => const LoginPage(),
+        '/registration' :(context) => const RegistrationPage(),
+        '/main' :(context) => const MainPage()
+      },
+      // home: const MainPage()
     );
   }
 }
