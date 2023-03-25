@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tugas_akhir_app/models/login_model.dart';
+import 'package:tugas_akhir_app/services/service.dart';
 import '../../shared/widgets/custom_button.dart';
 import '../../shared/widgets/custom_container.dart';
 import '../../shared/widgets/custom_textformfield.dart';
@@ -13,9 +16,56 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool isHide = true;
+  bool isLoading = false;
 
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
+
+  final snackBar = const SnackBar(
+    content: Text('Field cannot be empty'),
+    backgroundColor: Colors.red,
+    behavior: SnackBarBehavior.floating,
+  );
+
+  final passSnackBar = const SnackBar(
+    content: Text('Incorrect username or password'),
+    backgroundColor: Colors.red,
+    behavior: SnackBarBehavior.floating,
+  );
+
+  void loginFunction()async{
+    late LoginModel loginModel;
+    if (_passwordController.text.isEmpty || _usernameController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } else if(_passwordController.text.isEmpty && _usernameController.text.isEmpty){
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }else if (_passwordController.text.length < 8 && _usernameController.text.isNotEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(passSnackBar);
+    }else{
+      setState(() {
+        isLoading = true;
+      });
+      loginModel = await login(
+        _usernameController.text, 
+        _passwordController.text
+      );
+      if (loginModel.message == 'Login Success!') {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('isLogin', true);
+        setState(() {
+          isLoading = false;
+        });
+        if (!mounted) return;
+        Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
+      }else if(loginModel.message == 'Login Failed!'){
+        setState(() {
+          isLoading = false;
+        });
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(passSnackBar);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,9 +116,8 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 30),
               CustomButton(
-                onTap: () {
-                  Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
-                },
+                onTap: loginFunction,
+                isLoading: isLoading,
               ),
               const SizedBox(height: 15),
               AuthTextButton(

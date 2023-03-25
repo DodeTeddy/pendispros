@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../shared/theme/constant.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -12,11 +13,29 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
+  void pageCondition()async{
+    final prefs = await SharedPreferences.getInstance();
+    bool isNotFirst = prefs.getBool('isNotFirst') ?? false;
+    bool isLogin = prefs.getBool('isLogin') ?? false;
+    if (isNotFirst && !isLogin) {
+      Timer(const Duration(seconds: 2), () { 
+        Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+      });
+    }else if(isNotFirst && isLogin){
+      Timer(const Duration(seconds: 2), () { 
+        Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
+      });
+    }else{
+      Timer(const Duration(seconds: 2), () { 
+        Navigator.pushNamedAndRemoveUntil(context, '/onboarding', (route) => false);
+      });
+    }
+  }
+
   @override
-  void initState() {
-    Timer(const Duration(seconds: 2), () { 
-      Navigator.pushNamedAndRemoveUntil(context, '/onboarding', (route) => false);
-    });
+  void initState(){
+    pageCondition();
     super.initState();
   }
 

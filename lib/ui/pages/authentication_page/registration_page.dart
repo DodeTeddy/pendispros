@@ -36,6 +36,53 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
 
+  void registration()async{
+    late SignUpModel signUpModel;
+    if (userCategory.isEmpty || _usernameController.text.isEmpty || _emailController.text.isEmpty || _passwordController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }else if (userCategory.isNotEmpty && _usernameController.text.isNotEmpty && _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty && _passwordController.text.length < 8) {
+      ScaffoldMessenger.of(context).showSnackBar(passSnackBar);
+    }else{
+      setState(() {
+        isLoading = true;
+      });
+      signUpModel = await signUp(
+        userCategory, 
+        _usernameController.text, 
+        _emailController.text, 
+        _passwordController.text
+      );
+      if (signUpModel.message == 'Registration Success!') {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('isNotFirst', true);
+        setState(() {
+          isLoading = false;
+        });
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(signUpModel.message),
+            backgroundColor: Colors.green,
+            behavior: SnackBarBehavior.floating,
+          )
+        );
+        Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+      }else if(signUpModel.message == 'Registration Failed!' && userCategory.isNotEmpty && _usernameController.text.isNotEmpty && _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty && _passwordController.text.length >= 8){
+        setState(() {
+          isLoading = false;
+        });
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(signUpModel.message),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+          )
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,51 +190,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               ),
               const SizedBox(height: 30),
               CustomButton(
-                onTap: ()async{
-                  if (userCategory.isEmpty || _usernameController.text.isEmpty || _emailController.text.isEmpty || _passwordController.text.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  }else if (userCategory.isNotEmpty && _usernameController.text.isNotEmpty && _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty && _passwordController.text.length < 8) {
-                    ScaffoldMessenger.of(context).showSnackBar(passSnackBar);
-                  }else{
-                    setState(() {
-                      isLoading = true;
-                    });
-                  }
-                  SignUpModel signUpModel = await signUp(
-                    userCategory, 
-                    _usernameController.text, 
-                    _emailController.text, 
-                    _passwordController.text
-                  );
-                  if (signUpModel.message == 'Registration Success!') {
-                    final prefs = await SharedPreferences.getInstance();
-                    await prefs.setBool('isNotFirst', true);
-                    setState(() {
-                      isLoading = false;
-                    });
-                    if (!mounted) return;
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(signUpModel.message),
-                        backgroundColor: Colors.green,
-                        behavior: SnackBarBehavior.floating,
-                      )
-                    );
-                    Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
-                  }else if(signUpModel.message == 'Registration Failed!' && userCategory.isNotEmpty && _usernameController.text.isNotEmpty && _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty && _passwordController.text.length >= 8){
-                    setState(() {
-                      isLoading = false;
-                    });
-                    if (!mounted) return;
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(signUpModel.message),
-                        backgroundColor: Colors.red,
-                        behavior: SnackBarBehavior.floating,
-                      )
-                    );
-                  }
-                },
+                onTap: registration,
                 isLoading: isLoading,
               ),
               const SizedBox(height: 15),

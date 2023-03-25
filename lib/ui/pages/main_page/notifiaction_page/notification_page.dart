@@ -19,6 +19,7 @@ class NotificationPage extends StatelessWidget {
         title: const Text('Notification')
       ),
       body: ListView.builder(
+        physics: const BouncingScrollPhysics(),
         itemCount: 1,
         itemBuilder: (context, index) => CustomContainer(
           margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 12),

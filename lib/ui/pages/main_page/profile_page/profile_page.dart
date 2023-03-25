@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:quickalert/quickalert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_container.dart';
 
 import '../../../shared/theme/constant.dart';
 import '../widgets/profile_header.dart';
 import '../widgets/profile_item.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     List<String> profileTextItem = ['FAQ', 'About'];
@@ -16,6 +23,28 @@ class ProfilePage extends StatelessWidget {
       const Icon(Icons.question_answer_outlined, color: primaryColor),
       const Icon(Icons.book_outlined, color: primaryColor)
     ];
+
+    void logOut(){
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.confirm,
+        text: 'Do you want to logout',
+        confirmBtnText: 'Yes',
+        onConfirmBtnTap: ()async{
+          final prefs = await SharedPreferences.getInstance();
+          prefs.setBool('isLogin', false);
+          bool isLogin = prefs.getBool('isLogin') ?? true;
+          if (!mounted) return;
+          if (!isLogin) {
+            Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+          }
+        },
+        cancelBtnText: 'No',
+        confirmBtnColor: primaryColor,
+        customAsset: 'assets/images/get_started.png',
+        backgroundColor: secondaryColor
+      );
+    }
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -133,6 +162,7 @@ class ProfilePage extends StatelessWidget {
                 CustomContainer(
                   padding: const EdgeInsets.all(12), 
                   child: ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, index) => Container(
                       padding: const EdgeInsets.symmetric(vertical: 10),
@@ -175,24 +205,27 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 5),
-                CustomContainer(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20), 
-                  child: Row(
-                    children: [
-                      Row(
-                        children: const [
-                          Icon(Icons.logout_rounded, color: primaryColor),
-                          SizedBox(width: 10),
-                          Text(
-                            'Logout',
-                            style: TextStyle(
-                              fontSize: 18
+                GestureDetector(
+                  onTap: logOut,
+                  child: CustomContainer(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20), 
+                    child: Row(
+                      children: [
+                        Row(
+                          children: const [
+                            Icon(Icons.logout_rounded, color: primaryColor),
+                            SizedBox(width: 10),
+                            Text(
+                              'Logout',
+                              style: TextStyle(
+                                fontSize: 18
+                              ),
                             ),
-                          ),
-                        ],
-                      )
-                    ],
-                  )
+                          ],
+                        )
+                      ],
+                    )
+                  ),
                 )
               ],
             ),
