@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tugas_akhir_app/models/logout_model.dart';
+import 'package:tugas_akhir_app/services/service.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_container.dart';
 
 import '../../../shared/theme/constant.dart';
@@ -33,9 +35,11 @@ class _ProfilePageState extends State<ProfilePage> {
         onConfirmBtnTap: ()async{
           final prefs = await SharedPreferences.getInstance();
           prefs.setBool('isLogin', false);
-          bool isLogin = prefs.getBool('isLogin') ?? true;
+          var token = prefs.getString('token');
+          LogoutModel logoutModel = await logout(token!);
           if (!mounted) return;
-          if (!isLogin) {
+          if (logoutModel.message == 'Logout Success!') {
+            prefs.remove('token');
             Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
           }
         },

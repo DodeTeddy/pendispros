@@ -52,6 +52,7 @@ class _LoginPageState extends State<LoginPage> {
       if (loginModel.message == 'Login Success!') {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setBool('isLogin', true);
+        await prefs.setString('token', loginModel.token);
         setState(() {
           isLoading = false;
         });
