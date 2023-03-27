@@ -15,9 +15,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int currentPage = 0;
-  String headerTextVerified = '';
-  String textVerified = '';
-  Color? textVerifiedColor;
+  String? headerTextVerified;
+  String? textVerified;
+  bool isAdmin = false;
+  bool isDisability = false;
+  bool isWorkshop = false;
+  bool isNotVerified = false;
   late PageController _pageController;
 
   @override
@@ -43,16 +46,20 @@ class _HomePageState extends State<HomePage> {
             if (profileData!.verifiedAs == 'notverfied') {
               headerTextVerified = 'Haven\'t verified yet?';
               textVerified = 'Not verified';
-              textVerifiedColor = inActiveColor;
+              isNotVerified = true;
             }else{
               if (profileData.verifiedAs == 'disability') {
                 headerTextVerified = 'Verified as';
                 textVerified = 'Disability';
-                textVerifiedColor = Colors.green;
+                isDisability = true;
               }else if (profileData.verifiedAs == 'prosthetic') {
                 headerTextVerified = 'Verified as';
                 textVerified = 'Prosthetic';
-                textVerifiedColor = Colors.green;
+                isWorkshop = true;
+              }else if (profileData.verifiedAs == 'admin') {
+                headerTextVerified = 'Welcome';
+                textVerified = 'Pendispros Admin';
+                isAdmin = true;
               }
             }
             return Stack(
@@ -104,17 +111,17 @@ class _HomePageState extends State<HomePage> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        headerTextVerified,
+                                        headerTextVerified ?? '-',
                                         style: const TextStyle(
                                           fontSize: 15
                                         ),
                                       ),
                                       const SizedBox(height: 20),
                                       Text(
-                                        textVerified,
+                                        textVerified ?? '-',
                                         style: TextStyle(
                                           fontSize: 15,
-                                          color: textVerifiedColor,
+                                          color: isNotVerified ? inActiveColor : primaryColor,
                                           fontWeight: FontWeight.w600
                                         ),
                                       )
@@ -136,23 +143,31 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                             const SizedBox(height: 20),
-                            const Visibility(
-                              visible: true,
-                              child: FiturForAdmin()
+                            Visibility(
+                              visible: isNotVerified,
+                              child: const FiturForAdmin()
                             ),
-                            const Visibility(
-                              visible: false,
-                              child: FiturForDisability()
+                            Visibility(
+                              visible: isAdmin,
+                              child: const FiturForAdmin()
                             ),
-                            const Visibility(
-                              visible: false,
-                              child: FiturForProstheticWs()
+                            Visibility(
+                              visible: isDisability,
+                              child: const FiturForDisability()
                             ),
-                            const SizedBox(height: 50),
+                            Visibility(
+                              visible: isWorkshop,
+                              child: const FiturForProstheticWs()
+                            ),
+                            SizedBox(height: isNotVerified ? 50 : 150),
                           ],
                         ),
                       ),
-                      SizedBox(
+                      isAdmin
+                      ? Container(
+                        color: Colors.white,
+                      )
+                      : SizedBox(
                         height: 160,
                         child: Column(
                           children: [
