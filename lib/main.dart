@@ -18,7 +18,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-
       builder: (context, child) => ResponsiveWrapper.builder(
         child,
         maxWidth: 1200,

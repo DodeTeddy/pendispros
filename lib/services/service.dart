@@ -1,20 +1,19 @@
-import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/logout_model.dart';
+import '../models/profile_model.dart';
 import '../models/sign_up_model.dart';
 import '../models/login_model.dart';
 
-// ip localhost for android : 192.168.0.100 || for ios : 127.0.0.1
-
-var baseUrl = 'http://127.0.0.1:8888/';
+var baseUrl = 'http://127.0.0.1:8888/api';
 var headerNoAuth = {
   'Accept' : 'application/json'
 };
 
 Future<SignUpModel> signUp(String role, String username, String email, String password)async{
-  var url = Uri.parse('${baseUrl}api/register');
+  var url = Uri.parse('$baseUrl/register');
   var body = {
     'role' : role,
     'username' : username,
@@ -37,7 +36,7 @@ Future<SignUpModel> signUp(String role, String username, String email, String pa
 }
 
 Future<LoginModel> login(String login, String password)async{
-  var url = Uri.parse('${baseUrl}api/login');
+  var url = Uri.parse('$baseUrl/login');
   var body = {
     'login' : login,
     'password' : password
@@ -57,8 +56,8 @@ Future<LoginModel> login(String login, String password)async{
 }
 
 Future<LogoutModel> logout(String token)async{
-  var url = Uri.parse('${baseUrl}api/logout');
-  var headerAuth = {
+  var url = Uri.parse('$baseUrl/logout');
+  var header = {
     'Accept' : 'application/json',
     'Authorization' : 'Bearer $token'
   };
@@ -66,10 +65,31 @@ Future<LogoutModel> logout(String token)async{
   try {
     var response = await http.get(
       url,
-      headers: headerAuth
+      headers: header
     );
 
     return LogoutModel.fromJson(jsonDecode(response.body));
+  } catch (e) {
+    rethrow;
+  }
+}
+
+Future<ProfileModel> profile()async{
+  var prefs = await SharedPreferences.getInstance();
+  var token = prefs.getString('token');
+  var url = Uri.parse('$baseUrl/profile');
+  var header = {
+    'Accept' : 'application/json',
+    'Authorization' : 'Bearer $token'
+  };
+
+  try {
+    var response = await http.get(
+      url,
+      headers: header
+    );
+
+    return ProfileModel.fromJson(jsonDecode(response.body));
   } catch (e) {
     rethrow;
   }
