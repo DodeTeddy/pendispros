@@ -1,9 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:quickalert/quickalert.dart';
+import 'package:tugas_akhir_app/ui/shared/theme/constant.dart';
 
 import 'fitur_icon.dart';
 
-class FiturForAdmin extends StatelessWidget {
-  const FiturForAdmin({super.key});
+class FiturForAdminOrNotVer extends StatelessWidget {
+  final bool isAdmin;
+  const FiturForAdminOrNotVer({super.key, required this.isAdmin});
+
+  void onTap(String navigation, BuildContext context){
+    if (isAdmin) {
+      Navigator.pushNamed(context, navigation);
+    }else{
+      QuickAlert.show(
+        context: context, 
+        type: QuickAlertType.error,
+        title: 'Oops...',
+        text: 'You haven\'t verified yet',
+        confirmBtnColor: primaryColor,
+        customAsset: 'assets/images/get_started.png'
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,30 +31,22 @@ class FiturForAdmin extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             FiturIcon(
-              onTap: () {
-                
-              },
+              onTap: () => onTap('/blank', context),
               asset: 'assets/images/disability.png', 
               title: 'Disability\nRegistration'
             ),
             FiturIcon(
-              onTap: () {
-                
-              },
+              onTap: () => onTap('/blank', context),
               asset: 'assets/images/prosthetic.png', 
               title: 'Prosthetics\nRegistration'
             ),
             FiturIcon(
-              onTap: () {
-                
-              },
+              onTap: () => onTap('/blank', context),
               asset: 'assets/images/information_service.png', 
               title: 'Information\nService'
             ),
             FiturIcon(
-              onTap: () {
-                
-              },
+              onTap: () => onTap('/blank', context),
               asset: 'assets/images/third_onboarding.png', 
               title: 'Create\nInformation'
             ),
@@ -47,16 +57,12 @@ class FiturForAdmin extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             FiturIcon(
-              onTap: () {
-                
-              },
+              onTap: () => onTap('/blank', context),
               asset: 'assets/images/disability_data.png', 
               title: 'Disability\nData'
             ),
             FiturIcon(
-              onTap: () {
-                
-              },
+              onTap: () => onTap('/blank', context),
               asset: 'assets/images/prosthetic_data.png', 
               title: 'Prosthetics\nData'
             ),

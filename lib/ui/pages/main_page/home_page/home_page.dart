@@ -23,6 +23,10 @@ class _HomePageState extends State<HomePage> {
   bool isNotVerified = false;
   late PageController _pageController;
 
+  void onTap(String navigation){
+    Navigator.pushNamed(context, navigation);
+  }
+
   @override
   void dispose() {
     _pageController.dispose();
@@ -44,17 +48,23 @@ class _HomePageState extends State<HomePage> {
           if (snapshot.hasData) {
             var profileData = snapshot.data;
             if (profileData!.verifiedAs == 'notverfied') {
-              headerTextVerified = 'Haven\'t verified yet?';
-              textVerified = 'Not verified';
-              isNotVerified = true;
+              if (profileData.role == 'disability') {  
+                headerTextVerified = 'Click here to verification';
+                textVerified = 'Disability not verified';
+                isNotVerified = true;
+              } else if (profileData.role == 'prosthetic') {  
+                headerTextVerified = 'Click here to verification';
+                textVerified = 'Prosthetic workshop not verified';
+                isNotVerified = true;
+              }
             }else{
               if (profileData.verifiedAs == 'disability') {
                 headerTextVerified = 'Verified as';
-                textVerified = 'Disability';
+                textVerified = 'Person with disabilities';
                 isDisability = true;
               }else if (profileData.verifiedAs == 'prosthetic') {
                 headerTextVerified = 'Verified as';
-                textVerified = 'Prosthetic';
+                textVerified = 'Prosthetic workshop';
                 isWorkshop = true;
               }else if (profileData.verifiedAs == 'admin') {
                 headerTextVerified = 'Welcome';
@@ -110,10 +120,17 @@ class _HomePageState extends State<HomePage> {
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        headerTextVerified ?? '-',
-                                        style: const TextStyle(
-                                          fontSize: 15
+                                      GestureDetector(
+                                        onTap: () => profileData.verifiedAs == 'notverfied' 
+                                        ? onTap(
+                                          profileData.role == 'disability' ? '/disabilityver' : '/workshopver'
+                                        ) 
+                                        : null,
+                                        child: Text(
+                                          headerTextVerified ?? '-',
+                                          style: const TextStyle(
+                                            fontSize: 15
+                                          ),
                                         ),
                                       ),
                                       const SizedBox(height: 20),
@@ -144,12 +161,8 @@ class _HomePageState extends State<HomePage> {
                             ),
                             const SizedBox(height: 20),
                             Visibility(
-                              visible: isNotVerified,
-                              child: const FiturForAdmin()
-                            ),
-                            Visibility(
-                              visible: isAdmin,
-                              child: const FiturForAdmin()
+                              visible: isAdmin || isNotVerified,
+                              child: FiturForAdminOrNotVer(isAdmin: isAdmin)
                             ),
                             Visibility(
                               visible: isDisability,
