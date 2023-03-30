@@ -5,6 +5,7 @@ import 'package:tugas_akhir_app/services/service.dart';
 import 'package:tugas_akhir_app/ui/shared/theme/constant.dart';
 import '../../shared/widgets/custom_button.dart';
 import '../../shared/widgets/custom_container.dart';
+import '../../shared/widgets/custom_dropdown.dart';
 import '../../shared/widgets/custom_textformfield.dart';
 import 'widgets/auth_text_button.dart';
 
@@ -30,7 +31,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
     behavior: SnackBarBehavior.floating,
   );
 
-  String userCategory = '';
+  List category = ['disability', 'prosthetic'];
+  String userCategory = 'disability';
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -111,57 +113,20 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 padding: const EdgeInsets.all(20),
                 child: Column(
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'User category',
-                          style: TextStyle(
-                            fontSize: 15
-                          ),
-                        ),
-                        const SizedBox(height: 5),
-                        DropdownButtonFormField(
-                          decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: const BorderSide(
-                                width: 2,
-                                color: secondaryColor
-                              )
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: const BorderSide(
-                                width: 2,
-                                color: secondaryColor
-                              )
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: const BorderSide(
-                                width: 2,
-                                color: primaryColor
-                              )
-                            ),
-                          ),
-                          iconEnabledColor: primaryColor,
-                          borderRadius: BorderRadius.circular(15),
-                          items: const [
-                            DropdownMenuItem(
-                              value: 'disability',
-                              child: Text('Disability'),
-                            ),
-                            DropdownMenuItem(
-                              value: 'prosthetic',
-                              child: Text('Prosthetic Workshop'),
-                            )
-                          ], 
-                          onChanged: (value) {
-                            userCategory = value.toString();
-                          },
-                        ),
-                      ],
+                    CustomDropDown(
+                      title: 'User Category', 
+                      value: userCategory,
+                      onChanged: (value) {
+                        setState(() {
+                          userCategory = value;
+                        });
+                      },
+                      items: category.map<DropdownMenuItem<String>>((value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value == 'disability' ? 'Disability' : 'Prosthetic'),
+                        );
+                      }).toList(),
                     ),
                     const SizedBox(height: 20),
                     CustomTextFormField(

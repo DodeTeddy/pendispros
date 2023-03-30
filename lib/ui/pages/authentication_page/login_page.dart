@@ -49,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
         _usernameController.text, 
         _passwordController.text
       );
-      if (loginModel.message == 'Login Success!') {
+      if (loginModel.message == 'Login success!') {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setBool('isLogin', true);
         await prefs.setString('token', loginModel.token);

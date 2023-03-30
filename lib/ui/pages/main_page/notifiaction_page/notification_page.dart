@@ -2,21 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:tugas_akhir_app/ui/shared/theme/constant.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_container.dart';
 
+import '../../../shared/widgets/custom_appbar.dart';
+
 class NotificationPage extends StatelessWidget {
   const NotificationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: primaryColor,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(20),
-            bottomRight: Radius.circular(20)
-          )
-        ),
-        title: const Text('Notification')
+      appBar: const CustomAppBar(
+        child: Text('Notification')
       ),
       body: ListView.builder(
         physics: const BouncingScrollPhysics(),

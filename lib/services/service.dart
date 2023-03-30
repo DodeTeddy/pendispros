@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import '../models/city_model.dart';
 import '../models/logout_model.dart';
 import '../models/profile_model.dart';
+import '../models/province_model.dart';
 import '../models/sign_up_model.dart';
 import '../models/login_model.dart';
 
@@ -35,10 +37,10 @@ Future<SignUpModel> signUp(String role, String username, String email, String pa
 
 }
 
-Future<LoginModel> login(String login, String password)async{
+Future<LoginModel> login(String username, String password)async{
   var url = Uri.parse('$baseUrl/login');
   var body = {
-    'login' : login,
+    'username' : username,
     'password' : password
   };
 
@@ -90,6 +92,51 @@ Future<ProfileModel> profile()async{
     );
 
     return ProfileModel.fromJson(jsonDecode(response.body));
+  } catch (e) {
+    rethrow;
+  }
+}
+
+Future<ProvinceModel> province()async{
+  var prefs = await SharedPreferences.getInstance();
+  var token = prefs.getString('token');
+  var url = Uri.parse('$baseUrl/province');
+  var header = {
+    'Accept' : 'application/json',
+    'Authorization' : 'Bearer $token'
+  };
+  try {
+    var response = await http.get(
+      url,
+      headers: header
+    );
+
+    return ProvinceModel.fromJson(jsonDecode(response.body));
+  } catch (e) {
+    rethrow;
+  }
+}
+
+Future<CityModel> city(String province_id)async{
+  var prefs = await SharedPreferences.getInstance();
+  var token = prefs.getString('token');
+  var header = {
+    'Accept' : 'application/json',
+    'Authorization' : 'Bearer $token'
+  };
+  var params = {
+    'province_id' : province_id
+  };
+  var queryParams = Uri(queryParameters: params);
+  var url = Uri.parse('$baseUrl/city/$queryParams');
+  
+  try {
+    var response = await http.get(
+      url,
+      headers: header,
+    );
+
+    return CityModel.fromJson(jsonDecode(response.body));
   } catch (e) {
     rethrow;
   }
