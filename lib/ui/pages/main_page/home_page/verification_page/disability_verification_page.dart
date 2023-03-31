@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_appbar.dart';
+import 'package:tugas_akhir_app/ui/shared/widgets/custom_button.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_container.dart';
 
 import '../../../../../models/city_model.dart';
@@ -18,21 +19,43 @@ class DisabilityVerPage extends StatefulWidget {
 class _DisabilityVerPageState extends State<DisabilityVerPage> {
   ProvinceModel? provinceModel;
   CityModel? cityModel;
-  List provinceName = [];
-  String provinceDdItem = '';
-  int provinceId = 1;
   List disability = ['tangan', 'kaki'];
   String disabilityDdItem = 'tangan';
+  List provinceName = [];
+  List provinceId = [];
+  String provinceDdItem = '';
+  int idProvince = 0;
+  List cityName = [];
+  List cityId = [];
+  String cityDdItem = '';
+  int idCity = 0;
 
   Future getProvince()async{
     provinceModel = await province();
     var dataProvince = provinceModel!.data;
     for (var i = 0; i < dataProvince.length; i++) {
       provinceName.add(dataProvince[i].provinceName);
+      provinceId.add(dataProvince[i].id);
     }
     if (provinceName.isNotEmpty) {
       setState(() {
         provinceDdItem = provinceName.first;
+      });
+    }
+  }
+
+  Future getCity(String idProvince)async{
+    cityName.clear();
+    cityId.clear();
+    cityModel = await city(idProvince);
+    var dataCity = cityModel!.data;
+    for (var i = 0; i < dataCity.length; i++) {
+      cityName.add(dataCity[i].name);
+      cityId.add(dataCity[i].id);
+    }
+    if (cityName.isNotEmpty) {
+      setState(() {
+        cityDdItem = cityName.first;
       });
     }
   }
@@ -70,11 +93,21 @@ class _DisabilityVerPageState extends State<DisabilityVerPage> {
                 CustomTextFormField(
                   controller: controller, title: 'Name', onTap: () => null,
                 ),
-                CustomTextFormField(
-                  controller: controller, title: 'Age', onTap: () => null,
-                ),
-                CustomTextFormField(
-                  controller: controller, title: 'Phone Number', onTap: () => null,
+                Row(
+                  children: [
+                    Flexible(
+                      child: CustomTextFormField(
+                        controller: controller, title: 'Age', onTap: () => null,
+                      ),
+                    ),
+                    const SizedBox(width: 5),
+                    Flexible(
+                      flex: 4,
+                      child: CustomTextFormField(
+                        controller: controller, title: 'Phone Number', onTap: () => null,
+                      ),
+                    ),
+                  ],
                 ),
                 CustomDropDown(
                   title: 'Disability', 
@@ -98,37 +131,63 @@ class _DisabilityVerPageState extends State<DisabilityVerPage> {
                 CustomTextFormField(
                   controller: controller, title: 'Address', onTap: () => null,
                 ),
-                CustomDropDown(
-                  title: 'Province', 
-                  value: provinceDdItem,
-                  onChanged: (value) {
-                    setState(() {
-                      provinceId = provinceName.indexOf(value) + 1;
-                    });
-                  },
-                  items: provinceName.map<DropdownMenuItem<String>>((value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
+                Row(
+                  children: [
+                    Flexible(
+                      child: CustomDropDown(
+                        title: 'Province', 
+                        value: provinceDdItem,
+                        onChanged: (value) {
+                          setState(() {
+                            provinceDdItem = value;
+                            var provinceIndexOf = provinceName.indexOf(value);
+                            idProvince = provinceId[provinceIndexOf];
+                            if (idProvince == 1) {
+                              setState(() {
+                                getCity(idProvince.toString());
+                              });
+                            }else{
+                              setState(() {
+                                getCity(idProvince.toString());
+                              });
+                            }
+                          });
+                        },
+                        items: provinceName.map<DropdownMenuItem<String>>((value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Flexible(
+                      child: CustomDropDown(
+                        title: 'City', 
+                        value: cityDdItem,
+                        onChanged: (value) {
+                          setState(() {
+                            cityDdItem = value;
+                            var cityIndexOf = cityName.indexOf(value);
+                            idCity = cityId[cityIndexOf];
+                          });
+                        },
+                        items: cityName.map<DropdownMenuItem<String>>((value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value, overflow: TextOverflow.ellipsis,),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 10),
-                CustomDropDown(
-                  title: 'City', 
-                  value: provinceDdItem,
-                  onChanged: (value) {
-                    setState(() {
-                      provinceId = provinceName.indexOf(value) + 1;
-                    });
-                  },
-                  items: provinceName.map<DropdownMenuItem<String>>((value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                const SizedBox(height: 20),
+                CustomButton(
+                  onTap: () => null,
+                  title: 'Verification',
+                )
               ],
             ),
           )

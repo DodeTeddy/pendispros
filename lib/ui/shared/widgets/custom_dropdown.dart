@@ -22,6 +22,7 @@ class CustomDropDown extends StatelessWidget {
         ),
         const SizedBox(height: 5),
         DropdownButtonFormField(
+          isExpanded: true,
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),

@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:tugas_akhir_app/ui/shared/theme/constant.dart';
 
 class CustomButton extends StatelessWidget {
-  const CustomButton({super.key, required this.onTap, this.isLoading = false});
-
+  const CustomButton({super.key, required this.onTap, this.isLoading = false, this.title = 'Continue'});
+  
   final bool isLoading;
   final Function() onTap;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +30,9 @@ class CustomButton extends StatelessWidget {
           ? const CircularProgressIndicator(
             color: Colors.white,
           )
-          : const Text(
-            'Continue',
-            style: TextStyle(
+          : Text(
+            title,
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 18
             ),

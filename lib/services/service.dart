@@ -117,7 +117,7 @@ Future<ProvinceModel> province()async{
   }
 }
 
-Future<CityModel> city(String province_id)async{
+Future<CityModel> city(String provinceId)async{
   var prefs = await SharedPreferences.getInstance();
   var token = prefs.getString('token');
   var header = {
@@ -125,7 +125,7 @@ Future<CityModel> city(String province_id)async{
     'Authorization' : 'Bearer $token'
   };
   var params = {
-    'province_id' : province_id
+    'province_id' : provinceId
   };
   var queryParams = Uri(queryParameters: params);
   var url = Uri.parse('$baseUrl/city/$queryParams');
