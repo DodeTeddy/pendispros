@@ -10,7 +10,7 @@ class CustomTextFormField extends StatelessWidget {
     required this.title, 
     this.obscureText = false, 
     this.isHide = true,
-    required this.onTap, 
+    required this.onTap, this.isNumberField = false, 
   });
 
   final TextEditingController controller;
@@ -18,6 +18,7 @@ class CustomTextFormField extends StatelessWidget {
   final bool obscureText;
   final Function() onTap;
   final String title;
+  final bool isNumberField;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +42,7 @@ class CustomTextFormField extends StatelessWidget {
               color: primaryColor
             ),
             obscureText: isHide,
+            keyboardType: isNumberField ? TextInputType.number : TextInputType.text,
             decoration: InputDecoration(
               suffixIcon: Container(
                 padding: const EdgeInsets.all(15),

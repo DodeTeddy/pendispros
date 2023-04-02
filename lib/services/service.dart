@@ -8,6 +8,7 @@ import '../models/profile_model.dart';
 import '../models/province_model.dart';
 import '../models/sign_up_model.dart';
 import '../models/login_model.dart';
+import '../models/disability_verification_model.dart';
 
 var baseUrl = 'http://127.0.0.1:8888/api';
 var headerNoAuth = {
@@ -137,6 +138,47 @@ Future<CityModel> city(String provinceId)async{
     );
 
     return CityModel.fromJson(jsonDecode(response.body));
+  } catch (e) {
+    rethrow;
+  }
+}
+
+Future<DisabilityVerificationModel> disabilityver(
+  String name, 
+  String cityId, 
+  String provinceId, 
+  String age, 
+  String address, 
+  String phoneNumber, 
+  String disability, 
+  String explanation
+)async{
+  var prefs = await SharedPreferences.getInstance();
+  var token = prefs.getString('token');
+  var url = Uri.parse('$baseUrl/verification/disability');
+  var header = {
+    'Accept' : 'application/json',
+    'Authorization' : 'Bearer $token'
+  };
+  var body = {
+    'name' : name,
+    'city_id' : cityId,
+    'province_id' : provinceId,
+    'age' : age,
+    'address' : address,
+    'phone_number' : phoneNumber,
+    'disability' : disability,
+    'explanation' : explanation
+  };
+
+  try {
+    var response = await http.post(
+      url,
+      headers: header,
+      body: body
+    );
+
+    return DisabilityVerificationModel.fromJson(jsonDecode(response.body));
   } catch (e) {
     rethrow;
   }

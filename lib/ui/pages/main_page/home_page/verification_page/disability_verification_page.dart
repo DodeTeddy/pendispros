@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tugas_akhir_app/models/disability_verification_model.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_appbar.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_button.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_container.dart';
@@ -17,6 +18,11 @@ class DisabilityVerPage extends StatefulWidget {
 }
 
 class _DisabilityVerPageState extends State<DisabilityVerPage> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController explanationController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
   ProvinceModel? provinceModel;
   CityModel? cityModel;
   List disability = ['tangan', 'kaki'];
@@ -67,7 +73,6 @@ class _DisabilityVerPageState extends State<DisabilityVerPage> {
   }
   @override
   Widget build(BuildContext context) {
-    TextEditingController controller = TextEditingController();
     return Scaffold(
       appBar: CustomAppBar(
         child: Row(
@@ -91,20 +96,20 @@ class _DisabilityVerPageState extends State<DisabilityVerPage> {
             child: Column(
               children: [
                 CustomTextFormField(
-                  controller: controller, title: 'Name', onTap: () => null,
+                  controller: nameController, title: 'Name', onTap: () => null,
                 ),
                 Row(
                   children: [
                     Flexible(
                       child: CustomTextFormField(
-                        controller: controller, title: 'Age', onTap: () => null,
+                        controller: nameController, title: 'Age', onTap: () => null, isNumberField: true,
                       ),
                     ),
                     const SizedBox(width: 5),
                     Flexible(
                       flex: 4,
                       child: CustomTextFormField(
-                        controller: controller, title: 'Phone Number', onTap: () => null,
+                        controller: nameController, title: 'Phone Number', onTap: () => null, isNumberField: true,
                       ),
                     ),
                   ],
@@ -126,10 +131,10 @@ class _DisabilityVerPageState extends State<DisabilityVerPage> {
                 ),
                 const SizedBox(height: 10),
                 CustomTextFormField(
-                  controller: controller, title: 'Explanation', onTap: () => null,
+                  controller: nameController, title: 'Explanation', onTap: () => null,
                 ),
                 CustomTextFormField(
-                  controller: controller, title: 'Address', onTap: () => null,
+                  controller: nameController, title: 'Address', onTap: () => null,
                 ),
                 Row(
                   children: [
@@ -185,7 +190,19 @@ class _DisabilityVerPageState extends State<DisabilityVerPage> {
                 ),
                 const SizedBox(height: 20),
                 CustomButton(
-                  onTap: () => null,
+                  onTap: ()async{
+                    DisabilityVerificationModel disabilityVerificationModel = await disabilityver(
+                      nameController.text, 
+                      idCity.toString(), 
+                      idProvince.toString(), 
+                      ageController.text, 
+                      addressController.text, 
+                      phoneController.text, 
+                      disabilityDdItem, 
+                      explanationController.text
+                    );
+                    print(disabilityVerificationModel.message);
+                  },
                   title: 'Verification',
                 )
               ],
