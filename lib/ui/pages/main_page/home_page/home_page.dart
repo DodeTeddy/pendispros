@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tugas_akhir_app/services/service.dart';
+import 'package:tugas_akhir_app/ui/pages/main_page/home_page/verification_page/verification_page.dart';
 import 'package:tugas_akhir_app/ui/shared/theme/constant.dart';
 
 import '../../../shared/widgets/custom_container.dart';
@@ -23,10 +24,6 @@ class _HomePageState extends State<HomePage> {
   bool isNotVerified = false;
   late PageController _pageController;
 
-  void onTap(String navigation){
-    Navigator.pushNamed(context, navigation);
-  }
-
   @override
   void dispose() {
     _pageController.dispose();
@@ -47,7 +44,7 @@ class _HomePageState extends State<HomePage> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var profileData = snapshot.data;
-            if (profileData!.verifiedAs == 'notverfied') {
+            if (profileData!.verifiedAs == 'notverified') {
               if (profileData.role == 'disability') {  
                 headerTextVerified = 'Click here to verification';
                 textVerified = 'Disability not verified';
@@ -121,10 +118,8 @@ class _HomePageState extends State<HomePage> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       GestureDetector(
-                                        onTap: () => profileData.verifiedAs == 'notverfied' 
-                                        ? onTap(
-                                          profileData.role == 'disability' ? '/disabilityver' : '/workshopver'
-                                        ) 
+                                        onTap: () => profileData.verifiedAs == 'notverified' 
+                                        ? Navigator.push(context, MaterialPageRoute(builder: (context) => VerificationPage(isDisability: profileData.role == 'disability')))
                                         : null,
                                         child: Text(
                                           headerTextVerified ?? '-',

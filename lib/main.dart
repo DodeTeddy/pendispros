@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:tugas_akhir_app/ui/pages/authentication_page/login_page.dart';
 import 'package:tugas_akhir_app/ui/pages/authentication_page/registration_page.dart';
 import 'package:tugas_akhir_app/ui/pages/main_page/home_page/fitur_page/fitur_page.dart';
-import 'package:tugas_akhir_app/ui/pages/main_page/home_page/verification_page/disability_verification_page.dart';
-import 'package:tugas_akhir_app/ui/pages/main_page/home_page/verification_page/workshop_verification_page.dart';
 import 'package:tugas_akhir_app/ui/pages/main_page/main_page.dart';
 import 'package:tugas_akhir_app/ui/shared/theme/theme.dart';
 import 'ui/pages/splash_screen/splash_screen.dart';
@@ -38,8 +36,6 @@ class MyApp extends StatelessWidget {
         '/login' :(context) => const LoginPage(),
         '/registration' :(context) => const RegistrationPage(),
         '/main' :(context) => const MainPage(),
-        '/workshopver':(context) => const WorkshopVerPage(),
-        '/disabilityver':(context) => const DisabilityVerPage(),
         '/blank' :(context) => const BlankPage()
       },
     );

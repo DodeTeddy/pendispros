@@ -4,6 +4,7 @@ import 'package:quickalert/quickalert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tugas_akhir_app/models/logout_model.dart';
 import 'package:tugas_akhir_app/services/service.dart';
+import 'package:tugas_akhir_app/ui/pages/main_page/profile_page/profile_detail_page/verification_status_detail_page.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_container.dart';
 
 import '../../../shared/theme/constant.dart';
@@ -50,191 +51,208 @@ class _ProfilePageState extends State<ProfilePage> {
       );
     }
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Profile',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600
-                  ),
-                ),
-                const SizedBox(height: 15),
-                CustomContainer(
-                  padding: const EdgeInsets.all(12), 
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          children: const [
-                            ProfileHeader(
-                              asset: 'assets/images/male.png', 
-                              text: 'Dode Teddy'
-                            ),
-                            SizedBox(height: 10),
-                            ProfileItem(
-                              icon: Icons.call, 
-                              text: '-'
-                            ),
-                            SizedBox(height: 10),
-                            ProfileItem(
-                              icon: Icons.pending_actions, 
-                              text: 'Not verified',
-                              textColor: inActiveColor,
-                            )
-                          ],
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          
-                        }, 
-                        icon: const Icon(
-                          Icons.edit,
-                          color: primaryColor,
-                        )
-                      )
-                    ],
-                  )
-                ),
-                const SizedBox(height: 20),
-                CustomContainer(
-                  color: primaryColor,
-                  padding: const EdgeInsets.all(20), 
+      body: FutureBuilder(
+        future: profileDetail(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {  
+            var profileData = snapshot.data;
+            return SafeArea(
+              child: SingleChildScrollView(
+                child: Container(
+                  padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'Verification status details',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15
-                            ),
-                          ),
-                          Container(
-                            height: 35,
-                            width: 35,
-                            decoration: const BoxDecoration(
-                              color: secondaryColor,
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: AssetImage('assets/images/logo_app.png')
-                              )
-                            ),
-                          )
-                        ],
+                      const Text(
+                        'Profile',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600
+                        ),
                       ),
                       const SizedBox(height: 15),
-                      Row(
-                        children: [
-                          const Expanded(
-                            child: Text(
-                              'DEWA NGAKAN GEDE TEDDY ADRYAN P',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15
+                      CustomContainer(
+                        padding: const EdgeInsets.all(12), 
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  ProfileHeader(
+                                    asset: 'assets/images/male.png', 
+                                    text: profileData!.username
+                                  ),
+                                  const SizedBox(height: 10),
+                                  ProfileItem(
+                                    icon: Icons.call, 
+                                    text: profileData.phone.isEmpty ? '-' : profileData.phone
+                                  ),
+                                  const SizedBox(height: 10),
+                                  ProfileItem(
+                                    icon: Icons.pending_actions, 
+                                    text: profileData.verifiedAs == 'disability' ? 'Verfied as Disability' : profileData.verifiedAs == 'prosthetic' ? 'Verfied as Workshop' : 'Not Verified',
+                                    textColor: profileData.verifiedAs == 'disability' || profileData.verifiedAs == 'prosthetic' ? primaryColor : inActiveColor,
+                                  )
+                                ],
                               ),
                             ),
-                          ),
-                          SvgPicture.asset(
-                            'assets/icons/arrow_right.svg',
-                            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                            height: 15,
-                          )
-                        ],
-                      )
-                    ],
-                  )
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  'General Information',
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600
-                  ),
-                ),
-                const SizedBox(height: 5),
-                CustomContainer(
-                  padding: const EdgeInsets.all(12), 
-                  child: ListView.separated(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) => Container(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              profileiconItem[index],
-                              const SizedBox(width: 10),
-                              Text(
-                                profileTextItem[index],
-                                style: const TextStyle(
-                                  fontSize: 18
-                                ),
-                              ),
-                            ],
-                          ),
-                          SvgPicture.asset(
-                            'assets/icons/arrow_right.svg',
-                            colorFilter: const ColorFilter.mode(primaryColor, BlendMode.srcIn),
-                            height: 20,
-                          )
-                        ],
-                      ),
-                    ), 
-                    separatorBuilder: (context, index) => const Divider(
-                      color: primaryColor,
-                      thickness: 1,
-                    ), 
-                    itemCount: profileTextItem.length
-                  )
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  'Preference',
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600
-                  ),
-                ),
-                const SizedBox(height: 5),
-                GestureDetector(
-                  onTap: logOut,
-                  child: CustomContainer(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20), 
-                    child: Row(
-                      children: [
-                        Row(
-                          children: const [
-                            Icon(Icons.logout_rounded, color: primaryColor),
-                            SizedBox(width: 10),
-                            Text(
-                              'Logout',
-                              style: TextStyle(
-                                fontSize: 18
-                              ),
-                            ),
+                            IconButton(
+                              onPressed: () {
+                                
+                              }, 
+                              icon: const Icon(
+                                Icons.edit,
+                                color: primaryColor,
+                              )
+                            )
                           ],
                         )
-                      ],
-                    )
+                      ),
+                      const SizedBox(height: 20),
+                      GestureDetector(
+                        onTap: () => Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => VerificationStatusDetailPage(name: profileData.name, role: profileData.role ,disability: profileData.disability, verifiedAs: profileData.verifiedAs
+                        ))),
+                        child: CustomContainer(
+                          color: primaryColor,
+                          padding: const EdgeInsets.all(20), 
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    'Verification status details',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 35,
+                                    width: 35,
+                                    decoration: const BoxDecoration(
+                                      color: secondaryColor,
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                        image: AssetImage('assets/images/logo_app.png')
+                                      )
+                                    ),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(height: 15),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      profileData.name.isEmpty ? '-' : profileData.name.toUpperCase(),
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15
+                                      ),
+                                    ),
+                                  ),
+                                  SvgPicture.asset(
+                                    'assets/icons/arrow_right.svg',
+                                    colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                                    height: 15,
+                                  )
+                                ],
+                              )
+                            ],
+                          )
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      const Text(
+                        'General Information',
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w600
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      CustomContainer(
+                        padding: const EdgeInsets.all(12), 
+                        child: ListView.separated(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) => Container(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    profileiconItem[index],
+                                    const SizedBox(width: 10),
+                                    Text(
+                                      profileTextItem[index],
+                                      style: const TextStyle(
+                                        fontSize: 18
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SvgPicture.asset(
+                                  'assets/icons/arrow_right.svg',
+                                  colorFilter: const ColorFilter.mode(primaryColor, BlendMode.srcIn),
+                                  height: 20,
+                                )
+                              ],
+                            ),
+                          ), 
+                          separatorBuilder: (context, index) => const Divider(
+                            color: primaryColor,
+                            thickness: 1,
+                          ), 
+                          itemCount: profileTextItem.length
+                        )
+                      ),
+                      const SizedBox(height: 20),
+                      const Text(
+                        'Preference',
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w600
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      GestureDetector(
+                        onTap: logOut,
+                        child: CustomContainer(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20), 
+                          child: Row(
+                            children: [
+                              Row(
+                                children: const [
+                                  Icon(Icons.logout_rounded, color: primaryColor),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    'Logout',
+                                    style: TextStyle(
+                                      fontSize: 18
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          )
+                        ),
+                      )
+                    ],
                   ),
-                )
-              ],
+                ),
+              ),
+            );
+          }return const Center(
+            child: CircularProgressIndicator(
+              color: primaryColor,
             ),
-          ),
-        ),
+          );
+        }
       )
     );
   }

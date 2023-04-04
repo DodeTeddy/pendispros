@@ -99,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                     CustomTextFormField(
                       controller: _usernameController,
                       onTap: () => null,
-                      title: 'Username or password',
+                      title: 'Username',
                     ),
                     CustomTextFormField(
                       controller: _passwordController,
