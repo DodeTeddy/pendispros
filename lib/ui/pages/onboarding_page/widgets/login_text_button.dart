@@ -11,7 +11,7 @@ class LoginTextButton extends StatelessWidget {
       child: Row(
         children: [
           const Text(
-            'Already have an account?',
+            'Sudah punya akun?',
             style: TextStyle(
               fontSize: 15,
               color: Colors.grey
@@ -21,7 +21,7 @@ class LoginTextButton extends StatelessWidget {
           GestureDetector(
             onTap: onTap,
             child: const Text(
-              'Login',
+              'Masuk',
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w600

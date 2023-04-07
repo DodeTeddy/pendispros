@@ -14,21 +14,24 @@ class CustomBottomNavigationBarItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            'assets/icons/$asset', 
-            height: 30, 
-            colorFilter: ColorFilter.mode(isActive ? primaryColor : inActiveColor, BlendMode.srcIn)
-          ),
-          Text(
-            title,
-            style: TextStyle(
-              color: isActive ? primaryColor : inActiveColor
+      child: SizedBox(
+        width: 60,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              'assets/icons/$asset', 
+              height: 30, 
+              colorFilter: ColorFilter.mode(isActive ? primaryColor : inActiveColor, BlendMode.srcIn)
             ),
-          )
-        ],
+            Text(
+              title,
+              style: TextStyle(
+                color: isActive ? primaryColor : inActiveColor
+              ),
+            )
+          ],
+        ),
       )
     );
   }

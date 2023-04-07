@@ -16,28 +16,22 @@ class GetStartedPage extends StatelessWidget {
               Image.asset(
                 'assets/images/get_started.png',
               ),
-              RichText(
-                text: TextSpan(
-                  style: const TextStyle(
-                    fontSize: 25,
-                    color: primaryColor
-                  ),
-                  children: [
-                    const TextSpan(
-                      text: 'Welcome to '
-                    ),
-                    TextSpan(
-                      text: appName,
-                      style: TextStyle(
-                        fontFamily: GoogleFonts.cedarvilleCursive().fontFamily
-                      )
-                    )
-                  ]
+              Text(
+                appName,
+                style: TextStyle(
+                  fontSize: 25,
+                  fontFamily: GoogleFonts.cedarvilleCursive().fontFamily
                 )
+              ),
+              const Text(
+                'Selamat Datang',
+                style: TextStyle(
+                  fontSize: 25
+                ),
               ),
               const SizedBox(height: 20),
               const Text(
-                'application registration for\npersons with disabilities and prosthetic workshops,\nto get information services easily',
+                'Aplikasi pendataan untuk penyandang disabilitas dan bengkel prostetik untuk mendapatkan informasi secara lebih mudah',
                 style: TextStyle(
                   fontSize: 15
                 ),

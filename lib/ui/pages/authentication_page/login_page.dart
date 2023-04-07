@@ -22,13 +22,13 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
 
   final snackBar = const SnackBar(
-    content: Text('Field cannot be empty'),
+    content: Text('Kolom tidak boleh kosong'),
     backgroundColor: Colors.red,
     behavior: SnackBarBehavior.floating,
   );
 
   final passSnackBar = const SnackBar(
-    content: Text('Incorrect username or password'),
+    content: Text('Nama pengguna atau kata sandi salah'),
     backgroundColor: Colors.red,
     behavior: SnackBarBehavior.floating,
   );
@@ -85,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 20),
               const Text(
-                'Login',
+                'Masuk',
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.w600
@@ -99,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                     CustomTextFormField(
                       controller: _usernameController,
                       onTap: () => null,
-                      title: 'Username',
+                      title: 'Nama Pengguna',
                     ),
                     CustomTextFormField(
                       controller: _passwordController,
@@ -110,20 +110,21 @@ class _LoginPageState extends State<LoginPage> {
                       },
                       obscureText: true,
                       isHide: isHide,
-                      title: 'Password',
+                      title: 'Kata Sandi',
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 30),
               CustomButton(
+                title: 'Masuk',
                 onTap: loginFunction,
                 isLoading: isLoading,
               ),
               const SizedBox(height: 15),
               AuthTextButton(
-                text: 'Don\'t have an account?',
-                textButton: 'Sign up',
+                text: 'Belum punya akun?',
+                textButton: 'Register',
                 onTap: () {
                   Navigator.pushNamedAndRemoveUntil(context, '/registration', (route) => false);
                 },

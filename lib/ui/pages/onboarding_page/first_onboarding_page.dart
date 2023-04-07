@@ -13,7 +13,7 @@ class FirstOnboardingPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Register Yourself Easily',
+                'Mendata Diri Jadi Mudah',
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.w600
@@ -21,7 +21,7 @@ class FirstOnboardingPage extends StatelessWidget {
               ),
               const SizedBox(height: 30),
               const Text(
-                'Now people with disabilities\ncan easily register themselves from mobile.',
+                'Sekarang penyandang disabilitas\ndapat lebih mudah mendata diri\nmelalui smartphone.',
                 style: TextStyle(
                   fontSize: 16
                 ),

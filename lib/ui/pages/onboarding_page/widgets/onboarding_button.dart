@@ -18,7 +18,7 @@ class OnboardingButton extends StatelessWidget {
           decoration: BoxDecoration(
             color: primaryColor,
             borderRadius: BorderRadius.circular(50),
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
                 blurRadius: 4,
                 color: inActiveColor,

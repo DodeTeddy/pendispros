@@ -21,18 +21,19 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    List<String> profileTextItem = ['FAQ', 'About'];
+    List<String> profileTextItem = ['FAQ', 'Tentang'];
     List<Widget> profileiconItem = [
       const Icon(Icons.question_answer_outlined, color: primaryColor),
       const Icon(Icons.book_outlined, color: primaryColor)
     ];
+    List<String> routeName = ['/faq', '/about'];
 
     void logOut(){
       QuickAlert.show(
+        title: 'Apakah anda yakin?',
         context: context,
         type: QuickAlertType.confirm,
-        text: 'Do you want to logout',
-        confirmBtnText: 'Yes',
+        confirmBtnText: 'Ya',
         onConfirmBtnTap: ()async{
           final prefs = await SharedPreferences.getInstance();
           prefs.setBool('isLogin', false);
@@ -44,7 +45,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
           }
         },
-        cancelBtnText: 'No',
+        cancelBtnText: 'Tidak',
         confirmBtnColor: primaryColor,
         customAsset: 'assets/images/get_started.png',
         backgroundColor: secondaryColor
@@ -64,7 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'Profile',
+                        'Profil',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600
@@ -79,8 +80,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: Column(
                                 children: [
                                   ProfileHeader(
-                                    asset: 'assets/images/male.png', 
-                                    text: profileData!.username
+                                    text: profileData!.username.capitalize()
                                   ),
                                   const SizedBox(height: 10),
                                   ProfileItem(
@@ -90,16 +90,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                   const SizedBox(height: 10),
                                   ProfileItem(
                                     icon: Icons.pending_actions, 
-                                    text: profileData.verifiedAs == 'disability' ? 'Verfied as Disability' : profileData.verifiedAs == 'prosthetic' ? 'Verfied as Workshop' : 'Not Verified',
+                                    text: profileData.verifiedAs == 'disability' ? 'Terverifikasi Disabilitas' : profileData.verifiedAs == 'prosthetic' ? 'Terverifikasi Bengkel Prostetik' : 'Belum Terverifikasi',
                                     textColor: profileData.verifiedAs == 'disability' || profileData.verifiedAs == 'prosthetic' ? primaryColor : inActiveColor,
                                   )
                                 ],
                               ),
                             ),
                             IconButton(
-                              onPressed: () {
-                                
-                              }, 
+                              onPressed: () => Navigator.pushNamed(context, '/editprofile'),
                               icon: const Icon(
                                 Icons.edit,
                                 color: primaryColor,
@@ -123,7 +121,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   const Text(
-                                    'Verification status details',
+                                    'Detail status verifikasi',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 15
@@ -167,7 +165,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       const SizedBox(height: 20),
                       const Text(
-                        'General Information',
+                        'Informasi Umum',
                         style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w600
@@ -179,29 +177,34 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: ListView.separated(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemBuilder: (context, index) => Container(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    profileiconItem[index],
-                                    const SizedBox(width: 10),
-                                    Text(
-                                      profileTextItem[index],
-                                      style: const TextStyle(
-                                        fontSize: 18
-                                      ),
+                          itemBuilder: (context, index) => GestureDetector(
+                            onTap: () => Navigator.pushNamed(context, routeName[index]),
+                            child: Container(
+                              color: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                        profileiconItem[index],
+                                        const SizedBox(width: 10),
+                                        Text(
+                                          profileTextItem[index],
+                                          style: const TextStyle(
+                                            fontSize: 18
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                                SvgPicture.asset(
-                                  'assets/icons/arrow_right.svg',
-                                  colorFilter: const ColorFilter.mode(primaryColor, BlendMode.srcIn),
-                                  height: 20,
-                                )
-                              ],
+                                  ),
+                                  SvgPicture.asset(
+                                    'assets/icons/arrow_right.svg',
+                                    colorFilter: const ColorFilter.mode(primaryColor, BlendMode.srcIn),
+                                    height: 20,
+                                  )
+                                ],
+                              ),
                             ),
                           ), 
                           separatorBuilder: (context, index) => const Divider(
@@ -213,7 +216,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       const SizedBox(height: 20),
                       const Text(
-                        'Preference',
+                        'Preferensi',
                         style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w600
@@ -231,7 +234,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   Icon(Icons.logout_rounded, color: primaryColor),
                                   SizedBox(width: 10),
                                   Text(
-                                    'Logout',
+                                    'Keluar',
                                     style: TextStyle(
                                       fontSize: 18
                                     ),

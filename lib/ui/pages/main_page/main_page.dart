@@ -36,7 +36,7 @@ class _MainPageState extends State<MainPage> {
               });
             }, 
             asset: 'home.svg', 
-            title: 'Home', 
+            title: 'Beranda', 
             isActive: index == 0
           ),
           CustomBottomNavigationBarItem(
@@ -46,7 +46,7 @@ class _MainPageState extends State<MainPage> {
               });
             }, 
             asset: 'notification.svg', 
-            title: 'Notification', 
+            title: 'Notifikasi', 
             isActive: index == 1
           ),
           CustomBottomNavigationBarItem(
@@ -56,7 +56,7 @@ class _MainPageState extends State<MainPage> {
               });
             }, 
             asset: 'profile.svg', 
-            title: 'Profile', 
+            title: 'Profil', 
             isActive: index == 2
           ),
         ]

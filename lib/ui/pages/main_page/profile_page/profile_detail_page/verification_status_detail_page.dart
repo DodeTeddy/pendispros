@@ -16,7 +16,7 @@ class VerificationStatusDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
-        child: Text('Verification Status')
+        child: Text('Status Verifikasi')
       ),
       body: Column(
         children: [
@@ -31,14 +31,17 @@ class VerificationStatusDetailPage extends StatelessWidget {
                     children: [
                       SvgPicture.asset('assets/icons/profile.svg'),
                       const SizedBox(width: 10),
-                      Text(name, style: const TextStyle(fontSize: 20))
+                      Text(name.toUpperCase(), style: const TextStyle(fontSize: 20))
                     ],
                   ),
                   const SizedBox(height: 10),
                   Row(
                     children: [
                       const SizedBox(width: 35),
-                      Text('Disabilitas pada $disability', style: const TextStyle(fontSize: 15)),
+                      Text(
+                        role == 'disability' ? 'Disabilitas pada $disability' : role == 'prosthetic' ? 'Bengkel Prostetik' : 'Not Verified',
+                        style: const TextStyle(fontSize: 15)
+                      ),
                     ],
                   )
                 ],
@@ -71,8 +74,13 @@ class VerificationStatusDetailPage extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           GestureDetector(
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => VerificationPage(isDisability: role == 'disability'))),
-            child: const Text('Klik disini untuk verifikasi', style: TextStyle(fontSize: 15))
+            onTap: () => verifiedAs == 'notverified'
+            ? Navigator.push(context, MaterialPageRoute(builder: (context) => VerificationPage(isDisability: role == 'disability')))
+            : null,
+            child: Text(
+              verifiedAs == 'notverified' ? 'Klik disini untuk verifikasi' : '', 
+              style: const TextStyle(fontSize: 15)
+            )
           )
         ],
       ),

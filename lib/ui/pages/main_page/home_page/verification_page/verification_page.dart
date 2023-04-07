@@ -38,17 +38,17 @@ class _VerificationPageState extends State<VerificationPage> {
   int idCity = 0;
   bool isLoading = false;
   final snackBar = const SnackBar(
-    content: Text('Field cannot be empty'),
+    content: Text('Kolom tidak boleh kosong'),
     backgroundColor: Colors.red,
     behavior: SnackBarBehavior.floating,
   );
   final snackBarSuccess = const SnackBar(
-    content: Text('Verification Success!'),
+    content: Text('Verifikasi berhasil!'),
     backgroundColor: Colors.green,
     behavior: SnackBarBehavior.floating,
   );
   final snackBarFailed = const SnackBar(
-    content: Text('Verification Failed!'),
+    content: Text('Verifikasi gagal!'),
     backgroundColor: Colors.red,
     behavior: SnackBarBehavior.floating,
   );
@@ -140,7 +140,7 @@ class _VerificationPageState extends State<VerificationPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('Verification'),
+            const Text('Verifikasi'),
             const SizedBox(width: 10),
             Image.asset(
               widget.isDisability ? 'assets/images/disability.png' : 'assets/images/prosthetic.png',
@@ -157,30 +157,30 @@ class _VerificationPageState extends State<VerificationPage> {
             child: Column(
               children: [
                 CustomTextFormField(
-                  controller: nameController, title: widget.isDisability ? 'Name' : 'Workshop Name', onTap: () => null,
+                  controller: nameController, title: widget.isDisability ? 'Nama' : 'Name Bengkel Prostetik', onTap: () => null,
                 ),
                 widget.isDisability ?
                 Row(
                   children: [
                     Flexible(
                       child: CustomTextFormField(
-                        controller: ageController, title: 'Age', onTap: () => null, isNumberField: true,
+                        controller: ageController, title: 'Umur', onTap: () => null, isNumberField: true,
                       ),
                     ),
                     const SizedBox(width: 5),
                     Flexible(
                       flex: 4,
                       child: CustomTextFormField(
-                        controller: phoneController, title: 'Phone Number', onTap: () => null, isNumberField: true,
+                        controller: phoneController, title: 'Nomor Telepon', onTap: () => null, isNumberField: true,
                       ),
                     ),
                   ],
                 )
-                : CustomTextFormField(controller: phoneController, title: 'Phone Number', onTap: () => null, isNumberField: true),
+                : CustomTextFormField(controller: phoneController, title: 'Nomor Telepon', onTap: () => null, isNumberField: true),
                 Visibility(
                   visible: widget.isDisability,
                   child: CustomDropDown(
-                    title: 'Disability', 
+                    title: 'Disabilitas', 
                     value: disabilityDdItem,
                     onChanged: (value) {
                       setState(() {
@@ -199,17 +199,17 @@ class _VerificationPageState extends State<VerificationPage> {
                 Visibility(
                   visible: widget.isDisability,
                   child: CustomTextFormField(
-                    controller: explanationController, title: 'Explanation', onTap: () => null,
+                    controller: explanationController, title: 'Detail disabilitas', onTap: () => null,
                   ),
                 ),
                 CustomTextFormField(
-                  controller: addressController, title: 'Address', onTap: () => null,
+                  controller: addressController, title: 'Alamat', onTap: () => null,
                 ),
                 Row(
                   children: [
                     Flexible(
                       child: CustomDropDown(
-                        title: 'Province', 
+                        title: 'Provinsi', 
                         value: provinceDdItem,
                         onChanged: (value) {
                           setState(() {
@@ -238,7 +238,7 @@ class _VerificationPageState extends State<VerificationPage> {
                     const SizedBox(width: 10),
                     Flexible(
                       child: CustomDropDown(
-                        title: 'City', 
+                        title: 'Kota/Kabupaten', 
                         value: cityDdItem,
                         onChanged: (value) {
                           setState(() {
@@ -261,7 +261,7 @@ class _VerificationPageState extends State<VerificationPage> {
                 CustomButton(
                   isLoading: isLoading,
                   onTap: vererification,
-                  title: 'Verification',
+                  title: 'Verifikasi',
                 )
               ],
             ),

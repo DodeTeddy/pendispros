@@ -11,7 +11,7 @@ class NotificationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
-        child: Text('Notification')
+        child: Text('Notifikasi')
       ),
       body: ListView.builder(
         physics: const BouncingScrollPhysics(),

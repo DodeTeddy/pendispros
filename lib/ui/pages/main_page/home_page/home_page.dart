@@ -46,12 +46,12 @@ class _HomePageState extends State<HomePage> {
             var profileData = snapshot.data;
             if (profileData!.verifiedAs == 'notverified') {
               if (profileData.role == 'disability') {  
-                headerTextVerified = 'Click here to verification';
-                textVerified = 'Disability not verified';
+                headerTextVerified = 'Klik untuk verifikasi';
+                textVerified = 'Disabilitas belum terverifikasi';
                 isNotVerified = true;
               } else if (profileData.role == 'prosthetic') {  
-                headerTextVerified = 'Click here to verification';
-                textVerified = 'Prosthetic workshop not verified';
+                headerTextVerified = 'Klik untuk verifikasi';
+                textVerified = 'Bengkel belum terverifikasi';
                 isNotVerified = true;
               }
             }else{
@@ -100,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                                     text: 'Halo, '
                                   ),
                                   TextSpan(
-                                    text: profileData.username,
+                                    text: profileData.username.capitalize(),
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w600
                                     )

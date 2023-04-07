@@ -16,7 +16,8 @@ class FiturForAdminOrNotVer extends StatelessWidget {
         context: context, 
         type: QuickAlertType.error,
         title: 'Oops...',
-        text: 'You haven\'t verified yet',
+        text: 'Kamu belum melakukan verifikasi',
+        confirmBtnText: 'Oke',
         confirmBtnColor: primaryColor,
         customAsset: 'assets/images/get_started.png'
       );

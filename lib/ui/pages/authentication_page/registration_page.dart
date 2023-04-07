@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tugas_akhir_app/models/sign_up_model.dart';
 import 'package:tugas_akhir_app/services/service.dart';
-import 'package:tugas_akhir_app/ui/shared/theme/constant.dart';
 import '../../shared/widgets/custom_button.dart';
 import '../../shared/widgets/custom_container.dart';
 import '../../shared/widgets/custom_dropdown.dart';
@@ -20,13 +19,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
   bool isHide = true;
   bool isLoading = false;
   final passSnackBar = const SnackBar(
-    content: Text('Password must be at least 8 characters'),
+    content: Text('Password harus terdiri dari 8 karakter'),
     backgroundColor: Colors.red,
     behavior: SnackBarBehavior.floating,
   );
 
   final snackBar = const SnackBar(
-    content: Text('Field cannot be empty'),
+    content: Text('Kolom tidak boleh kosong'),
     backgroundColor: Colors.red,
     behavior: SnackBarBehavior.floating,
   );
@@ -62,8 +61,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
         });
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(signUpModel.message),
+          const SnackBar(
+            content: Text('Registrasi Berhasil!'),
             backgroundColor: Colors.green,
             behavior: SnackBarBehavior.floating,
           )
@@ -102,7 +101,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               ),
               const SizedBox(height: 20),
               const Text(
-                'Sign Up',
+                'Register',
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.w600
@@ -114,7 +113,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 child: Column(
                   children: [
                     CustomDropDown(
-                      title: 'User Category', 
+                      title: 'Kategori Pengguna', 
                       value: userCategory,
                       onChanged: (value) {
                         setState(() {
@@ -124,7 +123,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       items: category.map<DropdownMenuItem<String>>((value) {
                         return DropdownMenuItem<String>(
                           value: value,
-                          child: Text(value == 'disability' ? 'Disability' : 'Prosthetic'),
+                          child: Text(value == 'disability' ? 'Disabilitas' : 'Bengkel Prostetik'),
                         );
                       }).toList(),
                     ),
@@ -132,7 +131,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     CustomTextFormField(
                       controller: _usernameController,
                       onTap: () => null,
-                      title: 'Username',
+                      title: 'Nama Pengguna',
                     ),
                     CustomTextFormField(
                       controller: _emailController,
@@ -148,20 +147,21 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       },
                       isHide: isHide,
                       obscureText: true,
-                      title: 'Password',
+                      title: 'Kata Sandi',
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 30),
               CustomButton(
+                title: 'Register',
                 onTap: registration,
                 isLoading: isLoading,
               ),
               const SizedBox(height: 15),
               AuthTextButton(
-                text: 'Already have an account?',
-                textButton: 'Login',
+                text: 'Sudah punya akun?',
+                textButton: 'Masuk',
                 onTap: () {
                   Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
                 },

@@ -13,7 +13,7 @@ class ThirdOnboardingPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Get Information Service Easily',
+                'Mendapatkan Layanan Informasi Lebih Mudah',
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.w600
@@ -21,7 +21,7 @@ class ThirdOnboardingPage extends StatelessWidget {
               ),
               const SizedBox(height: 30),
               const Text(
-                'By registering on the application,\nyou will get information about prosthetics.',
+                'Dengan mendaftarkan diri pada aplikasi ini\nanda akan lebih mudah mendapatkan informasi mengenai prostetik.',
                 style: TextStyle(
                   fontSize: 16
                 ),

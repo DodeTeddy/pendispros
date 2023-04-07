@@ -18,7 +18,7 @@ class SecondOnboardingPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               const Text(
-                'Register Your Prosthetic Workshop',
+                'Daftarkan Bengkel Prostetik Anda',
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.w600
@@ -26,7 +26,7 @@ class SecondOnboardingPage extends StatelessWidget {
               ),
               const SizedBox(height: 30),
               const Text(
-                'Register your prosthetic workshop\nand help people with disabilities.',
+                'Daftarkan bengkel prostetik anda dan bantulah penyandang disabilitas.',
                 style: TextStyle(
                   fontSize: 16
                 ),

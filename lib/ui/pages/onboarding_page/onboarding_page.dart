@@ -62,7 +62,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
             )
           ),
           OnboardingButton(
-            title: currentPage == 0 ? 'Get started' : currentPage == 3 ? 'Create account' : 'Continue',
+            title: currentPage == 0 ? 'Mulai' : currentPage == 3 ? 'Buat akun' : 'Selanjutnya',
             onTap: () {
               if (currentPage != 3) {
                 _pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.ease);
