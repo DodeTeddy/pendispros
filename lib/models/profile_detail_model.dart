@@ -11,6 +11,7 @@ class ProfileDetailModel {
         required this.username,
         required this.name,
         required this.phone,
+        required this.email,
         required this.verifiedAs,
         required this.disability,
     });
@@ -20,6 +21,7 @@ class ProfileDetailModel {
     String username;
     String name;
     String phone;
+    String email;
     String verifiedAs;
     String disability;
 
@@ -29,6 +31,7 @@ class ProfileDetailModel {
         username: json["username"] ?? '',
         name: json["name"] ?? '',
         phone: json["phone"] ?? '',
+        email: json["email"] ?? '',
         verifiedAs: json["verified_as"] ?? '',
         disability: json["disability"] ?? '',
     );
@@ -39,6 +42,7 @@ class ProfileDetailModel {
         "username": username,
         "name": name,
         "phone": phone,
+        "email" : email,
         "verified_as": verifiedAs,
         "disability": disability,
     };

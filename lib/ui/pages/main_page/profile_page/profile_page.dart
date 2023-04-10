@@ -4,6 +4,7 @@ import 'package:quickalert/quickalert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tugas_akhir_app/models/logout_model.dart';
 import 'package:tugas_akhir_app/services/service.dart';
+import 'package:tugas_akhir_app/ui/pages/main_page/profile_page/profile_detail_page/edit_profile_page.dart';
 import 'package:tugas_akhir_app/ui/pages/main_page/profile_page/profile_detail_page/verification_status_detail_page.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_container.dart';
 
@@ -83,84 +84,95 @@ class _ProfilePageState extends State<ProfilePage> {
                                     text: profileData!.username.capitalize()
                                   ),
                                   const SizedBox(height: 10),
-                                  ProfileItem(
-                                    icon: Icons.call, 
-                                    text: profileData.phone.isEmpty ? '-' : profileData.phone
+                                  Visibility(
+                                    visible: profileData.verifiedAs != 'admin',
+                                    child: ProfileItem(
+                                      icon: Icons.call, 
+                                      text: profileData.phone.isEmpty ? '-' : profileData.phone
+                                    ),
                                   ),
                                   const SizedBox(height: 10),
                                   ProfileItem(
                                     icon: Icons.pending_actions, 
-                                    text: profileData.verifiedAs == 'disability' ? 'Terverifikasi Disabilitas' : profileData.verifiedAs == 'prosthetic' ? 'Terverifikasi Bengkel Prostetik' : 'Belum Terverifikasi',
+                                    text: profileData.verifiedAs == 'disability' ? 'Terverifikasi Disabilitas' : profileData.verifiedAs == 'prosthetic' ? 'Terverifikasi Bengkel Prostetik' : profileData.verifiedAs == 'admin' ? 'Admin' : 'Belum Terverifikasi',
                                     textColor: profileData.verifiedAs == 'disability' || profileData.verifiedAs == 'prosthetic' ? primaryColor : inActiveColor,
                                   )
                                 ],
                               ),
                             ),
-                            IconButton(
-                              onPressed: () => Navigator.pushNamed(context, '/editprofile'),
-                              icon: const Icon(
-                                Icons.edit,
-                                color: primaryColor,
-                              )
+                            Visibility(
+                              visible: profileData.verifiedAs != 'admin',
+                              child: IconButton(
+                                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfilePage(
+                                  username: profileData.username, name: profileData.name, email: profileData.email, phone: profileData.phone))
+                                ), 
+                                icon: const Icon(
+                                  Icons.edit,
+                                  color: primaryColor,
+                                )
+                              ),
                             )
                           ],
                         )
                       ),
                       const SizedBox(height: 20),
-                      GestureDetector(
-                        onTap: () => Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => VerificationStatusDetailPage(name: profileData.name, role: profileData.role ,disability: profileData.disability, verifiedAs: profileData.verifiedAs
-                        ))),
-                        child: CustomContainer(
-                          color: primaryColor,
-                          padding: const EdgeInsets.all(20), 
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    'Detail status verifikasi',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 35,
-                                    width: 35,
-                                    decoration: const BoxDecoration(
-                                      color: secondaryColor,
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                        image: AssetImage('assets/images/logo_app.png')
-                                      )
-                                    ),
-                                  )
-                                ],
-                              ),
-                              const SizedBox(height: 15),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      profileData.name.isEmpty ? '-' : profileData.name.toUpperCase(),
-                                      style: const TextStyle(
+                      Visibility(
+                        visible: profileData.verifiedAs != 'admin',
+                        child: GestureDetector(
+                          onTap: () => Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => VerificationStatusDetailPage(name: profileData.name, role: profileData.role ,disability: profileData.disability, verifiedAs: profileData.verifiedAs
+                          ))),
+                          child: CustomContainer(
+                            color: primaryColor,
+                            padding: const EdgeInsets.all(20), 
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      'Detail status verifikasi',
+                                      style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 15
                                       ),
                                     ),
-                                  ),
-                                  SvgPicture.asset(
-                                    'assets/icons/arrow_right.svg',
-                                    colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                                    height: 15,
-                                  )
-                                ],
-                              )
-                            ],
-                          )
+                                    Container(
+                                      height: 35,
+                                      width: 35,
+                                      decoration: const BoxDecoration(
+                                        color: secondaryColor,
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                          image: AssetImage('assets/images/logo_app.png')
+                                        )
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(height: 15),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        profileData.name.isEmpty ? '-' : profileData.name.toUpperCase(),
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 15
+                                        ),
+                                      ),
+                                    ),
+                                    SvgPicture.asset(
+                                      'assets/icons/arrow_right.svg',
+                                      colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                                      height: 15,
+                                    )
+                                  ],
+                                )
+                              ],
+                            )
+                          ),
                         ),
                       ),
                       const SizedBox(height: 20),

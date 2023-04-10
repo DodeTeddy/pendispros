@@ -9,6 +9,7 @@ class CustomTextFormField extends StatelessWidget {
     required this.controller,
     required this.title, 
     this.obscureText = false, 
+    this.hintText = '',
     this.isHide = true,
     required this.onTap, this.isNumberField = false, 
   });
@@ -16,6 +17,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextEditingController controller;
   final bool isHide;
   final bool obscureText;
+  final String hintText;
   final Function() onTap;
   final String title;
   final bool isNumberField;
@@ -78,6 +80,7 @@ class CustomTextFormField extends StatelessWidget {
             ),
             obscureText: obscureText,
             decoration: InputDecoration(
+              hintText: hintText,
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),
                 borderSide: const BorderSide(

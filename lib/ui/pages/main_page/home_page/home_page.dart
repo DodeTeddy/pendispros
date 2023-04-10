@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tugas_akhir_app/services/service.dart';
-import 'package:tugas_akhir_app/ui/pages/main_page/home_page/verification_page/verification_page.dart';
 import 'package:tugas_akhir_app/ui/shared/theme/constant.dart';
 
 import '../../../shared/widgets/custom_container.dart';
 import '../../onboarding_page/widgets/dot.dart';
-import '../widgets/fitur.dart';
+import 'fitur_page/fitur.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,6 +21,8 @@ class _HomePageState extends State<HomePage> {
   bool isDisability = false;
   bool isWorkshop = false;
   bool isNotVerified = false;
+  bool diisabilityNotVer = false;
+  bool workshopNotVer = false;
   late PageController _pageController;
 
   @override
@@ -46,26 +47,28 @@ class _HomePageState extends State<HomePage> {
             var profileData = snapshot.data;
             if (profileData!.verifiedAs == 'notverified') {
               if (profileData.role == 'disability') {  
-                headerTextVerified = 'Klik untuk verifikasi';
-                textVerified = 'Disabilitas belum terverifikasi';
+                headerTextVerified = 'Belum Terverifikasi';
+                textVerified = 'Penyandang Disabilitas';
                 isNotVerified = true;
+                diisabilityNotVer = true;
               } else if (profileData.role == 'prosthetic') {  
-                headerTextVerified = 'Klik untuk verifikasi';
-                textVerified = 'Bengkel belum terverifikasi';
+                headerTextVerified = 'Belum Terverifikasi';
+                textVerified = 'Bengkel Prostetik';
                 isNotVerified = true;
+                workshopNotVer = true;
               }
             }else{
               if (profileData.verifiedAs == 'disability') {
-                headerTextVerified = 'Verified as';
-                textVerified = 'Person with disabilities';
+                headerTextVerified = 'Terverifikasi';
+                textVerified = 'Penyandang Disabilitas';
                 isDisability = true;
               }else if (profileData.verifiedAs == 'prosthetic') {
-                headerTextVerified = 'Verified as';
-                textVerified = 'Prosthetic workshop';
+                headerTextVerified = 'Terverifikasi';
+                textVerified = 'Bengkel Prostetik';
                 isWorkshop = true;
               }else if (profileData.verifiedAs == 'admin') {
-                headerTextVerified = 'Welcome';
-                textVerified = 'Pendispros Admin';
+                headerTextVerified = 'Pendispros';
+                textVerified = 'Dashboard Admin';
                 isAdmin = true;
               }
             }
@@ -117,15 +120,10 @@ class _HomePageState extends State<HomePage> {
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      GestureDetector(
-                                        onTap: () => profileData.verifiedAs == 'notverified' 
-                                        ? Navigator.push(context, MaterialPageRoute(builder: (context) => VerificationPage(isDisability: profileData.role == 'disability')))
-                                        : null,
-                                        child: Text(
-                                          headerTextVerified ?? '-',
-                                          style: const TextStyle(
-                                            fontSize: 15
-                                          ),
+                                      Text(
+                                        headerTextVerified ?? '-',
+                                        style: const TextStyle(
+                                          fontSize: 15
                                         ),
                                       ),
                                       const SizedBox(height: 20),
@@ -157,7 +155,7 @@ class _HomePageState extends State<HomePage> {
                             const SizedBox(height: 20),
                             Visibility(
                               visible: isAdmin || isNotVerified,
-                              child: FiturForAdminOrNotVer(isAdmin: isAdmin)
+                              child: FiturForAdminOrNotVer(isAdmin: isAdmin, isDisabilty: diisabilityNotVer, isProsthetic: workshopNotVer, isNotVerified: isNotVerified)
                             ),
                             Visibility(
                               visible: isDisability,
