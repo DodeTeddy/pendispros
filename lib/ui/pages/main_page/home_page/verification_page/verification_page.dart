@@ -12,7 +12,8 @@ import '../../../../shared/widgets/custom_textformfield.dart';
 
 class VerificationPage extends StatefulWidget {
   final bool isDisability;
-  const VerificationPage ({super.key, required this.isDisability});
+  final bool isAdmin;
+  const VerificationPage ({super.key, required this.isDisability, this.isAdmin = false});
 
   @override
   State<VerificationPage> createState() => _VerificationPageState();
@@ -39,16 +40,6 @@ class _VerificationPageState extends State<VerificationPage> {
   bool isLoading = false;
   final snackBar = const SnackBar(
     content: Text('Kolom tidak boleh kosong'),
-    backgroundColor: Colors.red,
-    behavior: SnackBarBehavior.floating,
-  );
-  final snackBarSuccess = const SnackBar(
-    content: Text('Verifikasi berhasil!'),
-    backgroundColor: Colors.green,
-    behavior: SnackBarBehavior.floating,
-  );
-  final snackBarFailed = const SnackBar(
-    content: Text('Verifikasi gagal!'),
     backgroundColor: Colors.red,
     behavior: SnackBarBehavior.floating,
   );
@@ -112,14 +103,26 @@ class _VerificationPageState extends State<VerificationPage> {
       );
       if (verificationModel.message == 'Verification Success!') {  
         if(!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(snackBarSuccess);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(widget.isAdmin ? 'Registrasi berhasil!' : 'Verifikasi berhasil!'),
+            backgroundColor: Colors.green,
+            behavior: SnackBarBehavior.floating,
+          )
+        );
         setState(() {
           isLoading = false;
         });
         Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
       }else{
         if(!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(snackBarFailed);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(widget.isAdmin ? 'Registrasi gagal!' : 'Verifikasi gagal!'),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+          )
+        );
         setState(() {
           isLoading = false;
         });
@@ -140,7 +143,7 @@ class _VerificationPageState extends State<VerificationPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('Verifikasi'),
+            Text(widget.isAdmin ? 'Registrasi' : 'Verifikasi'),
             const SizedBox(width: 10),
             Image.asset(
               widget.isDisability ? 'assets/images/disability.png' : 'assets/images/prosthetic.png',
@@ -261,7 +264,7 @@ class _VerificationPageState extends State<VerificationPage> {
                 CustomButton(
                   isLoading: isLoading,
                   onTap: vererification,
-                  title: 'Verifikasi',
+                  title: widget.isAdmin ? 'Registrasi' : 'Verifikasi',
                 )
               ],
             ),

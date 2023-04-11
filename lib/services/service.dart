@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tugas_akhir_app/models/get_disability_data_model.dart';
 import '../models/city_model.dart';
 import '../models/edit_profile_model.dart';
+import '../models/get_workshop_data_model.dart';
 import '../models/logout_model.dart';
 import '../models/profile_detail_model.dart';
 import '../models/profile_model.dart';
@@ -264,6 +266,46 @@ Future<EditProfileModel> editProfile(String username, String name, String email,
       body: body
     );
     return EditProfileModel.fromJson(jsonDecode(response.body));
+  } catch (e) {
+    rethrow;
+  }
+}
+
+Future<GetWorkshopDataModel> getDataWorkshop()async{
+  var prefs = await SharedPreferences.getInstance();
+  var token = prefs.getString('token');
+  var url = Uri.parse('$baseUrl/workshop');
+  var header = {
+    'Accept' : 'application/json',
+    'Authorization' : 'Bearer $token'
+  };
+
+  try {
+    var response = await http.get(
+      url,
+      headers: header
+    );
+    return GetWorkshopDataModel.fromJson(jsonDecode(response.body));
+  } catch (e) {
+    rethrow;
+  }
+}
+
+Future<GetDisabilityDataModel> getDataDisability()async{
+  var prefs = await SharedPreferences.getInstance();
+  var token = prefs.getString('token');
+  var url = Uri.parse('$baseUrl/disability');
+  var header = {
+    'Accept' : 'application/json',
+    'Authorization' : 'Bearer $token'
+  };
+
+  try {
+    var response = await http.get(
+      url,
+      headers: header
+    );
+    return GetDisabilityDataModel.fromJson(jsonDecode(response.body));
   } catch (e) {
     rethrow;
   }

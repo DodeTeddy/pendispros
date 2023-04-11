@@ -10,7 +10,7 @@ import 'package:tugas_akhir_app/ui/shared/widgets/custom_container.dart';
 
 import '../../../shared/theme/constant.dart';
 import '../widgets/profile_header.dart';
-import '../widgets/profile_item.dart';
+import '../../../shared/widgets/profile_item.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});

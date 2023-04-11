@@ -32,7 +32,7 @@ class Datum {
     });
 
     int id;
-    String provinceId;
+    int provinceId;
     String name;
 
     factory Datum.fromJson(Map<String, dynamic> json) => Datum(

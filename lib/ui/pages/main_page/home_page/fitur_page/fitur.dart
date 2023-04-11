@@ -55,22 +55,22 @@ class FiturForAdminOrNotVer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             FiturIcon(
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => VerificationPage(isDisability: isDisabilty))),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const VerificationPage(isDisability: true, isAdmin: true))),
               asset: 'assets/images/disability.png', 
-              title: 'Verifikasi\nDisabiltas'
+              title: 'Registrasi\nDisabiltas'
             ),
             FiturIcon(
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => VerificationPage(isDisability: isDisabilty))),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const VerificationPage(isDisability: false, isAdmin: true))),
               asset: 'assets/images/prosthetic.png', 
-              title: 'Verifikasi Bengkel\nProstetik'
+              title: 'Registrasi\nBengkel'
             ),
             FiturIcon(
-              onTap: () => onTap('/blank', context),
+              onTap: () => onTap('/disability', context),
               asset: 'assets/images/disability_data.png', 
-              title: 'Penyandang\nDisabilitas'
+              title: 'Data\nDisabilitas'
             ),
             FiturIcon(
-              onTap: () => onTap('/blank', context),
+              onTap: () => onTap('/bengkelprostetik', context),
               asset: 'assets/images/prosthetic_data.png', 
               title: 'Data\nProstetik'
             ),
@@ -93,12 +93,12 @@ class FiturForAdminOrNotVer extends StatelessWidget {
             FiturIcon(
               onTap: () => onTap('/blank', context),
               asset: 'assets/images/disability_data.png', 
-              title: 'Penyandang\nDisabilitas'
+              title: 'Data\nDisabilitas'
             ),
             FiturIcon(
               onTap: () => onTap('/blank', context),
               asset: 'assets/images/prosthetic_data.png', 
-              title: 'Bengkel\nProstetik'
+              title: 'Data\nProstetik'
             ),
             FiturIcon(
               onTap: () => onTap('/blank', context),
@@ -143,7 +143,7 @@ class FiturForDisability extends StatelessWidget {
         FiturIcon(
           onTap: () => Navigator.pushNamed(context, '/bengkelprostetik'),
           asset: 'assets/images/prosthetic_data.png', 
-          title: 'Bengkel\nProstetik'
+          title: 'Data\nProstetik'
         ),
         const SizedBox(width: 25),
         FiturIcon(
@@ -166,11 +166,9 @@ class FiturForProstheticWs extends StatelessWidget {
     return Row(
       children: [
         FiturIcon(
-          onTap: () {
-            
-          },
+          onTap: () => Navigator.pushNamed(context, '/disability'),
           asset: 'assets/images/disability_data.png', 
-          title: 'Penyandang\nDisabilitas'
+          title: 'Data\nDisabilitas'
         ),
         const SizedBox(width: 25),
         FiturIcon(

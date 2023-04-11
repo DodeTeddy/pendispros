@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:quickalert/quickalert.dart';
 import 'package:tugas_akhir_app/models/edit_profile_model.dart';
 import 'package:tugas_akhir_app/services/service.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_appbar.dart';
@@ -25,43 +26,50 @@ class _EditProfilePageState extends State<EditProfilePage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
-  bool isLoading = false;
 
-  void profileEdit()async{
-    if (usernameController.text.isEmpty && nameController.text.isEmpty && emailController.text.isEmpty && phoneController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Tidak ada perubahan'),
-          backgroundColor: Colors.red,
-          behavior: SnackBarBehavior.floating,
-        )
+  void profileEdit(){
+    if (usernameController.text.isNotEmpty && nameController.text.isNotEmpty && emailController.text.isNotEmpty && phoneController.text.isNotEmpty) {
+      QuickAlert.show(
+        title: 'Apakah anda yakin?',
+        context: context,
+        type: QuickAlertType.confirm,
+        confirmBtnText: 'Ya',
+        onConfirmBtnTap: ()async{
+          EditProfileModel editProfileModel = await editProfile(
+            usernameController.text.isEmpty ? widget.username : usernameController.text, 
+            nameController.text.isEmpty ? widget.name : nameController.text, 
+            emailController.text.isEmpty ? widget.email : emailController.text, 
+            phoneController.text.isEmpty? widget.phone : phoneController.text
+          );
+          if (editProfileModel.message == 'Update Success!') {
+            if(!mounted) return;
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Update profile berhasil!'),
+                backgroundColor: Colors.green,
+                behavior: SnackBarBehavior.floating,
+              )
+            );
+            Navigator.pushNamed(context, '/main');
+          }
+        },
+        cancelBtnText: 'Tidak',
+        confirmBtnColor: primaryColor,
+        customAsset: 'assets/images/get_started.png',
+        backgroundColor: secondaryColor
       );
-    }else{
-      setState(() {
-        isLoading = true;
-      });
-      EditProfileModel editProfileModel = await editProfile(
-        usernameController.text.isEmpty ? widget.username : usernameController.text, 
-        nameController.text.isEmpty ? widget.name : nameController.text, 
-        emailController.text.isEmpty ? widget.email : emailController.text, 
-        phoneController.text.isEmpty? widget.phone : phoneController.text
-      );
-      if (editProfileModel.message == 'Update Success!') {
-        setState(() {
-          isLoading = false;
-        });
-        if(!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Update profile berhasil!'),
-            backgroundColor: Colors.green,
-            behavior: SnackBarBehavior.floating,
-          )
-        );
-        Navigator.pushNamed(context, '/main');
-      }
     }
   }
+
+  @override
+  void initState() {
+    usernameController.text = widget.username;
+    nameController.text = widget.name;
+    emailController.text = widget.email;
+    phoneController.text = widget.phone;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,33 +101,28 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ),
                 const SizedBox(height: 30),
                 CustomTextFormField(
-                  hintText: widget.username,
                   controller: usernameController, 
                   title: 'Nama Pengguna', 
                   onTap: () => null,
                 ),
                 CustomTextFormField(
-                  hintText: widget.name,
                   controller: nameController, 
                   title: 'Nama', 
                   onTap: () => null,
                 ),
                 CustomTextFormField(
-                  hintText: widget.email,
                   controller: emailController, 
                   title: 'Email', 
                   onTap: () => null,
                 ),
                 CustomTextFormField(
                   isNumberField: true,
-                  hintText: widget.phone,
                   controller: phoneController, 
                   title: 'Nomor Telepon', 
                   onTap: () => null,
                 ),
                 const SizedBox(height: 10),
                 CustomButton(
-                  isLoading: isLoading,
                   title: 'Simpan',
                   onTap: profileEdit
                 )

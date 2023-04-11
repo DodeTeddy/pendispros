@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../shared/theme/constant.dart';
+import '../theme/constant.dart';
 
 class ProfileItem extends StatelessWidget {
   final IconData icon;
