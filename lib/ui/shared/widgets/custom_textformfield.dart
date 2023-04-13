@@ -12,6 +12,8 @@ class CustomTextFormField extends StatelessWidget {
     this.hintText = '',
     this.isHide = true,
     required this.onTap, this.isNumberField = false, 
+    this.isText = false,
+    this.isOnAlert = false
   });
 
   final TextEditingController controller;
@@ -21,6 +23,8 @@ class CustomTextFormField extends StatelessWidget {
   final Function() onTap;
   final String title;
   final bool isNumberField;
+  final bool isText;
+  final bool isOnAlert;
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +77,7 @@ class CustomTextFormField extends StatelessWidget {
             ),
           )
           : TextFormField(
+            maxLines: isText ? 5 : 1,
             controller: controller,
             cursorColor: primaryColor,
             style: const TextStyle(
@@ -83,8 +88,8 @@ class CustomTextFormField extends StatelessWidget {
               hintText: hintText,
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),
-                borderSide: const BorderSide(
-                  color: secondaryColor,
+                borderSide: BorderSide(
+                  color: isOnAlert ? primaryColor : secondaryColor,
                   width: 2
                 )
               ),

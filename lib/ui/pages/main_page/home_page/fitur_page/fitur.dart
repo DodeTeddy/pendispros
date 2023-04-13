@@ -122,8 +122,8 @@ class FiturForAdminOrNotVer extends StatelessWidget {
               ),
             ),
             FiturIcon(
-              onTap: () => onTap('/blank', context),
-              asset: 'assets/images/third_onboarding.png', 
+              onTap: () => Navigator.pushNamed(context, '/createinformation'),
+              asset: 'assets/images/information_service.png', 
               title: 'Tambah\nInformasi'
             ),
           ],
@@ -172,11 +172,9 @@ class FiturForProstheticWs extends StatelessWidget {
         ),
         const SizedBox(width: 25),
         FiturIcon(
-          onTap: () {
-            
-          },
+          onTap: () => Navigator.pushNamed(context, '/createinformation'),
           asset: 'assets/images/information_service.png', 
-          title: 'Layanan\nInformasi'
+          title: 'Tambah\nInformasi'
         ),
       ],
     );

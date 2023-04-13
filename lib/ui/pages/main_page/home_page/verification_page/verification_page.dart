@@ -202,6 +202,7 @@ class _VerificationPageState extends State<VerificationPage> {
                 Visibility(
                   visible: widget.isDisability,
                   child: CustomTextFormField(
+                    isText: true,
                     controller: explanationController, title: 'Detail disabilitas', onTap: () => null,
                   ),
                 ),

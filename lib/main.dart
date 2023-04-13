@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tugas_akhir_app/ui/pages/authentication_page/login_page.dart';
 import 'package:tugas_akhir_app/ui/pages/authentication_page/registration_page.dart';
+import 'package:tugas_akhir_app/ui/pages/main_page/home_page/fitur_page/create_information_page.dart';
 import 'package:tugas_akhir_app/ui/pages/main_page/home_page/fitur_page/disability_page.dart';
 import 'package:tugas_akhir_app/ui/pages/main_page/home_page/fitur_page/fitur_page.dart';
 import 'package:tugas_akhir_app/ui/pages/main_page/main_page.dart';
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         '/main' :(context) => const MainPage(),
         '/bengkelprostetik' :(context) => const ProstheticWorkshopPage(),
         '/disability' :(context) => const DisabilityPage(),
+        '/createinformation':(context) => const CreateInformationPage(),
         '/faq' :(context) => const FaqPage(),
         '/about' :(context) => const AboutPage(),
         '/blank' :(context) => const BlankPage(),

@@ -4,7 +4,8 @@ import '../theme/constant.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget child;
-  const CustomAppBar ({super.key, required this.child});
+  final bool isBack;
+  const CustomAppBar ({super.key, required this.child, this.isBack = true});
 
   @override
   Size get preferredSize => const Size.fromHeight(55);
@@ -14,6 +15,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return PreferredSize(
       preferredSize: preferredSize,
       child: AppBar(
+        automaticallyImplyLeading: isBack,
         backgroundColor: primaryColor,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(

@@ -11,6 +11,7 @@ class NotificationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
+        isBack: false,
         child: Text('Notifikasi')
       ),
       body: ListView.builder(
