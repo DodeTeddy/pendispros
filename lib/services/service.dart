@@ -4,7 +4,11 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tugas_akhir_app/models/get_disability_data_model.dart';
 import '../models/city_model.dart';
+import '../models/create_information_model.dart';
+import '../models/delete_information_model.dart';
 import '../models/edit_profile_model.dart';
+import '../models/get_information_model.dart';
+import '../models/get_notification_model.dart';
 import '../models/get_workshop_data_model.dart';
 import '../models/logout_model.dart';
 import '../models/profile_detail_model.dart';
@@ -12,6 +16,7 @@ import '../models/profile_model.dart';
 import '../models/province_model.dart';
 import '../models/sign_up_model.dart';
 import '../models/login_model.dart';
+import '../models/update_information_model.dart';
 import '../models/verification_model.dart';
 
 var baseUrl = 'http://127.0.0.1:8888/api';
@@ -306,6 +311,118 @@ Future<GetDisabilityDataModel> getDataDisability()async{
       headers: header
     );
     return GetDisabilityDataModel.fromJson(jsonDecode(response.body));
+  } catch (e) {
+    rethrow;
+  }
+}
+
+Future<CreateInformationModel> createInformation(String title, String detail)async{
+  var prefs = await SharedPreferences.getInstance();
+  var token = prefs.getString('token');
+  var url = Uri.parse('$baseUrl/information/create');
+  var header = {
+    'Accept' : 'application/json',
+    'Authorization' : 'Bearer $token'
+  };
+
+  var body = {
+    'title_information' : title,
+    'detail_information' : detail
+  };
+
+  try {
+    var response = await http.post(
+      url,
+      headers: header,
+      body: body
+    );
+    return CreateInformationModel.fromJson(jsonDecode(response.body));
+  } catch (e) {
+    rethrow;
+  }
+}
+
+Stream<GetInformationModel> getInformation()async*{
+  var prefs = await SharedPreferences.getInstance();
+  var token = prefs.getString('token');
+  var url = Uri.parse('$baseUrl/information/get');
+  var header = {
+    'Accept' : 'application/json',
+    'Authorization' : 'Bearer $token'
+  };
+
+  try {
+    var response = await http.get(
+      url,
+      headers: header
+    );
+    yield GetInformationModel.fromJson(jsonDecode(response.body));
+  } catch (e) {
+    rethrow;
+  }
+}
+
+Future<UpdateInformationModel> updateInformation(String title, String detail, int id)async{
+  var prefs = await SharedPreferences.getInstance();
+  var token = prefs.getString('token');
+  var url = Uri.parse('$baseUrl/information/update/$id');
+  var header = {
+    'Accept' : 'application/json',
+    'Authorization' : 'Bearer $token'
+  };
+
+  var body = {
+    'title_information' : title,
+    'detail_information' : detail
+  };
+
+  try {
+    var response = await http.post(
+      url,
+      headers: header,
+      body: body
+    );
+    return UpdateInformationModel.fromJson(jsonDecode(response.body));
+  } catch (e) {
+    rethrow;
+  }
+}
+
+Future<DeleteInformationModel> deleteInformation(int id)async{
+  var prefs = await SharedPreferences.getInstance();
+  var token = prefs.getString('token');
+  var url = Uri.parse('$baseUrl/information/delete/$id');
+  var header = {
+    'Accept' : 'application/json',
+    'Authorization' : 'Bearer $token'
+  };
+
+  try {
+    var response = await http.delete(
+      url,
+      headers: header
+    );
+    return DeleteInformationModel.fromJson(jsonDecode(response.body));
+  } catch (e) {
+    rethrow;
+  }
+}
+
+Future<GetNotificationModel> getNotification()async{
+  var prefs = await SharedPreferences.getInstance();
+  var token = prefs.getString('token');
+  var url = Uri.parse('$baseUrl/notification');
+  var header = {
+    'Accept' : 'application/json',
+    'Authorization' : 'Bearer $token'
+  };
+
+  try {
+    var response = await http.get(
+      url,
+      headers: header
+    );
+    return GetNotificationModel.fromJson(jsonDecode(response.body));
   } catch (e) {
     rethrow;
   }
