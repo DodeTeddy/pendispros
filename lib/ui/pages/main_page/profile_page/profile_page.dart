@@ -115,7 +115,10 @@ class _ProfilePageState extends State<ProfilePage> {
                           ],
                         )
                       ),
-                      const SizedBox(height: 20),
+                      Visibility(
+                        visible: profileData.verifiedAs != 'admin',
+                        child: const SizedBox(height: 20)
+                      ),
                       Visibility(
                         visible: profileData.verifiedAs != 'admin',
                         child: GestureDetector(
@@ -175,56 +178,65 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20),
-                      const Text(
-                        'Informasi Umum',
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w600
+                      Visibility(
+                        visible: profileData.verifiedAs != 'admin',
+                        child: const SizedBox(height: 20)
+                      ),
+                      Visibility(
+                        visible: profileData.verifiedAs != 'admin',
+                        child: const Text(
+                          'Informasi Umum',
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w600
+                          ),
                         ),
                       ),
                       const SizedBox(height: 5),
-                      CustomContainer(
-                        padding: const EdgeInsets.all(12), 
-                        child: ListView.separated(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) => GestureDetector(
-                            onTap: () => Navigator.pushNamed(context, routeName[index]),
-                            child: Container(
-                              color: Colors.white,
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Row(
-                                      children: [
-                                        profileiconItem[index],
-                                        const SizedBox(width: 10),
-                                        Text(
-                                          profileTextItem[index],
-                                          style: const TextStyle(
-                                            fontSize: 18
+                      Visibility(
+                        visible: profileData.verifiedAs != 'admin',
+                        child: CustomContainer(
+                          padding: const EdgeInsets.all(12), 
+                          child: ListView.separated(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) => GestureDetector(
+                              onTap: () => Navigator.pushNamed(context, routeName[index]),
+                              child: Container(
+                                color: Colors.white,
+                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          profileiconItem[index],
+                                          const SizedBox(width: 10),
+                                          Text(
+                                            profileTextItem[index],
+                                            style: const TextStyle(
+                                              fontSize: 18
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  SvgPicture.asset(
-                                    'assets/icons/arrow_right.svg',
-                                    colorFilter: const ColorFilter.mode(primaryColor, BlendMode.srcIn),
-                                    height: 20,
-                                  )
-                                ],
+                                    SvgPicture.asset(
+                                      'assets/icons/arrow_right.svg',
+                                      colorFilter: const ColorFilter.mode(primaryColor, BlendMode.srcIn),
+                                      height: 20,
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                          ), 
-                          separatorBuilder: (context, index) => const Divider(
-                            color: primaryColor,
-                            thickness: 1,
-                          ), 
-                          itemCount: profileTextItem.length
-                        )
+                            ), 
+                            separatorBuilder: (context, index) => const Divider(
+                              color: primaryColor,
+                              thickness: 1,
+                            ), 
+                            itemCount: profileTextItem.length
+                          )
+                        ),
                       ),
                       const SizedBox(height: 20),
                       const Text(

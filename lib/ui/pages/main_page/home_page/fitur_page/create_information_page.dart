@@ -124,7 +124,7 @@ class _CreateInformationPageState extends State<CreateInformationPage> {
       if(!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Berhasil memperbarui informasi'),
+            content: Text('Berhasil menghapus informasi'),
             backgroundColor: Colors.green,
             behavior: SnackBarBehavior.floating,
           )

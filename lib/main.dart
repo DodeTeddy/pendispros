@@ -4,6 +4,7 @@ import 'package:tugas_akhir_app/ui/pages/authentication_page/registration_page.d
 import 'package:tugas_akhir_app/ui/pages/main_page/home_page/fitur_page/create_information_page.dart';
 import 'package:tugas_akhir_app/ui/pages/main_page/home_page/fitur_page/disability_page.dart';
 import 'package:tugas_akhir_app/ui/pages/main_page/home_page/fitur_page/fitur_page.dart';
+import 'package:tugas_akhir_app/ui/pages/main_page/home_page/fitur_page/information_service_page.dart';
 import 'package:tugas_akhir_app/ui/pages/main_page/main_page.dart';
 import 'package:tugas_akhir_app/ui/pages/main_page/profile_page/profile_detail_page/about_page.dart';
 import 'package:tugas_akhir_app/ui/pages/main_page/profile_page/profile_detail_page/faq_page.dart';
@@ -41,9 +42,10 @@ class MyApp extends StatelessWidget {
         '/login' :(context) => const LoginPage(),
         '/registration' :(context) => const RegistrationPage(),
         '/main' :(context) => const MainPage(),
-        '/bengkelprostetik' :(context) => const ProstheticWorkshopPage(),
+        '/prostheticworkshop' :(context) => const ProstheticWorkshopPage(),
         '/disability' :(context) => const DisabilityPage(),
-        '/createinformation':(context) => const CreateInformationPage(),
+        '/createinformation' :(context) => const CreateInformationPage(),
+        '/informationservice' :(context) => const InformationServicePage(),
         '/faq' :(context) => const FaqPage(),
         '/about' :(context) => const AboutPage(),
         '/blank' :(context) => const BlankPage(),

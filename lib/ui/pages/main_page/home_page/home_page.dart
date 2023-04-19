@@ -24,6 +24,11 @@ class _HomePageState extends State<HomePage> {
   bool diisabilityNotVer = false;
   bool workshopNotVer = false;
   late PageController _pageController;
+  List asset = [
+    'assets/images/disability.png',
+    'assets/images/prosthetic.png',
+    'assets/images/information_service.png'
+  ];
 
   @override
   void dispose() {
@@ -197,6 +202,7 @@ class _HomePageState extends State<HomePage> {
                                           color: Colors.white,
                                         ),
                                       ),
+                                      Image.asset(asset[index])
                                     ],
                                   );
                                 },
