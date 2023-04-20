@@ -72,7 +72,7 @@ class FiturForAdminOrNotVer extends StatelessWidget {
             FiturIcon(
               onTap: () => onTap('/prostheticworkshop', context),
               asset: 'assets/images/prosthetic_data.png', 
-              title: 'Data\nProstetik'
+              title: 'Data\nBengkel'
             ),
           ],
         )
@@ -132,7 +132,7 @@ class FiturForDisability extends StatelessWidget {
         FiturIcon(
           onTap: () => Navigator.pushNamed(context, '/prostheticworkshop'),
           asset: 'assets/images/prosthetic_data.png', 
-          title: 'Data\nProstetik'
+          title: 'Data\nBengkel'
         ),
         const SizedBox(width: 25),
         FiturIcon(
