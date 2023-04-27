@@ -22,6 +22,7 @@ class GetDisabilityDataModel {
 
 class Datum {
     Datum({
+        required this.id,
         required this.name,
         required this.address,
         required this.phoneNumber,
@@ -33,6 +34,7 @@ class Datum {
         required this.province,
     });
 
+    int id;
     String name;
     String address;
     String phoneNumber;
@@ -44,6 +46,7 @@ class Datum {
     Province province;
 
     factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+        id: json["id"],
         name: json["name"],
         address: json["address"],
         phoneNumber: json["phone_number"],
@@ -56,6 +59,7 @@ class Datum {
     );
 
     Map<String, dynamic> toJson() => {
+        "id": id,
         "name": name,
         "address": address,
         "phone_number": phoneNumber,

@@ -22,6 +22,7 @@ class GetWorkshopDataModel {
 
 class Datum {
     Datum({
+        required this.id,
         required this.workshopName,
         required this.address,
         required this.phoneNumber,
@@ -29,7 +30,7 @@ class Datum {
         required this.city,
         required this.province,
     });
-
+    int id;
     String workshopName;
     String address;
     String phoneNumber;
@@ -38,6 +39,7 @@ class Datum {
     Province province;
 
     factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+        id: json["id"],
         workshopName: json["workshop_name"],
         address: json["address"],
         phoneNumber: json["phone_number"],
@@ -47,6 +49,7 @@ class Datum {
     );
 
     Map<String, dynamic> toJson() => {
+        "id": id,
         "workshop_name": workshopName,
         "address": address,
         "phone_number": phoneNumber,

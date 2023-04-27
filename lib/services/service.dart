@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tugas_akhir_app/models/get_disability_data_model.dart';
 import '../models/city_model.dart';
 import '../models/create_information_model.dart';
+import '../models/delete_dsandws_model.dart';
 import '../models/delete_information_model.dart';
 import '../models/edit_profile_model.dart';
 import '../models/get_information_model.dart';
@@ -16,6 +17,7 @@ import '../models/profile_model.dart';
 import '../models/province_model.dart';
 import '../models/sign_up_model.dart';
 import '../models/login_model.dart';
+import '../models/update_dsandws_model.dart';
 import '../models/update_information_model.dart';
 import '../models/verification_model.dart';
 
@@ -276,7 +278,7 @@ Future<EditProfileModel> editProfile(String username, String name, String email,
   }
 }
 
-Future<GetWorkshopDataModel> getDataWorkshop()async{
+Stream<GetWorkshopDataModel> getDataWorkshop()async*{
   var prefs = await SharedPreferences.getInstance();
   var token = prefs.getString('token');
   var url = Uri.parse('$baseUrl/workshop');
@@ -290,13 +292,13 @@ Future<GetWorkshopDataModel> getDataWorkshop()async{
       url,
       headers: header
     );
-    return GetWorkshopDataModel.fromJson(jsonDecode(response.body));
+    yield GetWorkshopDataModel.fromJson(jsonDecode(response.body));
   } catch (e) {
     rethrow;
   }
 }
 
-Future<GetDisabilityDataModel> getDataDisability()async{
+Stream<GetDisabilityDataModel> getDataDisability()async*{
   var prefs = await SharedPreferences.getInstance();
   var token = prefs.getString('token');
   var url = Uri.parse('$baseUrl/disability');
@@ -310,7 +312,7 @@ Future<GetDisabilityDataModel> getDataDisability()async{
       url,
       headers: header
     );
-    return GetDisabilityDataModel.fromJson(jsonDecode(response.body));
+    yield GetDisabilityDataModel.fromJson(jsonDecode(response.body));
   } catch (e) {
     rethrow;
   }
@@ -423,6 +425,124 @@ Future<GetNotificationModel> getNotification()async{
       headers: header
     );
     return GetNotificationModel.fromJson(jsonDecode(response.body));
+  } catch (e) {
+    rethrow;
+  }
+}
+
+Future<UpadateDsAndWsModel> updateDisability(
+  String id,
+  String cityId, 
+  String provinceId, 
+  String name, 
+  String address, 
+  String phoneNumber,
+  String age, 
+  String disability, 
+  String explanation
+)async{
+  var prefs = await SharedPreferences.getInstance();
+  var token = prefs.getString('token');
+  var url = Uri.parse('$baseUrl/disability/update/$id');
+  var header = {
+    'Accept' : 'application/json',
+    'Authorization' : 'Bearer $token'
+  };
+
+  var body = {
+    'city_id' : cityId,
+    'province_id' : provinceId,
+    'name' : name,
+    'address' : address,
+    'phone_number' : phoneNumber,
+    'age' : age,
+    'disability' : disability,
+    'explanation' : explanation
+  };
+
+  try {
+    var response = await http.post(
+      url,
+      headers: header,
+      body: body
+    );
+    return UpadateDsAndWsModel.fromJson(jsonDecode(response.body));
+  } catch (e) {
+    rethrow;
+  }
+}
+
+Future<DeleteDsAndWsModel> deleteDisability(int id)async{
+  var prefs = await SharedPreferences.getInstance();
+  var token = prefs.getString('token');
+  var url = Uri.parse('$baseUrl/disability/delete/$id');
+  var header = {
+    'Accept' : 'application/json',
+    'Authorization' : 'Bearer $token'
+  };
+
+  try {
+    var response = await http.delete(
+      url,
+      headers: header
+    );
+    return DeleteDsAndWsModel.fromJson(jsonDecode(response.body));
+  } catch (e) {
+    rethrow;
+  }
+}
+
+Future<UpadateDsAndWsModel> updateProsthetic(
+  String id,
+  String cityId, 
+  String provinceId, 
+  String workshopName, 
+  String address, 
+  String phoneNumber,
+)async{
+  var prefs = await SharedPreferences.getInstance();
+  var token = prefs.getString('token');
+  var url = Uri.parse('$baseUrl/workshop/update/$id');
+  var header = {
+    'Accept' : 'application/json',
+    'Authorization' : 'Bearer $token'
+  };
+
+  var body = {
+    'city_id' : cityId,
+    'province_id' : provinceId,
+    'workshop_name' : workshopName,
+    'address' : address,
+    'phone_number' : phoneNumber,
+  };
+
+  try {
+    var response = await http.post(
+      url,
+      headers: header,
+      body: body
+    );
+    return UpadateDsAndWsModel.fromJson(jsonDecode(response.body));
+  } catch (e) {
+    rethrow;
+  }
+}
+
+Future<DeleteDsAndWsModel> deleteProsthetic(int id)async{
+  var prefs = await SharedPreferences.getInstance();
+  var token = prefs.getString('token');
+  var url = Uri.parse('$baseUrl/workshop/delete/$id');
+  var header = {
+    'Accept' : 'application/json',
+    'Authorization' : 'Bearer $token'
+  };
+
+  try {
+    var response = await http.delete(
+      url,
+      headers: header
+    );
+    return DeleteDsAndWsModel.fromJson(jsonDecode(response.body));
   } catch (e) {
     rethrow;
   }

@@ -137,14 +137,8 @@ class FiturForDisability extends StatelessWidget {
         const SizedBox(width: 25),
         FiturIcon(
           onTap: () => Navigator.pushNamed(context, '/createinformation'),
-          asset: 'assets/images/logo_app.png', 
-          title: 'Tambah\nInformasi'
-        ),
-        const SizedBox(width: 25),
-        FiturIcon(
-          onTap: () => Navigator.pushNamed(context, '/informationservice'),
           asset: 'assets/images/information_service.png', 
-          title: 'Layanan\nInformasi'
+          title: 'Tambah\nInformasi'
         ),
       ],
     );
@@ -166,14 +160,8 @@ class FiturForProstheticWs extends StatelessWidget {
         const SizedBox(width: 25),
         FiturIcon(
           onTap: () => Navigator.pushNamed(context, '/createinformation'),
-          asset: 'assets/images/logo_app.png', 
-          title: 'Tambah\nInformasi'
-        ),
-        const SizedBox(width: 25),
-        FiturIcon(
-          onTap: () => Navigator.pushNamed(context, '/informationservice'),
           asset: 'assets/images/information_service.png', 
-          title: 'Layanan\nInformasi'
+          title: 'Tambah\nInformasi'
         ),
       ],
     );

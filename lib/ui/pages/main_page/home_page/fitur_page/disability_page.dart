@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:quickalert/quickalert.dart';
 import 'package:tugas_akhir_app/services/service.dart';
+import 'package:tugas_akhir_app/ui/pages/main_page/home_page/fitur_page/update_page/update_disabilityy_page.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_appbar.dart';
 
+import '../../../../../models/delete_dsandws_model.dart';
 import '../../../../shared/theme/constant.dart';
 import '../../../../shared/widgets/custom_container.dart';
 import '../../../../shared/widgets/profile_item.dart';
@@ -15,14 +18,44 @@ class DisabilityPage extends StatefulWidget {
 }
 
 class _DisabilityPageState extends State<DisabilityPage> {
+
+  void deleteData(int id)async{
+    DeleteDsAndWsModel deleteDsAndWsModel = await deleteDisability(id);
+    if (deleteDsAndWsModel.message == 'Delete Success!') {
+      setState(() {
+        Navigator.pop(context);
+      });
+      if(!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Berhasil menghapus Data'),
+            backgroundColor: Colors.green,
+            behavior: SnackBarBehavior.floating,
+          )
+        );
+    }else{
+      setState(() {
+        Navigator.pop(context);
+      });
+      if(!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Gagal menghapus Data'),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+        )
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
         child: Text('Data Penyandang Disabilitas')
       ),
-      body: FutureBuilder(
-        future: getDataDisability(),
+      body: StreamBuilder(
+        stream: getDataDisability(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var getDataDs = snapshot.data;
@@ -124,6 +157,37 @@ class _DisabilityPageState extends State<DisabilityPage> {
                           )
                         ],
                       ),
+                    ),
+                    Column(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateDisabilityPage(
+                              id: getDataDs.data[index].id.toString(), 
+                              name: getDataDs.data[index].name, 
+                              age: getDataDs.data[index].age.toString(),
+                              phone: getDataDs.data[index].phoneNumber, 
+                              explanation: getDataDs.data[index].explanation, 
+                              address: getDataDs.data[index].address
+                            )));
+                          }, 
+                          icon: const Icon(Icons.edit, color: primaryColor, size: 25),
+                        ),
+                        IconButton(
+                          onPressed: () => QuickAlert.show(
+                            title: 'Apakah anda yakin?',
+                            context: context,
+                            type: QuickAlertType.confirm,
+                            confirmBtnText: 'Ya',
+                            onConfirmBtnTap: () => deleteData(getDataDs.data[index].id),
+                            cancelBtnText: 'Tidak',
+                            confirmBtnColor: primaryColor,
+                            customAsset: 'assets/images/get_started.png',
+                            backgroundColor: secondaryColor
+                          ),
+                          icon: const Icon(Icons.delete_outline_rounded, color: primaryColor, size: 30),
+                        )
+                      ],
                     )
                   ],
                 )

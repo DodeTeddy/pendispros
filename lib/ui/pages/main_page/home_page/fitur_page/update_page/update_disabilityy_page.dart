@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:tugas_akhir_app/models/verification_model.dart';
+import 'package:tugas_akhir_app/models/update_dsandws_model.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_appbar.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_button.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_container.dart';
 
-import '../../../../../models/city_model.dart';
-import '../../../../../models/province_model.dart';
-import '../../../../../services/service.dart';
-import '../../../../shared/widgets/custom_dropdown.dart';
-import '../../../../shared/widgets/custom_textformfield.dart';
+import '../../../../../../models/city_model.dart';
+import '../../../../../../models/province_model.dart';
+import '../../../../../../services/service.dart';
+import '../../../../../shared/widgets/custom_dropdown.dart';
+import '../../../../../shared/widgets/custom_textformfield.dart';
 
-class VerificationPage extends StatefulWidget {
-  final bool isDisability;
-  final bool isAdmin;
-  const VerificationPage ({super.key, required this.isDisability, this.isAdmin = false});
+class UpdateDisabilityPage extends StatefulWidget {
+  final String id;
+  final String name;
+  final String age;
+  final String phone;
+  final String explanation;
+  final String address;
+  const UpdateDisabilityPage ({super.key, required this.id, required this.name, required this.age, required this.phone, required this.explanation, required this.address});
 
   @override
-  State<VerificationPage> createState() => _VerificationPageState();
+  State<UpdateDisabilityPage> createState() => _UpdateDisabilityPageState();
 }
 
-class _VerificationPageState extends State<VerificationPage> {
+class _UpdateDisabilityPageState extends State<UpdateDisabilityPage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController ageController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -39,7 +43,7 @@ class _VerificationPageState extends State<VerificationPage> {
   int idCity = 0;
   bool isLoading = false;
   final snackBar = const SnackBar(
-    content: Text('Kolom tidak boleh kosong'),
+    content: Text('Kota/Kabupaten tidak boleh kosong'),
     backgroundColor: Colors.red,
     behavior: SnackBarBehavior.floating,
   );
@@ -74,58 +78,44 @@ class _VerificationPageState extends State<VerificationPage> {
     }
   }
 
-  void vererification()async{
-    if ( widget.isDisability 
-      ? (nameController.text.isEmpty || ageController.text.isEmpty || phoneController.text.isEmpty || explanationController.text.isEmpty ||addressController.text.isEmpty)
-      : (nameController.text.isEmpty || phoneController.text.isEmpty || addressController.text.isEmpty)
-    ) {
+  void updatedData()async{
+    if (idProvince == 0) {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }else{
       setState(() {
         isLoading = true;
       });
-      VerificationModel verificationModel = widget.isDisability ? await disabilityver(
-        nameController.text, 
+
+      UpadateDsAndWsModel upadateDsAndWsModel = await updateDisability(
+        widget.id, 
         idCity.toString(), 
         idProvince.toString(), 
-        ageController.text, 
+        nameController.text, 
         addressController.text, 
         phoneController.text, 
+        ageController.text, 
         disabilityDdItem, 
         explanationController.text
-      )
-      : await workshopver(
-        nameController.text, 
-        idCity.toString(), 
-        idProvince.toString(), 
-        addressController.text, 
-        phoneController.text, 
       );
-      if (verificationModel.message == 'Verification Success!') {  
+
+      if (upadateDsAndWsModel.message == 'Update Success!') {  
         if(!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(widget.isAdmin ? 'Registrasi berhasil!' : 'Verifikasi berhasil!'),
+          const SnackBar(
+            content: Text('Update berhasil!'),
             backgroundColor: Colors.green,
             behavior: SnackBarBehavior.floating,
           )
         );
         setState(() {
           isLoading = false;
-          nameController.clear(); 
-          ageController.clear();
-          addressController.clear(); 
-          phoneController.clear();
-          explanationController.clear();
-          nameController.clear();
-          addressController.clear(); 
-          phoneController.clear(); 
         });
+        Navigator.pushNamedAndRemoveUntil(context, '/disability', ModalRoute.withName('/main'));
       }else{
         if(!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(widget.isAdmin ? 'Registrasi gagal!' : 'Verifikasi gagal!'),
+          const SnackBar(
+            content: Text('Update gagal!'),
             backgroundColor: Colors.red,
             behavior: SnackBarBehavior.floating,
           )
@@ -140,6 +130,11 @@ class _VerificationPageState extends State<VerificationPage> {
   @override
   void initState() {
     getProvince();
+    nameController.text = widget.name;
+    addressController.text = widget.address;
+    phoneController.text = widget.phone;
+    ageController.text = widget.age;
+    explanationController.text = widget.explanation;
     super.initState();
   }
   @override
@@ -150,10 +145,10 @@ class _VerificationPageState extends State<VerificationPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(widget.isAdmin ? 'Registrasi' : 'Verifikasi'),
+            const Text('Update'),
             const SizedBox(width: 10),
             Image.asset(
-              widget.isDisability ? 'assets/images/disability.png' : 'assets/images/prosthetic.png',
+              'assets/images/disability.png',
               scale: 25,
             )
           ],
@@ -167,9 +162,8 @@ class _VerificationPageState extends State<VerificationPage> {
             child: Column(
               children: [
                 CustomTextFormField(
-                  controller: nameController, title: widget.isDisability ? 'Nama' : 'Name Bengkel Prostetik', onTap: () => null,
+                  controller: nameController, title: 'Nama', onTap: () => null,
                 ),
-                widget.isDisability ?
                 Row(
                   children: [
                     Flexible(
@@ -185,33 +179,26 @@ class _VerificationPageState extends State<VerificationPage> {
                       ),
                     ),
                   ],
-                )
-                : CustomTextFormField(controller: phoneController, title: 'Nomor Telepon', onTap: () => null, isNumberField: true),
-                Visibility(
-                  visible: widget.isDisability,
-                  child: CustomDropDown(
-                    title: 'Disabilitas', 
-                    value: disabilityDdItem,
-                    onChanged: (value) {
-                      setState(() {
-                        disabilityDdItem = value.toString();
-                      });
-                    },
-                    items: disability.map<DropdownMenuItem<String>>((value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
+                ),
+                CustomDropDown(
+                  title: 'Disabilitas', 
+                  value: disabilityDdItem,
+                  onChanged: (value) {
+                    setState(() {
+                      disabilityDdItem = value.toString();
+                    });
+                  },
+                  items: disability.map<DropdownMenuItem<String>>((value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
                 ),
                 const SizedBox(height: 10),
-                Visibility(
-                  visible: widget.isDisability,
-                  child: CustomTextFormField(
-                    isText: true,
-                    controller: explanationController, title: 'Detail disabilitas', onTap: () => null,
-                  ),
+                CustomTextFormField(
+                  isText: true,
+                  controller: explanationController, title: 'Detail disabilitas', onTap: () => null,
                 ),
                 CustomTextFormField(
                   controller: addressController, title: 'Alamat', onTap: () => null,
@@ -271,8 +258,8 @@ class _VerificationPageState extends State<VerificationPage> {
                 const SizedBox(height: 20),
                 CustomButton(
                   isLoading: isLoading,
-                  onTap: vererification,
-                  title: widget.isAdmin ? 'Registrasi' : 'Verifikasi',
+                  onTap: updatedData,
+                  title: 'Update',
                 )
               ],
             ),

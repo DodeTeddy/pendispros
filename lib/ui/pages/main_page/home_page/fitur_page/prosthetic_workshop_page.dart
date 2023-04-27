@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:quickalert/quickalert.dart';
 import 'package:tugas_akhir_app/services/service.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_appbar.dart';
 
+import '../../../../../models/delete_dsandws_model.dart';
 import '../../../../shared/theme/constant.dart';
 import '../../../../shared/widgets/custom_container.dart';
 import '../../../../shared/widgets/profile_item.dart';
+import 'update_page/update_prosthetic_page.dart';
 
 class ProstheticWorkshopPage extends StatefulWidget {
   const ProstheticWorkshopPage({super.key});
@@ -15,14 +18,44 @@ class ProstheticWorkshopPage extends StatefulWidget {
 }
 
 class _ProstheticWorkshopPageState extends State<ProstheticWorkshopPage> {
+
+  void deleteData(int id)async{
+    DeleteDsAndWsModel deleteDsAndWsModel = await deleteProsthetic(id);
+    if (deleteDsAndWsModel.message == 'Delete Success!') {
+      setState(() {
+        Navigator.pop(context);
+      });
+      if(!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Berhasil menghapus Data'),
+            backgroundColor: Colors.green,
+            behavior: SnackBarBehavior.floating,
+          )
+        );
+    }else{
+      setState(() {
+        Navigator.pop(context);
+      });
+      if(!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Gagal menghapus Data'),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+        )
+      );
+    }
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
         child: Text('Data Bengkel Prostetik')
       ),
-      body: FutureBuilder(
-        future: getDataWorkshop(),
+      body: StreamBuilder(
+        stream: getDataWorkshop(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var getDataWs = snapshot.data;
@@ -105,6 +138,35 @@ class _ProstheticWorkshopPageState extends State<ProstheticWorkshopPage> {
                           )
                         ],
                       ),
+                    ),
+                    Column(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProstheticPage(
+                              id: getDataWs.data[index].id, 
+                              name: getDataWs.data[index].workshopName, 
+                              phone: getDataWs.data[index].phoneNumber, 
+                              address: getDataWs.data[index].address
+                            )));
+                          }, 
+                          icon: const Icon(Icons.edit, color: primaryColor, size: 25),
+                        ),
+                        IconButton(
+                          onPressed: () => QuickAlert.show(
+                            title: 'Apakah anda yakin?',
+                            context: context,
+                            type: QuickAlertType.confirm,
+                            confirmBtnText: 'Ya',
+                            onConfirmBtnTap: () => deleteData(getDataWs.data[index].id),
+                            cancelBtnText: 'Tidak',
+                            confirmBtnColor: primaryColor,
+                            customAsset: 'assets/images/get_started.png',
+                            backgroundColor: secondaryColor
+                          ),
+                          icon: const Icon(Icons.delete_outline_rounded, color: primaryColor, size: 30),
+                        )
+                      ],
                     )
                   ],
                 )
