@@ -94,15 +94,19 @@ class Province {
 class User {
     User({
         required this.email,
+        required this.username
     });
 
     String email;
+    String username;
 
     factory User.fromJson(Map<String, dynamic> json) => User(
         email: json["email"],
+        username: json["username"]
     );
 
     Map<String, dynamic> toJson() => {
         "email": email,
+        "username": username
     };
 }

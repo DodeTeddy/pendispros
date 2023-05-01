@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                 isWorkshop = true;
               }else if (profileData.verifiedAs == 'admin') {
                 headerTextVerified = 'Pendispros';
-                textVerified = 'Dashboard Admin';
+                textVerified = 'Beranda Admin';
                 isAdmin = true;
               }
             }

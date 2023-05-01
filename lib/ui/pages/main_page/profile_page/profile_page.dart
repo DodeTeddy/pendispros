@@ -93,7 +93,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                   const SizedBox(height: 10),
                                   ProfileItem(
-                                    icon: Icons.pending_actions, 
+                                    icon: Icons.check_circle_rounded, 
                                     text: profileData.verifiedAs == 'disability' ? 'Terverifikasi Disabilitas' : profileData.verifiedAs == 'prosthetic' ? 'Terverifikasi Bengkel Prostetik' : profileData.verifiedAs == 'admin' ? 'Admin' : 'Belum Terverifikasi',
                                     textColor: profileData.verifiedAs == 'disability' || profileData.verifiedAs == 'prosthetic' ? primaryColor : inActiveColor,
                                   )

@@ -147,8 +147,8 @@ class _DisabilityPageState extends State<DisabilityPage> {
                           ),
                           const SizedBox(height: 10),
                           ProfileItem(
-                            icon: Icons.email_rounded, 
-                            text: getDataDs.data[index].user.email
+                            icon: getDataDs.data[index].user.username == 'admin' ? Icons.check_circle_rounded : Icons.email_rounded, 
+                            text: getDataDs.data[index].user.username == 'admin' ? 'registrasi oleh admin' : getDataDs.data[index].user.email
                           ),
                           const SizedBox(height: 10),
                           ProfileItem(

@@ -203,12 +203,23 @@ class _CreateInformationPageState extends State<CreateInformationPage> {
                           ),
                           const SizedBox(width: 10),
                           Expanded(
-                            child: Text(
-                              information[index].titleInformation,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w600
-                              ),
-                            )
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  information[index].titleInformation,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w600
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 5),
+                                Text(
+                                  information[index].detailInformation,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
                           ),
                           Row(
                             children: [

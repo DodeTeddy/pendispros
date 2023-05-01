@@ -128,8 +128,8 @@ class _ProstheticWorkshopPageState extends State<ProstheticWorkshopPage> {
                           ),
                           const SizedBox(height: 10),
                           ProfileItem(
-                            icon: Icons.email_rounded, 
-                            text: getDataWs.data[index].user.email
+                            icon: getDataWs.data[index].user.username == 'admin' ? Icons.check_circle_rounded : Icons.email_rounded, 
+                            text: getDataWs.data[index].user.username == 'admin' ? 'registrasi oleh admin' : getDataWs.data[index].user.email
                           ),
                           const SizedBox(height: 10),
                           ProfileItem(
