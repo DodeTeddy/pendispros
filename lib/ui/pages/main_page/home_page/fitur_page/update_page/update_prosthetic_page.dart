@@ -105,7 +105,7 @@ class _UpdateProstheticPageState extends State<UpdateProstheticPage> {
           isLoading = false;
         });
         Navigator.pushNamedAndRemoveUntil(
-            context, '/prostheticworkshop', ModalRoute.withName('/main'));
+            context, '/prostheticworkshopadmin', ModalRoute.withName('/main'));
       } else {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

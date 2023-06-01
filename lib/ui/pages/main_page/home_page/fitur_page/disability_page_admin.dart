@@ -153,25 +153,15 @@ class _DisabilityPageAdminState extends State<DisabilityPageAdmin> {
                                   children: [
                                     IconButton(
                                       onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    UpdateDisabilityPage(
-                                                        id: getDataDs
-                                                            .data[index].id
-                                                            .toString(),
-                                                        name: getDataDs
-                                                            .data[index].name,
-                                                        age: getDataDs
-                                                            .data[index].age
-                                                            .toString(),
-                                                        phone: getDataDs
-                                                            .data[index]
-                                                            .phoneNumber,
-                                                        address: getDataDs
-                                                            .data[index]
-                                                            .address)));
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateDisabilityPage(
+                                          id: getDataDs.data[index].id.toString(), 
+                                          name: getDataDs.data[index].name, 
+                                          age: getDataDs.data[index].age.toString(), 
+                                          phone: getDataDs.data[index].phoneNumber, 
+                                          address: getDataDs.data[index].address,
+                                        )
+                                          )
+                                        );
                                       },
                                       icon: const Icon(Icons.edit,
                                           color: primaryColor, size: 25),

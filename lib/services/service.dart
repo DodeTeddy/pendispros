@@ -328,7 +328,10 @@ Future<UpadateDsAndWsModel> updateDisability(
     String phoneNumber,
     String age,
     String disability,
-    String explanation) async {
+    String jenisAmputasiKanan,
+    String jenisAmputasiKiri,
+    String jenisProstetik,
+  ) async {
   var prefs = await SharedPreferences.getInstance();
   var token = prefs.getString('token');
   var url = Uri.parse('$baseUrl/disability/update/$id');
@@ -342,7 +345,9 @@ Future<UpadateDsAndWsModel> updateDisability(
     'phone_number': phoneNumber,
     'age': age,
     'disability': disability,
-    'explanation': explanation
+    'jenis_amputasi_kiri': jenisAmputasiKiri,
+    'jenis_amputasi_kanan': jenisAmputasiKanan,
+    'jenis_prostetik': jenisProstetik
   };
 
   try {

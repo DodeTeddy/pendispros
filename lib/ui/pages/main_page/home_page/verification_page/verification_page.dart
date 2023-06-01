@@ -26,8 +26,7 @@ class _VerificationPageState extends State<VerificationPage> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController rightDisabilityController = TextEditingController();
   TextEditingController leftDisabilityController = TextEditingController();
-  TextEditingController prostheticDisabilityController =
-      TextEditingController();
+  TextEditingController prostheticDisabilityController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   ProvinceModel? provinceModel;
   CityModel? cityModel;

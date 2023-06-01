@@ -15,9 +15,6 @@ class UpdateDisabilityPage extends StatefulWidget {
   final String name;
   final String age;
   final String phone;
-  // final String jenisAmputasiKanan;
-  // final String jenisAmputasiKiri;
-  // final String jenisProstetik;
   final String address;
   const UpdateDisabilityPage(
       {super.key,
@@ -26,7 +23,6 @@ class UpdateDisabilityPage extends StatefulWidget {
       required this.age,
       required this.phone,
       required this.address, 
-      // required this.jenisAmputasiKanan, required this.jenisAmputasiKiri, required this.jenisProstetik
       });
 
   @override
@@ -37,12 +33,44 @@ class _UpdateDisabilityPageState extends State<UpdateDisabilityPage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController ageController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
-  TextEditingController explanationController = TextEditingController();
+  TextEditingController rightDisabilityController = TextEditingController();
+  TextEditingController leftDisabilityController = TextEditingController();
+  TextEditingController prostheticDisabilityController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   ProvinceModel? provinceModel;
   CityModel? cityModel;
   List disability = ['Tangan', 'Kaki'];
   String disabilityDdItem = 'Tangan';
+  List rightDisability = [
+    'Normal',
+    'Pangkal Bahu',
+    'Atas Siku',
+    'Bawah Siku',
+    'Pergelangan',
+    'Jari Telunjuk',
+    'Jari Tengah',
+    'Jari Manis'
+  ];
+  String rightDisabilityDdItem = 'Normal';
+  List leftDisability = [
+    'Normal',
+    'Pangkal Bahu',
+    'Atas Siku',
+    'Bawah Siku',
+    'Pergelangan',
+    'Jari Telunjuk',
+    'Jari Tengah',
+    'Jari Manis'
+  ];
+  String leftDisabilityDdItem = 'Normal';
+  List prostheticDisability = [
+    'Prostetik Pangkal Bahu',
+    'Prostetik Atas Siku',
+    'Prostetik Bawah Siku',
+    'Prostetik jari bersisa 2 ruas',
+    'Prostetik jari bersisa 1 ruas'
+  ];
+  String prostheticDisabilityDdItem = 'Prostetik Pangkal Bahu';
   List provinceName = [];
   List provinceId = [];
   String provinceDdItem = '';
@@ -105,7 +133,13 @@ class _UpdateDisabilityPageState extends State<UpdateDisabilityPage> {
           phoneController.text,
           ageController.text,
           disabilityDdItem,
-          explanationController.text);
+              disabilityDdItem == 'Tangan'
+                  ? leftDisabilityDdItem
+                  : leftDisabilityController.text,
+              disabilityDdItem == 'Tangan'
+                  ? rightDisabilityDdItem
+                  : rightDisabilityController.text,
+              prostheticDisabilityDdItem);
 
       if (upadateDsAndWsModel.message == 'Update Success!') {
         if (!mounted) return;
@@ -118,7 +152,7 @@ class _UpdateDisabilityPageState extends State<UpdateDisabilityPage> {
           isLoading = false;
         });
         Navigator.pushNamedAndRemoveUntil(
-            context, '/disability', ModalRoute.withName('/main'));
+            context, '/disabilityadmin', ModalRoute.withName('/main'));
       } else {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -209,12 +243,94 @@ class _UpdateDisabilityPageState extends State<UpdateDisabilityPage> {
                   }).toList(),
                 ),
                 const SizedBox(height: 10),
-                CustomTextFormField(
-                  isText: true,
-                  controller: explanationController,
-                  title: 'Detail disabilitas',
-                  onTap: () => null,
-                ),
+                disabilityDdItem == 'Tangan'
+                        ? Row(
+                            children: [
+                              Flexible(
+                                child: CustomDropDown(
+                                  title: 'Amputasi Kanan',
+                                  value: rightDisabilityDdItem,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      rightDisabilityDdItem = value;
+                                    });
+                                  },
+                                  items: rightDisability
+                                      .map<DropdownMenuItem<String>>((value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Flexible(
+                                child: CustomDropDown(
+                                  title: 'Amputasi Kiri',
+                                  value: leftDisabilityDdItem,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      leftDisabilityDdItem = value;
+                                    });
+                                  },
+                                  items: leftDisability
+                                      .map<DropdownMenuItem<String>>((value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(
+                                        value,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ],
+                          )
+                        : Row(
+                            children: [
+                              Expanded(
+                                child: CustomTextFormField(
+                                  controller: rightDisabilityController,
+                                  title: 'Amputasi Kanan',
+                                  onTap: () => null,
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: CustomTextFormField(
+                                  controller: leftDisabilityController,
+                                  title: 'Amputasi Kiri',
+                                  onTap: () => null,
+                                ),
+                              ),
+                            ],
+                          ),
+                if (disabilityDdItem == 'Tangan') const SizedBox(height: 10),
+                disabilityDdItem == 'Tangan'
+                    ? CustomDropDown(
+                        title: 'Jenis Prostetik Yang Dibutuhkan',
+                        value: prostheticDisabilityDdItem,
+                        onChanged: (value) {
+                          setState(() {
+                            prostheticDisabilityDdItem = value.toString();
+                          });
+                        },
+                        items: prostheticDisability
+                            .map<DropdownMenuItem<String>>((value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      )
+                    : CustomTextFormField(
+                        controller: prostheticDisabilityController,
+                        title: 'Jenis Prostetik Yang Dibutuhkan',
+                        onTap: () => null,
+                      ),
+                const SizedBox(height: 10),
                 CustomTextFormField(
                   controller: addressController,
                   title: 'Alamat',
