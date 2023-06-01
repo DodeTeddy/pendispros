@@ -1,21 +1,24 @@
 import 'dart:convert';
 
-UpadateDsAndWsModel upadateDsAndWsModelFromJson(String str) => UpadateDsAndWsModel.fromJson(json.decode(str));
+UpadateDsAndWsModel upadateDsAndWsModelFromJson(String str) =>
+    UpadateDsAndWsModel.fromJson(json.decode(str));
 
-String upadateDsAndWsModelToJson(UpadateDsAndWsModel data) => json.encode(data.toJson());
+String upadateDsAndWsModelToJson(UpadateDsAndWsModel data) =>
+    json.encode(data.toJson());
 
 class UpadateDsAndWsModel {
-    String message;
+  String message;
 
-    UpadateDsAndWsModel({
-        required this.message,
-    });
+  UpadateDsAndWsModel({
+    required this.message,
+  });
 
-    factory UpadateDsAndWsModel.fromJson(Map<String, dynamic> json) => UpadateDsAndWsModel(
+  factory UpadateDsAndWsModel.fromJson(Map<String, dynamic> json) =>
+      UpadateDsAndWsModel(
         message: json["message"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "message": message,
-    };
+      };
 }

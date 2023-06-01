@@ -4,7 +4,11 @@ class FiturIcon extends StatelessWidget {
   final Function() onTap;
   final String asset;
   final String title;
-  const FiturIcon({super.key, required this.onTap,required this.asset, required this.title});
+  const FiturIcon(
+      {super.key,
+      required this.onTap,
+      required this.asset,
+      required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +23,7 @@ class FiturIcon extends StatelessWidget {
               height: 50,
               width: 50,
               decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(asset)
-                )
-              ),
+                  image: DecorationImage(image: AssetImage(asset))),
             ),
             Text(
               title,

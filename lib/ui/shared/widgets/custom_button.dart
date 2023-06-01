@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:tugas_akhir_app/ui/shared/theme/constant.dart';
 
 class CustomButton extends StatelessWidget {
-  const CustomButton({super.key, required this.onTap, this.isLoading = false, this.title = 'Continue'});
-  
+  const CustomButton(
+      {super.key,
+      required this.onTap,
+      this.isLoading = false,
+      this.title = 'Continue'});
+
   final bool isLoading;
   final Function() onTap;
   final String title;
@@ -15,28 +19,20 @@ class CustomButton extends StatelessWidget {
       child: Container(
         height: 50,
         decoration: BoxDecoration(
-          color: primaryColor,
-          borderRadius: BorderRadius.circular(50),
-          boxShadow: const [
-            BoxShadow(
-              blurRadius: 4,
-              color: inActiveColor,
-              spreadRadius: 3
-            )
-          ]
-        ),
+            color: primaryColor,
+            borderRadius: BorderRadius.circular(50),
+            boxShadow: const [
+              BoxShadow(blurRadius: 4, color: inActiveColor, spreadRadius: 3)
+            ]),
         child: Center(
-          child: isLoading 
-          ? const CircularProgressIndicator(
-            color: Colors.white,
-          )
-          : Text(
-            title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 18
-            ),
-          ),
+          child: isLoading
+              ? const CircularProgressIndicator(
+                  color: Colors.white,
+                )
+              : Text(
+                  title,
+                  style: const TextStyle(color: Colors.white, fontSize: 18),
+                ),
         ),
       ),
     );

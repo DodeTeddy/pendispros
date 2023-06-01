@@ -13,28 +13,28 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
-  void pageCondition()async{
+  void pageCondition() async {
     final prefs = await SharedPreferences.getInstance();
     bool isNotFirst = prefs.getBool('isNotFirst') ?? false;
     bool isLogin = prefs.getBool('isLogin') ?? false;
     if (isNotFirst && !isLogin) {
-      Timer(const Duration(seconds: 2), () { 
+      Timer(const Duration(seconds: 2), () {
         Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
       });
-    }else if(isNotFirst && isLogin){
-      Timer(const Duration(seconds: 2), () { 
+    } else if (isNotFirst && isLogin) {
+      Timer(const Duration(seconds: 2), () {
         Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
       });
-    }else{
-      Timer(const Duration(seconds: 2), () { 
-        Navigator.pushNamedAndRemoveUntil(context, '/onboarding', (route) => false);
+    } else {
+      Timer(const Duration(seconds: 2), () {
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/onboarding', (route) => false);
       });
     }
   }
 
   @override
-  void initState(){
+  void initState() {
     pageCondition();
     super.initState();
   }
@@ -55,10 +55,9 @@ class _SplashScreenState extends State<SplashScreen> {
               Text(
                 appName,
                 style: TextStyle(
-                  fontFamily: GoogleFonts.cedarvilleCursive().fontFamily,
-                  fontSize: 40,
-                  color: primaryColor
-                ),
+                    fontFamily: GoogleFonts.cedarvilleCursive().fontFamily,
+                    fontSize: 40,
+                    color: primaryColor),
               )
             ],
           )

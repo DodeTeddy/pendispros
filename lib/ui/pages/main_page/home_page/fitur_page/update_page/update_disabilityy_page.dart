@@ -15,9 +15,19 @@ class UpdateDisabilityPage extends StatefulWidget {
   final String name;
   final String age;
   final String phone;
-  final String explanation;
+  // final String jenisAmputasiKanan;
+  // final String jenisAmputasiKiri;
+  // final String jenisProstetik;
   final String address;
-  const UpdateDisabilityPage ({super.key, required this.id, required this.name, required this.age, required this.phone, required this.explanation, required this.address});
+  const UpdateDisabilityPage(
+      {super.key,
+      required this.id,
+      required this.name,
+      required this.age,
+      required this.phone,
+      required this.address, 
+      // required this.jenisAmputasiKanan, required this.jenisAmputasiKiri, required this.jenisProstetik
+      });
 
   @override
   State<UpdateDisabilityPage> createState() => _UpdateDisabilityPageState();
@@ -48,7 +58,7 @@ class _UpdateDisabilityPageState extends State<UpdateDisabilityPage> {
     behavior: SnackBarBehavior.floating,
   );
 
-  Future getProvince()async{
+  Future getProvince() async {
     provinceModel = await province();
     var dataProvince = provinceModel!.data;
     for (var i = 0; i < dataProvince.length; i++) {
@@ -62,7 +72,7 @@ class _UpdateDisabilityPageState extends State<UpdateDisabilityPage> {
     }
   }
 
-  Future getCity(String idProvince)async{
+  Future getCity(String idProvince) async {
     cityName.clear();
     cityId.clear();
     cityModel = await city(idProvince);
@@ -78,48 +88,44 @@ class _UpdateDisabilityPageState extends State<UpdateDisabilityPage> {
     }
   }
 
-  void updatedData()async{
+  void updatedData() async {
     if (idProvince == 0) {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }else{
+    } else {
       setState(() {
         isLoading = true;
       });
 
       UpadateDsAndWsModel upadateDsAndWsModel = await updateDisability(
-        widget.id, 
-        idCity.toString(), 
-        idProvince.toString(), 
-        nameController.text, 
-        addressController.text, 
-        phoneController.text, 
-        ageController.text, 
-        disabilityDdItem, 
-        explanationController.text
-      );
+          widget.id,
+          idCity.toString(),
+          idProvince.toString(),
+          nameController.text,
+          addressController.text,
+          phoneController.text,
+          ageController.text,
+          disabilityDdItem,
+          explanationController.text);
 
-      if (upadateDsAndWsModel.message == 'Update Success!') {  
-        if(!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Update berhasil!'),
-            backgroundColor: Colors.green,
-            behavior: SnackBarBehavior.floating,
-          )
-        );
+      if (upadateDsAndWsModel.message == 'Update Success!') {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Update berhasil!'),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+        ));
         setState(() {
           isLoading = false;
         });
-        Navigator.pushNamedAndRemoveUntil(context, '/disability', ModalRoute.withName('/main'));
-      }else{
-        if(!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Update gagal!'),
-            backgroundColor: Colors.red,
-            behavior: SnackBarBehavior.floating,
-          )
-        );
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/disability', ModalRoute.withName('/main'));
+      } else {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Update gagal!'),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+        ));
         setState(() {
           isLoading = false;
         });
@@ -134,26 +140,25 @@ class _UpdateDisabilityPageState extends State<UpdateDisabilityPage> {
     addressController.text = widget.address;
     phoneController.text = widget.phone;
     ageController.text = widget.age;
-    explanationController.text = widget.explanation;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text('Update'),
-            const SizedBox(width: 10),
-            Image.asset(
-              'assets/images/disability.png',
-              scale: 25,
-            )
-          ],
-        )
-      ),
+          child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Text('Update'),
+          const SizedBox(width: 10),
+          Image.asset(
+            'assets/images/disability.png',
+            scale: 25,
+          )
+        ],
+      )),
       body: ListView(
         children: [
           CustomContainer(
@@ -162,26 +167,34 @@ class _UpdateDisabilityPageState extends State<UpdateDisabilityPage> {
             child: Column(
               children: [
                 CustomTextFormField(
-                  controller: nameController, title: 'Nama', onTap: () => null,
+                  controller: nameController,
+                  title: 'Nama',
+                  onTap: () => null,
                 ),
                 Row(
                   children: [
                     Flexible(
                       child: CustomTextFormField(
-                        controller: ageController, title: 'Umur', onTap: () => null, isNumberField: true,
+                        controller: ageController,
+                        title: 'Umur',
+                        onTap: () => null,
+                        isNumberField: true,
                       ),
                     ),
                     const SizedBox(width: 5),
                     Flexible(
                       flex: 4,
                       child: CustomTextFormField(
-                        controller: phoneController, title: 'Nomor Telepon', onTap: () => null, isNumberField: true,
+                        controller: phoneController,
+                        title: 'Nomor Telepon',
+                        onTap: () => null,
+                        isNumberField: true,
                       ),
                     ),
                   ],
                 ),
                 CustomDropDown(
-                  title: 'Disabilitas', 
+                  title: 'Disabilitas',
                   value: disabilityDdItem,
                   onChanged: (value) {
                     setState(() {
@@ -198,16 +211,20 @@ class _UpdateDisabilityPageState extends State<UpdateDisabilityPage> {
                 const SizedBox(height: 10),
                 CustomTextFormField(
                   isText: true,
-                  controller: explanationController, title: 'Detail disabilitas', onTap: () => null,
+                  controller: explanationController,
+                  title: 'Detail disabilitas',
+                  onTap: () => null,
                 ),
                 CustomTextFormField(
-                  controller: addressController, title: 'Alamat', onTap: () => null,
+                  controller: addressController,
+                  title: 'Alamat',
+                  onTap: () => null,
                 ),
                 Row(
                   children: [
                     Flexible(
                       child: CustomDropDown(
-                        title: 'Provinsi', 
+                        title: 'Provinsi',
                         value: provinceDdItem,
                         onChanged: (value) {
                           setState(() {
@@ -218,14 +235,15 @@ class _UpdateDisabilityPageState extends State<UpdateDisabilityPage> {
                               setState(() {
                                 getCity(idProvince.toString());
                               });
-                            }else{
+                            } else {
                               setState(() {
                                 getCity(idProvince.toString());
                               });
                             }
                           });
                         },
-                        items: provinceName.map<DropdownMenuItem<String>>((value) {
+                        items:
+                            provinceName.map<DropdownMenuItem<String>>((value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
@@ -236,7 +254,7 @@ class _UpdateDisabilityPageState extends State<UpdateDisabilityPage> {
                     const SizedBox(width: 10),
                     Flexible(
                       child: CustomDropDown(
-                        title: 'Kota/Kabupaten', 
+                        title: 'Kota/Kabupaten',
                         value: cityDdItem,
                         onChanged: (value) {
                           setState(() {
@@ -248,7 +266,10 @@ class _UpdateDisabilityPageState extends State<UpdateDisabilityPage> {
                         items: cityName.map<DropdownMenuItem<String>>((value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Text(value, overflow: TextOverflow.ellipsis,),
+                            child: Text(
+                              value,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           );
                         }).toList(),
                       ),

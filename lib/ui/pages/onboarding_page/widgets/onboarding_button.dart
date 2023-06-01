@@ -16,16 +16,11 @@ class OnboardingButton extends StatelessWidget {
           margin: const EdgeInsets.only(left: 20, right: 20, bottom: 60),
           height: 50,
           decoration: BoxDecoration(
-            color: primaryColor,
-            borderRadius: BorderRadius.circular(50),
-            boxShadow: const [
-              BoxShadow(
-                blurRadius: 4,
-                color: inActiveColor,
-                spreadRadius: 3
-              )
-            ]
-          ),
+              color: primaryColor,
+              borderRadius: BorderRadius.circular(50),
+              boxShadow: const [
+                BoxShadow(blurRadius: 4, color: inActiveColor, spreadRadius: 3)
+              ]),
           child: Center(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -33,10 +28,7 @@ class OnboardingButton extends StatelessWidget {
                 const SizedBox(width: 15),
                 Text(
                   title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18
-                  ),
+                  style: const TextStyle(color: Colors.white, fontSize: 18),
                 ),
                 const Icon(
                   Icons.arrow_forward,

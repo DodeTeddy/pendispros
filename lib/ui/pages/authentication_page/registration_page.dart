@@ -37,22 +37,25 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
 
-  void registration()async{
+  void registration() async {
     late SignUpModel signUpModel;
-    if (userCategory.isEmpty || _usernameController.text.isEmpty || _emailController.text.isEmpty || _passwordController.text.isEmpty) {
+    if (userCategory.isEmpty ||
+        _usernameController.text.isEmpty ||
+        _emailController.text.isEmpty ||
+        _passwordController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }else if (userCategory.isNotEmpty && _usernameController.text.isNotEmpty && _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty && _passwordController.text.length < 8) {
+    } else if (userCategory.isNotEmpty &&
+        _usernameController.text.isNotEmpty &&
+        _emailController.text.isNotEmpty &&
+        _passwordController.text.isNotEmpty &&
+        _passwordController.text.length < 8) {
       ScaffoldMessenger.of(context).showSnackBar(passSnackBar);
-    }else{
+    } else {
       setState(() {
         isLoading = true;
       });
-      signUpModel = await signUp(
-        userCategory, 
-        _usernameController.text, 
-        _emailController.text, 
-        _passwordController.text
-      );
+      signUpModel = await signUp(userCategory, _usernameController.text,
+          _emailController.text, _passwordController.text);
       if (signUpModel.message == 'Registration Success!') {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setBool('isNotFirst', true);
@@ -60,26 +63,27 @@ class _RegistrationPageState extends State<RegistrationPage> {
           isLoading = false;
         });
         if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Registrasi Berhasil!'),
-            backgroundColor: Colors.green,
-            behavior: SnackBarBehavior.floating,
-          )
-        );
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Registrasi Berhasil!'),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+        ));
         Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
-      }else if(signUpModel.message == 'Registration Failed!' && userCategory.isNotEmpty && _usernameController.text.isNotEmpty && _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty && _passwordController.text.length >= 8){
+      } else if (signUpModel.message == 'Registration Failed!' &&
+          userCategory.isNotEmpty &&
+          _usernameController.text.isNotEmpty &&
+          _emailController.text.isNotEmpty &&
+          _passwordController.text.isNotEmpty &&
+          _passwordController.text.length >= 8) {
         setState(() {
           isLoading = false;
         });
         if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(signUpModel.message),
-            backgroundColor: Colors.red,
-            behavior: SnackBarBehavior.floating,
-          )
-        );
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(signUpModel.message),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+        ));
       }
     }
   }
@@ -102,10 +106,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               const SizedBox(height: 20),
               const Text(
                 'Register',
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.w600
-                ),
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 20),
               CustomContainer(
@@ -113,7 +114,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 child: Column(
                   children: [
                     CustomDropDown(
-                      title: 'Kategori Pengguna', 
+                      title: 'Kategori Pengguna',
                       value: userCategory,
                       onChanged: (value) {
                         setState(() {
@@ -123,7 +124,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       items: category.map<DropdownMenuItem<String>>((value) {
                         return DropdownMenuItem<String>(
                           value: value,
-                          child: Text(value == 'disability' ? 'Disabilitas' : 'Bengkel Prostetik'),
+                          child: Text(value == 'disability'
+                              ? 'Disabilitas'
+                              : 'Bengkel Prostetik'),
                         );
                       }).toList(),
                     ),
@@ -163,7 +166,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 text: 'Sudah punya akun?',
                 textButton: 'Masuk',
                 onTap: () {
-                  Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/login', (route) => false);
                 },
               )
             ],

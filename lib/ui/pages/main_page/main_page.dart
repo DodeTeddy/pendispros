@@ -14,53 +14,49 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int index = 0;
-  Widget pages(int index){
+  Widget pages(int index) {
     if (index == 0) {
       return const HomePage();
-    }else if(index == 1){
+    } else if (index == 1) {
       return const NotificationPage();
-    }else{
+    } else {
       return const ProfilePage();
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: pages(index),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        children: [
-          CustomBottomNavigationBarItem(
+      bottomNavigationBar: CustomBottomNavigationBar(children: [
+        CustomBottomNavigationBarItem(
             onTap: () {
               setState(() {
                 index = 0;
               });
-            }, 
-            asset: 'home.svg', 
-            title: 'Beranda', 
-            isActive: index == 0
-          ),
-          CustomBottomNavigationBarItem(
+            },
+            asset: 'home.svg',
+            title: 'Beranda',
+            isActive: index == 0),
+        CustomBottomNavigationBarItem(
             onTap: () {
               setState(() {
                 index = 1;
               });
-            }, 
-            asset: 'notification.svg', 
-            title: 'Notifikasi', 
-            isActive: index == 1
-          ),
-          CustomBottomNavigationBarItem(
+            },
+            asset: 'notification.svg',
+            title: 'Notifikasi',
+            isActive: index == 1),
+        CustomBottomNavigationBarItem(
             onTap: () {
               setState(() {
                 index = 2;
               });
-            }, 
-            asset: 'profile.svg', 
-            title: 'Profil', 
-            isActive: index == 2
-          ),
-        ]
-      ),
+            },
+            asset: 'profile.svg',
+            title: 'Profil',
+            isActive: index == 2),
+      ]),
     );
   }
 }

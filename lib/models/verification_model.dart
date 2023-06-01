@@ -1,21 +1,24 @@
 import 'dart:convert';
 
-VerificationModel disabilityVerificationModelFromJson(String str) => VerificationModel.fromJson(json.decode(str));
+VerificationModel disabilityVerificationModelFromJson(String str) =>
+    VerificationModel.fromJson(json.decode(str));
 
-String disabilityVerificationModelToJson(VerificationModel data) => json.encode(data.toJson());
+String disabilityVerificationModelToJson(VerificationModel data) =>
+    json.encode(data.toJson());
 
 class VerificationModel {
-    VerificationModel({
-        required this.message,
-    });
+  VerificationModel({
+    required this.message,
+  });
 
-    String message;
+  String message;
 
-    factory VerificationModel.fromJson(Map<String, dynamic> json) => VerificationModel(
+  factory VerificationModel.fromJson(Map<String, dynamic> json) =>
+      VerificationModel(
         message: json["message"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "message": message,
-    };
+      };
 }

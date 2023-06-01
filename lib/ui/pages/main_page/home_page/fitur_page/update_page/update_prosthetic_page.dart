@@ -15,7 +15,12 @@ class UpdateProstheticPage extends StatefulWidget {
   final String name;
   final String phone;
   final String address;
-  const UpdateProstheticPage ({super.key, required this.id, required this.name, required this.phone, required this.address});
+  const UpdateProstheticPage(
+      {super.key,
+      required this.id,
+      required this.name,
+      required this.phone,
+      required this.address});
 
   @override
   State<UpdateProstheticPage> createState() => _UpdateProstheticPageState();
@@ -45,7 +50,7 @@ class _UpdateProstheticPageState extends State<UpdateProstheticPage> {
     behavior: SnackBarBehavior.floating,
   );
 
-  Future getProvince()async{
+  Future getProvince() async {
     provinceModel = await province();
     var dataProvince = provinceModel!.data;
     for (var i = 0; i < dataProvince.length; i++) {
@@ -59,7 +64,7 @@ class _UpdateProstheticPageState extends State<UpdateProstheticPage> {
     }
   }
 
-  Future getCity(String idProvince)async{
+  Future getCity(String idProvince) async {
     cityName.clear();
     cityId.clear();
     cityModel = await city(idProvince);
@@ -75,43 +80,39 @@ class _UpdateProstheticPageState extends State<UpdateProstheticPage> {
     }
   }
 
-  void updateData()async{
+  void updateData() async {
     if (idProvince == 0) {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }else{
+    } else {
       setState(() {
         isLoading = true;
       });
       UpadateDsAndWsModel verificationModel = await updateProsthetic(
-        widget.id.toString(), 
-        idCity.toString(), 
-        idProvince.toString(), 
-        nameController.text, 
-        addressController.text, 
-        phoneController.text
-      );
-      if (verificationModel.message == 'Update Success!') {  
-        if(!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Update berhasil!'),
-            backgroundColor: Colors.green,
-            behavior: SnackBarBehavior.floating,
-          )
-        );
+          widget.id.toString(),
+          idCity.toString(),
+          idProvince.toString(),
+          nameController.text,
+          addressController.text,
+          phoneController.text);
+      if (verificationModel.message == 'Update Success!') {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Update berhasil!'),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+        ));
         setState(() {
           isLoading = false;
         });
-        Navigator.pushNamedAndRemoveUntil(context, '/prostheticworkshop', ModalRoute.withName('/main'));
-      }else{
-        if(!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Update gagal!'),
-            backgroundColor: Colors.red,
-            behavior: SnackBarBehavior.floating,
-          )
-        );
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/prostheticworkshop', ModalRoute.withName('/main'));
+      } else {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Update gagal!'),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+        ));
         setState(() {
           isLoading = false;
         });
@@ -127,23 +128,23 @@ class _UpdateProstheticPageState extends State<UpdateProstheticPage> {
     addressController.text = widget.address;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text('Update'),
-            const SizedBox(width: 10),
-            Image.asset(
-              'assets/images/prosthetic.png',
-              scale: 25,
-            )
-          ],
-        )
-      ),
+          child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Text('Update'),
+          const SizedBox(width: 10),
+          Image.asset(
+            'assets/images/prosthetic.png',
+            scale: 25,
+          )
+        ],
+      )),
       body: ListView(
         children: [
           CustomContainer(
@@ -152,17 +153,25 @@ class _UpdateProstheticPageState extends State<UpdateProstheticPage> {
             child: Column(
               children: [
                 CustomTextFormField(
-                  controller: nameController, title: 'Name Bengkel Prostetik', onTap: () => null,
+                  controller: nameController,
+                  title: 'Name Bengkel Prostetik',
+                  onTap: () => null,
                 ),
-                CustomTextFormField(controller: phoneController, title: 'Nomor Telepon', onTap: () => null, isNumberField: true),
                 CustomTextFormField(
-                  controller: addressController, title: 'Alamat', onTap: () => null,
+                    controller: phoneController,
+                    title: 'Nomor Telepon',
+                    onTap: () => null,
+                    isNumberField: true),
+                CustomTextFormField(
+                  controller: addressController,
+                  title: 'Alamat',
+                  onTap: () => null,
                 ),
                 Row(
                   children: [
                     Flexible(
                       child: CustomDropDown(
-                        title: 'Provinsi', 
+                        title: 'Provinsi',
                         value: provinceDdItem,
                         onChanged: (value) {
                           setState(() {
@@ -173,14 +182,15 @@ class _UpdateProstheticPageState extends State<UpdateProstheticPage> {
                               setState(() {
                                 getCity(idProvince.toString());
                               });
-                            }else{
+                            } else {
                               setState(() {
                                 getCity(idProvince.toString());
                               });
                             }
                           });
                         },
-                        items: provinceName.map<DropdownMenuItem<String>>((value) {
+                        items:
+                            provinceName.map<DropdownMenuItem<String>>((value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
@@ -191,7 +201,7 @@ class _UpdateProstheticPageState extends State<UpdateProstheticPage> {
                     const SizedBox(width: 10),
                     Flexible(
                       child: CustomDropDown(
-                        title: 'Kota/Kabupaten', 
+                        title: 'Kota/Kabupaten',
                         value: cityDdItem,
                         onChanged: (value) {
                           setState(() {
@@ -203,7 +213,10 @@ class _UpdateProstheticPageState extends State<UpdateProstheticPage> {
                         items: cityName.map<DropdownMenuItem<String>>((value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Text(value, overflow: TextOverflow.ellipsis,),
+                            child: Text(
+                              value,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           );
                         }).toList(),
                       ),

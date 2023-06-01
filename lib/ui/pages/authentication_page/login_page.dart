@@ -33,22 +33,22 @@ class _LoginPageState extends State<LoginPage> {
     behavior: SnackBarBehavior.floating,
   );
 
-  void loginFunction()async{
+  void loginFunction() async {
     late LoginModel loginModel;
     if (_passwordController.text.isEmpty || _usernameController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    } else if(_passwordController.text.isEmpty && _usernameController.text.isEmpty){
+    } else if (_passwordController.text.isEmpty &&
+        _usernameController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }else if (_passwordController.text.length < 8 && _usernameController.text.isNotEmpty) {
+    } else if (_passwordController.text.length < 8 &&
+        _usernameController.text.isNotEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(passSnackBar);
-    }else{
+    } else {
       setState(() {
         isLoading = true;
       });
-      loginModel = await login(
-        _usernameController.text, 
-        _passwordController.text
-      );
+      loginModel =
+          await login(_usernameController.text, _passwordController.text);
       if (loginModel.message == 'Login success!') {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setBool('isLogin', true);
@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
         });
         if (!mounted) return;
         Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
-      }else if(loginModel.message == 'Login Failed!'){
+      } else if (loginModel.message == 'Login Failed!') {
         setState(() {
           isLoading = false;
         });
@@ -87,10 +87,7 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 20),
               const Text(
                 'Masuk',
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.w600
-                ),
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 20),
               CustomContainer(
@@ -127,7 +124,8 @@ class _LoginPageState extends State<LoginPage> {
                 text: 'Belum punya akun?',
                 textButton: 'Register',
                 onTap: () {
-                  Navigator.pushNamedAndRemoveUntil(context, '/registration', (route) => false);
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/registration', (route) => false);
                 },
               )
             ],

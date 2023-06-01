@@ -16,24 +16,16 @@ class ProfileHeader extends StatelessWidget {
           width: 55,
           padding: const EdgeInsets.all(10),
           decoration: const BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 3,
-                color: inActiveColor
-              )
-            ]
-          ),
+              color: Colors.white,
+              shape: BoxShape.circle,
+              boxShadow: [BoxShadow(blurRadius: 3, color: inActiveColor)]),
           child: SvgPicture.asset('assets/icons/profile.svg'),
         ),
         const SizedBox(width: 10),
         Expanded(
           child: Text(
             text,
-            style: const TextStyle(
-              fontSize: 18
-            ),
+            style: const TextStyle(fontSize: 18),
           ),
         )
       ],

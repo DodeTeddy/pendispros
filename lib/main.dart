@@ -3,7 +3,9 @@ import 'package:tugas_akhir_app/ui/pages/authentication_page/login_page.dart';
 import 'package:tugas_akhir_app/ui/pages/authentication_page/registration_page.dart';
 import 'package:tugas_akhir_app/ui/pages/main_page/home_page/fitur_page/create_information_page.dart';
 import 'package:tugas_akhir_app/ui/pages/main_page/home_page/fitur_page/disability_page.dart';
+import 'package:tugas_akhir_app/ui/pages/main_page/home_page/fitur_page/disability_page_admin.dart';
 import 'package:tugas_akhir_app/ui/pages/main_page/home_page/fitur_page/fitur_page.dart';
+import 'package:tugas_akhir_app/ui/pages/main_page/home_page/fitur_page/prosthetic_workshop_page_admin.dart';
 import 'package:tugas_akhir_app/ui/pages/main_page/main_page.dart';
 import 'package:tugas_akhir_app/ui/pages/main_page/profile_page/profile_detail_page/about_page.dart';
 import 'package:tugas_akhir_app/ui/pages/main_page/profile_page/profile_detail_page/faq_page.dart';
@@ -24,29 +26,29 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      builder: (context, child) => ResponsiveWrapper.builder(
-        child,
-        maxWidth: 1200,
-        minWidth: 380,
-        defaultScale: true,
-        breakpoints: [
-          const ResponsiveBreakpoint.resize(380, name: MOBILE),
-          const ResponsiveBreakpoint.autoScale(600, name: TABLET),
-        ]
-      ),
+      builder: (context, child) => ResponsiveWrapper.builder(child,
+          maxWidth: 1200,
+          minWidth: 380,
+          defaultScale: true,
+          breakpoints: [
+            const ResponsiveBreakpoint.resize(380, name: MOBILE),
+            const ResponsiveBreakpoint.autoScale(600, name: TABLET),
+          ]),
       theme: theme,
       routes: {
-        '/' :(context) => const SplashScreen(),
-        '/onboarding' :(context) => const OnboardingPage(),
-        '/login' :(context) => const LoginPage(),
-        '/registration' :(context) => const RegistrationPage(),
-        '/main' :(context) => const MainPage(),
-        '/prostheticworkshop' :(context) => const ProstheticWorkshopPage(),
-        '/disability' :(context) => const DisabilityPage(),
-        '/createinformation' :(context) => const CreateInformationPage(),
-        '/faq' :(context) => const FaqPage(),
-        '/about' :(context) => const AboutPage(),
-        '/blank' :(context) => const BlankPage(),
+        '/': (context) => const SplashScreen(),
+        '/onboarding': (context) => const OnboardingPage(),
+        '/login': (context) => const LoginPage(),
+        '/registration': (context) => const RegistrationPage(),
+        '/main': (context) => const MainPage(),
+        '/prostheticworkshop': (context) => const ProstheticWorkshopPage(),
+        '/prostheticworkshopadmin': (context) => const ProstheticWorkshopPageAdmin(),
+        '/disability': (context) => const DisabilityPage(),
+        '/disabilityadmin': (context) => const DisabilityPageAdmin(),
+        '/createinformation': (context) => const CreateInformationPage(),
+        '/faq': (context) => const FaqPage(),
+        '/about': (context) => const AboutPage(),
+        '/blank': (context) => const BlankPage(),
       },
     );
   }

@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:quickalert/quickalert.dart';
 import 'package:tugas_akhir_app/services/service.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_appbar.dart';
+
 import '../../../../../models/delete_dsandws_model.dart';
 import '../../../../shared/theme/constant.dart';
 import '../../../../shared/widgets/custom_container.dart';
 import '../../../../shared/widgets/profile_item.dart';
+import 'update_page/update_prosthetic_page.dart';
 
-class ProstheticWorkshopPage extends StatefulWidget {
-  const ProstheticWorkshopPage({super.key});
+class ProstheticWorkshopPageAdmin extends StatefulWidget {
+  const ProstheticWorkshopPageAdmin({super.key});
 
   @override
-  State<ProstheticWorkshopPage> createState() => _ProstheticWorkshopPageState();
+  State<ProstheticWorkshopPageAdmin> createState() => _ProstheticWorkshopPageAdminState();
 }
 
-class _ProstheticWorkshopPageState extends State<ProstheticWorkshopPage> {
+class _ProstheticWorkshopPageAdminState extends State<ProstheticWorkshopPageAdmin> {
   void deleteData(int id) async {
     DeleteDsAndWsModel deleteDsAndWsModel = await deleteProsthetic(id);
     if (deleteDsAndWsModel.message == 'Delete Success!') {
@@ -136,6 +139,50 @@ class _ProstheticWorkshopPageState extends State<ProstheticWorkshopPage> {
                                     ],
                                   ),
                                 ),
+                                if(getDataWs.data[index].user.username == 'admin') Column(
+                                  children: [
+                                    IconButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    UpdateProstheticPage(
+                                                        id: getDataWs
+                                                            .data[index].id,
+                                                        name: getDataWs
+                                                            .data[index]
+                                                            .workshopName,
+                                                        phone: getDataWs
+                                                            .data[index]
+                                                            .phoneNumber,
+                                                        address: getDataWs
+                                                            .data[index]
+                                                            .address)));
+                                      },
+                                      icon: const Icon(Icons.edit,
+                                          color: primaryColor, size: 25),
+                                    ),
+                                    IconButton(
+                                      onPressed: () => QuickAlert.show(
+                                          title: 'Apakah anda yakin?',
+                                          context: context,
+                                          type: QuickAlertType.confirm,
+                                          confirmBtnText: 'Ya',
+                                          onConfirmBtnTap: () => deleteData(
+                                              getDataWs.data[index].id),
+                                          cancelBtnText: 'Tidak',
+                                          confirmBtnColor: primaryColor,
+                                          customAsset:
+                                              'assets/images/get_started.png',
+                                          backgroundColor: secondaryColor),
+                                      icon: const Icon(
+                                          Icons.delete_outline_rounded,
+                                          color: primaryColor,
+                                          size: 30),
+                                    )
+                                  ],
+                                )
                               ],
                             )),
                       );

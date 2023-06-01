@@ -6,7 +6,11 @@ class ProfileItem extends StatelessWidget {
   final IconData icon;
   final String text;
   final Color textColor;
-  const ProfileItem({super.key, required this.icon, required this.text, this.textColor = primaryColor});
+  const ProfileItem(
+      {super.key,
+      required this.icon,
+      required this.text,
+      this.textColor = primaryColor});
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +25,7 @@ class ProfileItem extends StatelessWidget {
         Expanded(
           child: Text(
             text,
-            style: TextStyle(
-              fontSize: 15,
-              color: textColor
-            ),
+            style: TextStyle(fontSize: 15, color: textColor),
           ),
         )
       ],

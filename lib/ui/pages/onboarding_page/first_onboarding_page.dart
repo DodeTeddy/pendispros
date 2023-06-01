@@ -14,17 +14,12 @@ class FirstOnboardingPage extends StatelessWidget {
             children: [
               const Text(
                 'Mendata Diri Jadi Mudah',
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w600
-                ),
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 30),
               const Text(
                 'Sekarang penyandang disabilitas\ndapat lebih mudah mendata diri\nmelalui smartphone.',
-                style: TextStyle(
-                  fontSize: 16
-                ),
+                style: TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 50),
               Image.asset('assets/images/first_onboarding.png')

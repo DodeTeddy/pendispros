@@ -14,17 +14,12 @@ class ThirdOnboardingPage extends StatelessWidget {
             children: [
               const Text(
                 'Mendapatkan Layanan Informasi Lebih Mudah',
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w600
-                ),
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 30),
               const Text(
                 'Dengan mendaftarkan diri pada aplikasi ini\nanda akan lebih mudah mendapatkan informasi mengenai prostetik.',
-                style: TextStyle(
-                  fontSize: 16
-                ),
+                style: TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 50),
               Image.asset('assets/images/third_onboarding.png')

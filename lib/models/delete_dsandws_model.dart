@@ -1,21 +1,24 @@
 import 'dart:convert';
 
-DeleteDsAndWsModel deleteDsAndWsModelFromJson(String str) => DeleteDsAndWsModel.fromJson(json.decode(str));
+DeleteDsAndWsModel deleteDsAndWsModelFromJson(String str) =>
+    DeleteDsAndWsModel.fromJson(json.decode(str));
 
-String deleteDsAndWsModelToJson(DeleteDsAndWsModel data) => json.encode(data.toJson());
+String deleteDsAndWsModelToJson(DeleteDsAndWsModel data) =>
+    json.encode(data.toJson());
 
 class DeleteDsAndWsModel {
-    String message;
+  String message;
 
-    DeleteDsAndWsModel({
-        required this.message,
-    });
+  DeleteDsAndWsModel({
+    required this.message,
+  });
 
-    factory DeleteDsAndWsModel.fromJson(Map<String, dynamic> json) => DeleteDsAndWsModel(
+  factory DeleteDsAndWsModel.fromJson(Map<String, dynamic> json) =>
+      DeleteDsAndWsModel(
         message: json["message"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "message": message,
-    };
+      };
 }

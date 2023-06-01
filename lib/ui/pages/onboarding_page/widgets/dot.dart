@@ -14,9 +14,8 @@ class Dot extends StatelessWidget {
       height: 6,
       width: index == currentPage ? 10 : 6,
       decoration: BoxDecoration(
-        color: index == currentPage ? primaryColor : Colors.grey,
-        borderRadius: BorderRadius.circular(50)
-      ),
+          color: index == currentPage ? primaryColor : Colors.grey,
+          borderRadius: BorderRadius.circular(50)),
     );
   }
 }

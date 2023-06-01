@@ -19,17 +19,12 @@ class SecondOnboardingPage extends StatelessWidget {
               const SizedBox(height: 20),
               const Text(
                 'Daftarkan Bengkel Prostetik Anda',
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w600
-                ),
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 30),
               const Text(
                 'Daftarkan bengkel prostetik anda dan bantulah penyandang disabilitas.',
-                style: TextStyle(
-                  fontSize: 16
-                ),
+                style: TextStyle(fontSize: 16),
               ),
             ],
           ),

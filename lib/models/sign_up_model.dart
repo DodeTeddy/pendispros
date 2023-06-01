@@ -1,21 +1,22 @@
 import 'dart:convert';
 
-SignUpModel signUpModelFromJson(String str) => SignUpModel.fromJson(json.decode(str));
+SignUpModel signUpModelFromJson(String str) =>
+    SignUpModel.fromJson(json.decode(str));
 
 String signUpModelToJson(SignUpModel data) => json.encode(data.toJson());
 
 class SignUpModel {
-    SignUpModel({
-        required this.message,
-    });
+  SignUpModel({
+    required this.message,
+  });
 
-    factory SignUpModel.fromJson(Map<String, dynamic> json) => SignUpModel(
+  factory SignUpModel.fromJson(Map<String, dynamic> json) => SignUpModel(
         message: json["message"],
-    );
+      );
 
-    String message;
+  String message;
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "message": message,
-    };
+      };
 }

@@ -40,50 +40,56 @@ class _OnboardingPageState extends State<OnboardingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        alignment: Alignment.center,
-        children: [
-          PageView.builder(
-            controller: _pageController,
-            onPageChanged: (value) {
-              setState(() {
-                currentPage = value;
-              });
-            },
-            itemCount: pageView.length,
-            itemBuilder: (context, index) => pageView[index],
-          ),
-          Visibility(
+        body: Stack(
+      alignment: Alignment.center,
+      children: [
+        PageView.builder(
+          controller: _pageController,
+          onPageChanged: (value) {
+            setState(() {
+              currentPage = value;
+            });
+          },
+          itemCount: pageView.length,
+          itemBuilder: (context, index) => pageView[index],
+        ),
+        Visibility(
             visible: currentPage == 3,
             child: LoginTextButton(
               onTap: () {
-                Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/login', (route) => false);
               },
-            )
+            )),
+        OnboardingButton(
+          title: currentPage == 0
+              ? 'Mulai'
+              : currentPage == 3
+                  ? 'Buat akun'
+                  : 'Selanjutnya',
+          onTap: () {
+            if (currentPage != 3) {
+              _pageController.nextPage(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.ease);
+            } else {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/registration', (route) => false);
+            }
+          },
+        ),
+        Positioned(
+          bottom: 30,
+          child: Row(
+            children: List.generate(
+                pageView.length,
+                (index) => Dot(
+                      index: index,
+                      currentPage: currentPage,
+                    )),
           ),
-          OnboardingButton(
-            title: currentPage == 0 ? 'Mulai' : currentPage == 3 ? 'Buat akun' : 'Selanjutnya',
-            onTap: () {
-              if (currentPage != 3) {
-                _pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.ease);
-              }else{
-                Navigator.pushNamedAndRemoveUntil(context, '/registration', (route) => false);
-              }
-            },
-          ),
-          Positioned(
-            bottom: 30,
-            child: Row(
-              children: List.generate(
-                pageView.length, (index) => Dot(
-                  index: index,
-                  currentPage: currentPage,
-                )
-              ),
-            ),
-          )
-        ],
-      )
-    );
+        )
+      ],
+    ));
   }
 }
