@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tugas_akhir_app/services/service.dart';
+import 'package:tugas_akhir_app/ui/pages/main_page/home_page/fitur_page/disability_page_skeleton.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_appbar.dart';
 
 import '../../../../../models/delete_dsandws_model.dart';
@@ -152,11 +153,7 @@ class _DisabilityPageState extends State<DisabilityPage> {
                             )),
                       );
               }
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: primaryColor,
-                ),
-              );
+              return const DisabilityPageSkeleton();
             }));
   }
 }

@@ -4,6 +4,7 @@ import 'package:tugas_akhir_app/models/create_information_model.dart';
 import 'package:tugas_akhir_app/models/delete_information_model.dart';
 import 'package:tugas_akhir_app/models/update_information_model.dart';
 import 'package:tugas_akhir_app/services/service.dart';
+import 'package:tugas_akhir_app/ui/pages/main_page/home_page/fitur_page/create_information_page_skeleton.dart';
 import 'package:tugas_akhir_app/ui/shared/theme/constant.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_appbar.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_button.dart';
@@ -260,16 +261,7 @@ class _CreateInformationPageState extends State<CreateInformationPage> {
                     ),
                   );
                 } else {
-                  return const Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CircularProgressIndicator(
-                          color: primaryColor,
-                        ),
-                      ],
-                    ),
-                  );
+                  return const CreateInformationPageSkeleton();
                 }
               })
         ],
