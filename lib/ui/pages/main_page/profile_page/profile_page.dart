@@ -6,6 +6,7 @@ import 'package:tugas_akhir_app/models/logout_model.dart';
 import 'package:tugas_akhir_app/services/service.dart';
 import 'package:tugas_akhir_app/ui/pages/main_page/profile_page/profile_detail_page/edit_profile_page.dart';
 import 'package:tugas_akhir_app/ui/pages/main_page/profile_page/profile_detail_page/verification_status_detail_page.dart';
+import 'package:tugas_akhir_app/ui/pages/main_page/profile_page/profile_page_skeleton.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_container.dart';
 
 import '../../../shared/theme/constant.dart';
@@ -270,7 +271,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                           color: primaryColor,
                                           thickness: 1,
                                         ),
-                                    itemCount: profileTextItem.length)),
+                                    itemCount: profileTextItem.length
+                                  )
+                                ),
                           ),
                           const SizedBox(height: 20),
                           const Text(
@@ -306,11 +309,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 );
               }
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: primaryColor,
-                ),
-              );
+              return const ProfilePageSkeleton();
             }));
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tugas_akhir_app/services/service.dart';
+import 'package:tugas_akhir_app/ui/pages/main_page/home_page/home_page_skeleton.dart';
 import 'package:tugas_akhir_app/ui/shared/theme/constant.dart';
 
 import '../../../shared/widgets/custom_container.dart';
@@ -90,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                   SafeArea(
                     child: Column(
                       children: [
-                        Container(
+                        Padding(
                           padding: const EdgeInsets.only(
                               left: 12, right: 12, top: 12),
                           child: Column(
@@ -149,12 +150,14 @@ class _HomePageState extends State<HomePage> {
                               ),
                               const SizedBox(height: 20),
                               Visibility(
-                                  visible: isAdmin || isNotVerified,
-                                  child: FiturForAdminOrNotVer(
-                                      isAdmin: isAdmin,
-                                      isDisabilty: diisabilityNotVer,
-                                      isProsthetic: workshopNotVer,
-                                      isNotVerified: isNotVerified)),
+                                visible: isAdmin || isNotVerified,
+                                child: FiturForAdminOrNotVer(
+                                  isAdmin: isAdmin,
+                                  isDisabilty: diisabilityNotVer,
+                                  isProsthetic: workshopNotVer,
+                                  isNotVerified: isNotVerified
+                                )
+                              ),
                               Visibility(
                                   visible: isDisability,
                                   child: const FiturForDisability()),
@@ -222,11 +225,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               );
             }
-            return const Center(
-              child: CircularProgressIndicator(
-                color: primaryColor,
-              ),
-            );
+            return const HomePageSkeleton();
           }),
     );
   }
