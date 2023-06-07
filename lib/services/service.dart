@@ -21,7 +21,8 @@ import '../models/update_dsandws_model.dart';
 import '../models/update_information_model.dart';
 import '../models/verification_model.dart';
 
-var baseUrl = 'http://127.0.0.1:8888/api';
+// var baseUrl = 'http://127.0.0.1:8888/api'; //local
+var baseUrl = 'https://8d79-43-252-158-229.ngrok-free.app/api'; //ngrok
 var headerNoAuth = {'Accept': 'application/json'};
 
 Future<SignUpModel> signUp(
@@ -119,7 +120,7 @@ Future<CityModel> city(String provinceId) async {
   var header = {'Accept': 'application/json', 'Authorization': 'Bearer $token'};
   var params = {'province_id': provinceId};
   var queryParams = Uri(queryParameters: params);
-  var url = Uri.parse('$baseUrl/city/$queryParams');
+  var url = Uri.parse('$baseUrl/city$queryParams');
 
   try {
     var response = await http.get(
