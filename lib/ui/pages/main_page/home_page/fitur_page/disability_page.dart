@@ -7,6 +7,7 @@ import 'package:tugas_akhir_app/ui/shared/widgets/custom_appbar.dart';
 import '../../../../../models/delete_dsandws_model.dart';
 import '../../../../shared/theme/constant.dart';
 import '../../../../shared/widgets/custom_container.dart';
+import '../../../../shared/widgets/custom_text.dart';
 import '../../../../shared/widgets/profile_item.dart';
 
 class DisabilityPage extends StatefulWidget {
@@ -50,8 +51,8 @@ class _DisabilityPageState extends State<DisabilityPage> {
             stream: getDataDisability(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                var getDataDs = snapshot.data;
-                return getDataDs!.data.isEmpty
+                var getDataDs = snapshot.data!.data;
+                return getDataDs.data.isEmpty
                     ? Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -112,16 +113,21 @@ class _DisabilityPageState extends State<DisabilityPage> {
                                               fontWeight: FontWeight.w600),
                                           overflow: TextOverflow.ellipsis),
                                       const SizedBox(height: 5),
-                                      Text(
-                                          'Umur : ${getDataDs.data[index].age.toString()} Tahun',
-                                          style: const TextStyle(
-                                            fontSize: 15,
-                                          )),
-                                      Text(
-                                          'Disabilitas : ${getDataDs.data[index].disability}',
-                                          style: const TextStyle(
-                                            fontSize: 15,
-                                          )),
+                                      CustomText(
+                                        lable: 'Umur', value: '${getDataDs.data[index].age.toString()} Tahun'
+                                      ),
+                                      CustomText(
+                                        lable: 'Disabilitas', value: getDataDs.data[index].disability
+                                      ),
+                                      CustomText(
+                                        lable: 'Kanan', value: getDataDs.data[index].jenisAmputasiKanan
+                                      ),
+                                      CustomText(
+                                        lable: 'Kiri', value: getDataDs.data[index].jenisAmputasiKiri
+                                      ),
+                                      CustomText(
+                                        lable: 'Prostetik Dibutuhkan', value: getDataDs.data[index].jenisProstetik
+                                      ),
                                       const SizedBox(height: 10),
                                       ProfileItem(
                                           icon: Icons.call,

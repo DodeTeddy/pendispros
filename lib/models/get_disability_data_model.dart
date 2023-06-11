@@ -6,7 +6,7 @@ String getDisabilityDataModelToJson(GetDisabilityDataModel data) => json.encode(
 
 class GetDisabilityDataModel {
     String message;
-    List<Datum> data;
+    Data data;
 
     GetDisabilityDataModel({
         required this.message,
@@ -15,20 +15,37 @@ class GetDisabilityDataModel {
 
     factory GetDisabilityDataModel.fromJson(Map<String, dynamic> json) => GetDisabilityDataModel(
         message: json["message"],
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        data: Data.fromJson(json["data"]),
     );
 
     Map<String, dynamic> toJson() => {
         "message": message,
+        "data": data.toJson(),
+    };
+}
+
+class Data {
+    int currentPage;
+    List<Datum> data;
+
+    Data({
+        required this.currentPage,
+        required this.data,
+    });
+
+    factory Data.fromJson(Map<String, dynamic> json) => Data(
+        currentPage: json["current_page"],
+        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "current_page": currentPage,
         "data": List<dynamic>.from(data.map((x) => x.toJson())),
     };
 }
 
 class Datum {
     int id;
-    int userId;
-    int cityId;
-    int provinceId;
     String name;
     String address;
     String phoneNumber;
@@ -43,9 +60,6 @@ class Datum {
 
     Datum({
         required this.id,
-        required this.userId,
-        required this.cityId,
-        required this.provinceId,
         required this.name,
         required this.address,
         required this.phoneNumber,
@@ -61,9 +75,6 @@ class Datum {
 
     factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
-        userId: json["user_id"],
-        cityId: json["city_id"],
-        provinceId: json["province_id"],
         name: json["name"],
         address: json["address"],
         phoneNumber: json["phone_number"],
@@ -79,9 +90,6 @@ class Datum {
 
     Map<String, dynamic> toJson() => {
         "id": id,
-        "user_id": userId,
-        "city_id": cityId,
-        "province_id": provinceId,
         "name": name,
         "address": address,
         "phone_number": phoneNumber,
@@ -97,85 +105,61 @@ class Datum {
 }
 
 class City {
-    int id;
-    int provinceId;
     String name;
 
     City({
-        required this.id,
-        required this.provinceId,
         required this.name,
     });
 
     factory City.fromJson(Map<String, dynamic> json) => City(
-        id: json["id"],
-        provinceId: json["province_id"],
         name: json["name"],
     );
 
     Map<String, dynamic> toJson() => {
-        "id": id,
-        "province_id": provinceId,
         "name": name,
     };
 }
 
 class Province {
-    int id;
     String provinceName;
 
     Province({
-        required this.id,
         required this.provinceName,
     });
 
     factory Province.fromJson(Map<String, dynamic> json) => Province(
-        id: json["id"],
         provinceName: json["province_name"],
     );
 
     Map<String, dynamic> toJson() => {
-        "id": id,
         "province_name": provinceName,
     };
 }
 
 class User {
-    int id;
     String role;
     String verifiedAs;
     String email;
     String username;
-    DateTime createdAt;
-    DateTime updatedAt;
 
     User({
-        required this.id,
         required this.role,
         required this.verifiedAs,
         required this.email,
         required this.username,
-        required this.createdAt,
-        required this.updatedAt,
     });
 
     factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json["id"],
         role: json["role"],
         verifiedAs: json["verified_as"],
         email: json["email"],
         username: json["username"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
     );
 
     Map<String, dynamic> toJson() => {
-        "id": id,
         "role": role,
         "verified_as": verifiedAs,
         "email": email,
         "username": username,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
     };
 }

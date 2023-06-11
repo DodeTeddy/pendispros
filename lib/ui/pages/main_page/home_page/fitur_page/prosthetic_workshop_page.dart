@@ -49,8 +49,8 @@ class _ProstheticWorkshopPageState extends State<ProstheticWorkshopPage> {
             stream: getDataWorkshop(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                var getDataWs = snapshot.data;
-                return getDataWs!.data.isEmpty
+                var getDataWs = snapshot.data!.data;
+                return getDataWs.data.isEmpty
                     ? Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

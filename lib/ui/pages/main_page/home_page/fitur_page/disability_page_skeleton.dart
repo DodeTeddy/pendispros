@@ -22,12 +22,19 @@ class DisabilityPageSkeleton extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CustomShimmer(height: 15, width: 60),
-                  SizedBox(height: 5),
-                  CustomShimmer(height: 15, width: 50),
-                  SizedBox(height: 5),
-                  CustomShimmer(height: 15, width: 60),
+                  CustomShimmer(height: 15, width: 100),
                   SizedBox(height: 10),
+                  CustomShimmer(height: 15, width: 150),
+                  SizedBox(height: 5),
+                  CustomShimmer(height: 15, width: 150),
+                  SizedBox(height: 5),
+                  CustomShimmer(height: 15, width: 150),
+                  SizedBox(height: 5),
+                  CustomShimmer(height: 15, width: 150),
+                  SizedBox(height: 5),
+                  CustomShimmer(height: 15, width: 250),
+                  SizedBox(height: 10),
+                  
                   Row(
                     children: [
                       CustomShimmer(height: 20, width: 20),

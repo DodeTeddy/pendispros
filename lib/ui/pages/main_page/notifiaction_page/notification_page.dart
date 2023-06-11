@@ -24,7 +24,7 @@ class _NotificationPageState extends State<NotificationPage> {
             future: getNotification(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                var notification = snapshot.data!.data;
+                var notification = snapshot.data!.data.data;
                 return notification.isEmpty
                     ? Column(
                         mainAxisAlignment: MainAxisAlignment.center,
