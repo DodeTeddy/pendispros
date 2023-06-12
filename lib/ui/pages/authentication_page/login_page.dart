@@ -34,6 +34,7 @@ class _LoginPageState extends State<LoginPage> {
   );
 
   void loginFunction() async {
+    FocusScope.of(context).unfocus();
     late LoginModel loginModel;
     if (_passwordController.text.isEmpty || _usernameController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);

@@ -38,6 +38,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final TextEditingController _usernameController = TextEditingController();
 
   void registration() async {
+    FocusScope.of(context).unfocus();
     late SignUpModel signUpModel;
     if (userCategory.isEmpty ||
         _usernameController.text.isEmpty ||
