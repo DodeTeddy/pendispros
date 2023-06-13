@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:tugas_akhir_app/models/edit_profile_model.dart';
 import 'package:tugas_akhir_app/services/service.dart';
+import 'package:tugas_akhir_app/ui/pages/main_page/main_page.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_appbar.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_button.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_container.dart';
@@ -61,7 +62,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 backgroundColor: Colors.green,
                 behavior: SnackBarBehavior.floating,
               ));
-              Navigator.pushNamed(context, '/main');
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const MainPage(page: 2,)), (route) => false);
             }
           },
           cancelBtnText: 'Tidak',
@@ -84,7 +85,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: const CustomAppBar(child: Text('Edit Profile')),
-        body: Column(
+        body: ListView(
           children: [
             CustomContainer(
                 margin: const EdgeInsets.only(top: 20, left: 12, right: 12),

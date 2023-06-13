@@ -6,6 +6,7 @@ import 'package:tugas_akhir_app/ui/pages/main_page/home_page/fitur_page/prosthet
 
 import '../../../../../models/delete_dsandws_model.dart';
 import '../../../../shared/theme/constant.dart';
+import '../../../../shared/widgets/custom_appbar.dart';
 import '../../../../shared/widgets/custom_container.dart';
 import '../../../../shared/widgets/profile_item.dart';
 import 'update_page/update_prosthetic_page.dart';
@@ -46,26 +47,29 @@ class _ProstheticWorkshopPageAdminState extends State<ProstheticWorkshopPageAdmi
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        endDrawer: Drawer(),
-      appBar: AppBar(
-        backgroundColor: primaryColor,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(20),
-            bottomRight: Radius.circular(20)
-          )
-        ),
-        actions: [
-          Builder(
-            builder: (context) => IconButton(
-              icon: const Icon(Icons.filter_alt_outlined),
-              onPressed: () => Scaffold.of(context).openEndDrawer(),
-              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-            ),
-          ),
-        ],
-        title: const Text('Data Bengkel Prostetik'),
+      appBar: const CustomAppBar(
+        child: Text('Data Bengkel Prostetik')
       ),
+      //   endDrawer: Drawer(),
+      // appBar: AppBar(
+      //   backgroundColor: primaryColor,
+      //   shape: const RoundedRectangleBorder(
+      //     borderRadius: BorderRadius.only(
+      //       bottomLeft: Radius.circular(20),
+      //       bottomRight: Radius.circular(20)
+      //     )
+      //   ),
+      //   actions: [
+      //     Builder(
+      //       builder: (context) => IconButton(
+      //         icon: const Icon(Icons.filter_alt_outlined),
+      //         onPressed: () => Scaffold.of(context).openEndDrawer(),
+      //         tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+      //       ),
+      //     ),
+      //   ],
+      //   title: const Text('Data Bengkel Prostetik'),
+      // ),
         body: StreamBuilder(
             stream: getDataWorkshop(),
             builder: (context, snapshot) {

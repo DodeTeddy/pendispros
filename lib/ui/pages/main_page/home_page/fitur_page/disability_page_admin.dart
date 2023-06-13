@@ -4,6 +4,9 @@ import 'package:quickalert/quickalert.dart';
 import 'package:tugas_akhir_app/services/service.dart';
 import 'package:tugas_akhir_app/ui/pages/main_page/home_page/fitur_page/disability_page_skeleton.dart';
 import 'package:tugas_akhir_app/ui/pages/main_page/home_page/fitur_page/update_page/update_disabilityy_page.dart';
+import 'package:tugas_akhir_app/ui/shared/widgets/custom_appbar.dart';
+// import 'package:tugas_akhir_app/ui/shared/widgets/custom_button.dart';
+// import 'package:tugas_akhir_app/ui/shared/widgets/custom_drawer.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_text.dart';
 
 import '../../../../../models/delete_dsandws_model.dart';
@@ -43,30 +46,88 @@ class _DisabilityPageAdminState extends State<DisabilityPageAdmin> {
       ));
     }
   }
+  bool handPick = false;
+  bool footPick = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer: Drawer(),
-      appBar: AppBar(
-        backgroundColor: primaryColor,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(20),
-            bottomRight: Radius.circular(20)
-          )
-        ),
-        actions: [
-          Builder(
-            builder: (context) => IconButton(
-              icon: const Icon(Icons.filter_alt_outlined),
-              onPressed: () => Scaffold.of(context).openEndDrawer(),
-              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-            ),
-          ),
-        ],
-        title: const Text('Data Penyandang Disabilitas'),
+      appBar: const CustomAppBar(
+        child: Text('Data Penyandang Disabilitas')
       ),
+      // endDrawer: Drawer(
+      //   child: SafeArea(
+      //     child: Padding(
+      //       padding: const EdgeInsets.symmetric(horizontal: 10),
+      //       child: Column(
+      //         crossAxisAlignment: CrossAxisAlignment.start,
+      //         children: [
+      //           const Text(
+      //             'Disabilitas',
+      //             style: TextStyle(
+      //               fontSize: 20
+      //             ),
+      //           ),
+      //           const SizedBox(height: 10),
+      //           Row(
+      //             children: [
+      //               Expanded(
+      //                 child: CustomDrawer( 
+      //                   isPick: handPick,
+      //                   onTap: () {
+      //                     setState(() {
+      //                       handPick = !handPick;
+      //                       footPick = !handPick;
+      //                     });
+      //                   },
+      //                   text: 'Tangan'
+      //                 ),
+      //               ),
+      //               const SizedBox(width: 10),
+      //               Expanded(
+      //                 child: CustomDrawer(
+      //                   isPick: footPick,
+      //                   onTap: () {
+      //                     setState(() {
+      //                       footPick = !footPick;
+      //                       handPick = !footPick;
+      //                     });
+      //                   },
+      //                   text: 'Kaki'
+      //                 ),
+      //               ),
+      //             ],
+      //           ),
+      //           const SizedBox(height: 30),
+      //           CustomButton(
+      //             onTap: () {
+                    
+      //             },
+      //           )
+      //         ],
+      //       ),
+      //     ),
+      //   ),
+      // ),
+      // appBar: AppBar(
+      //   backgroundColor: primaryColor,
+      //   shape: const RoundedRectangleBorder(
+      //     borderRadius: BorderRadius.only(
+      //       bottomLeft: Radius.circular(20),
+      //       bottomRight: Radius.circular(20)
+      //     )
+      //   ),
+      //   actions: [
+      //     Builder(
+      //       builder: (context) => IconButton(
+      //         icon: const Icon(Icons.filter_alt_outlined),
+      //         onPressed: () => Scaffold.of(context).openEndDrawer(),
+      //         tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+      //       ),
+      //     ),
+      //   ],
+      //   title: const Text('Data Penyandang Disabilitas'),
+      // ),
       body: StreamBuilder(
         stream: getDataDisability(),
         builder: (context, snapshot) {

@@ -27,6 +27,7 @@ class _CreateInformationPageState extends State<CreateInformationPage> {
   bool isLoading = false;
 
   void addData() async {
+    FocusScope.of(context).unfocus();
     if (titleController.text.isEmpty || detailController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Kolom tidak boleh kosong'),
@@ -66,6 +67,7 @@ class _CreateInformationPageState extends State<CreateInformationPage> {
   }
 
   void updateData(int id) async {
+    FocusScope.of(context).unfocus();
     if (titleEditController.text.isEmpty || detailEditController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Kolom tidak boleh kosong'),

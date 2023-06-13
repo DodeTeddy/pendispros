@@ -6,7 +6,8 @@ import 'widgets/custom_bottom_navigation_bar.dart';
 import 'widgets/custom_bottom_navigation_bar_item.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({super.key});
+  final int page;
+  const MainPage({super.key, this.page = 0});
 
   @override
   State<MainPage> createState() => _MainPageState();
@@ -22,6 +23,12 @@ class _MainPageState extends State<MainPage> {
     } else {
       return const ProfilePage();
     }
+  }
+
+  @override
+  void initState() {
+    index = widget.page;
+    super.initState();
   }
 
   @override
