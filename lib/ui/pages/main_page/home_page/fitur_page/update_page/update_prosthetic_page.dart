@@ -45,7 +45,7 @@ class _UpdateProstheticPageState extends State<UpdateProstheticPage> {
   int idCity = 0;
   bool isLoading = false;
   final snackBar = const SnackBar(
-    content: Text('Kolom tidak boleh kosong'),
+    content: Text('Kota/Kabupaten tidak boleh kosong'),
     backgroundColor: Colors.red,
     behavior: SnackBarBehavior.floating,
   );

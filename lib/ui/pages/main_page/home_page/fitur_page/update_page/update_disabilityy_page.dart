@@ -16,6 +16,10 @@ class UpdateDisabilityPage extends StatefulWidget {
   final String age;
   final String phone;
   final String address;
+  final String disabilityDdItem;
+  final String rightDisabilityDdItem;
+  final String leftDisabilityDdItem;
+  final String prostheticDisabilityDdItem;
   const UpdateDisabilityPage(
       {super.key,
       required this.id,
@@ -23,6 +27,10 @@ class UpdateDisabilityPage extends StatefulWidget {
       required this.age,
       required this.phone,
       required this.address, 
+      required this.disabilityDdItem, 
+      required this.rightDisabilityDdItem, 
+      required this.leftDisabilityDdItem, 
+      required this.prostheticDisabilityDdItem, 
       });
 
   @override
@@ -174,6 +182,9 @@ class _UpdateDisabilityPageState extends State<UpdateDisabilityPage> {
     addressController.text = widget.address;
     phoneController.text = widget.phone;
     ageController.text = widget.age;
+    disabilityDdItem = widget.disabilityDdItem;
+    rightDisabilityDdItem = widget.rightDisabilityDdItem;
+    leftDisabilityDdItem = widget.leftDisabilityDdItem;
     super.initState();
   }
 

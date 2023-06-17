@@ -246,6 +246,10 @@ class _DisabilityPageAdminState extends State<DisabilityPageAdmin> {
                                   age: getDataDs.data[index].age.toString(), 
                                   phone: getDataDs.data[index].phoneNumber, 
                                   address: getDataDs.data[index].address,
+                                  disabilityDdItem: getDataDs.data[index].disability,
+                                  rightDisabilityDdItem: getDataDs.data[index].jenisAmputasiKanan,
+                                  leftDisabilityDdItem: getDataDs.data[index].jenisAmputasiKiri,
+                                  prostheticDisabilityDdItem: getDataDs.data[index].jenisProstetik,
                                 )
                                   )
                                 );
