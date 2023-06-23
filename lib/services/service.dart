@@ -22,7 +22,7 @@ import '../models/update_information_model.dart';
 import '../models/verification_model.dart';
 
 var baseUrl = 'http://127.0.0.1:8888/api'; //local
-// var baseUrl = 'https://ed5e-103-156-165-9.ngrok-free.app/api'; //ngrok
+// var baseUrl = 'https://26b4-43-252-158-229.ngrok-free.app/api'; //ngrok
 var headerNoAuth = {'Accept': 'application/json'};
 
 Future<SignUpModel> signUp(
@@ -321,18 +321,18 @@ Future<GetNotificationModel> getNotification() async {
 }
 
 Future<UpadateDsAndWsModel> updateDisability(
-    String id,
-    String cityId,
-    String provinceId,
-    String name,
-    String address,
-    String phoneNumber,
-    String age,
-    String disability,
-    String jenisAmputasiKanan,
-    String jenisAmputasiKiri,
-    String jenisProstetik,
-  ) async {
+  String id,
+  String cityId,
+  String provinceId,
+  String name,
+  String address,
+  String phoneNumber,
+  String age,
+  String disability,
+  String jenisAmputasiKanan,
+  String jenisAmputasiKiri,
+  String jenisProstetik,
+) async {
   var prefs = await SharedPreferences.getInstance();
   var token = prefs.getString('token');
   var url = Uri.parse('$baseUrl/disability/update/$id');
