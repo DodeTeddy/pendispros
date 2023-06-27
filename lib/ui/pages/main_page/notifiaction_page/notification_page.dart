@@ -19,7 +19,12 @@ class _NotificationPageState extends State<NotificationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const CustomAppBar(isBack: false, child: Text('Notifikasi')),
+        appBar: const CustomAppBar(
+          isBack: false,
+          child: Center(
+            child: Text('Notifikasi'),
+          ),
+        ),
         body: FutureBuilder(
             future: getNotification(),
             builder: (context, snapshot) {

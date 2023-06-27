@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tugas_akhir_app/models/get_disability_data_model.dart';
+// import 'package:tugas_akhir_app/models/get_disability_data_model.dart';
 import '../models/city_model.dart';
 import '../models/create_information_model.dart';
 import '../models/delete_dsandws_model.dart';
@@ -21,8 +21,8 @@ import '../models/update_dsandws_model.dart';
 import '../models/update_information_model.dart';
 import '../models/verification_model.dart';
 
-var baseUrl = 'http://127.0.0.1:8888/api'; //local
-// var baseUrl = 'https://26b4-43-252-158-229.ngrok-free.app/api'; //ngrok
+var baseUrl = 'http://192.168.1.101:8888/api'; //local
+// var baseUrl = 'https://eba9-103-156-165-15.ngrok-free.app/api'; //ngrok
 var headerNoAuth = {'Accept': 'application/json'};
 
 Future<SignUpModel> signUp(
@@ -230,19 +230,19 @@ Stream<GetWorkshopDataModel> getDataWorkshop() async* {
   }
 }
 
-Stream<GetDisabilityDataModel> getDataDisability() async* {
-  var prefs = await SharedPreferences.getInstance();
-  var token = prefs.getString('token');
-  var url = Uri.parse('$baseUrl/disability');
-  var header = {'Accept': 'application/json', 'Authorization': 'Bearer $token'};
+// Future<GetDisabilityDataModel> getDataDisability() async {
+//   var prefs = await SharedPreferences.getInstance();
+//   var token = prefs.getString('token');
+//   var url = Uri.parse('$baseUrl/disability');
+//   var header = {'Accept': 'application/json', 'Authorization': 'Bearer $token'};
 
-  try {
-    var response = await http.get(url, headers: header);
-    yield GetDisabilityDataModel.fromJson(jsonDecode(response.body));
-  } catch (e) {
-    rethrow;
-  }
-}
+//   try {
+//     var response = await http.get(url, headers: header);
+//     return GetDisabilityDataModel.fromJson(jsonDecode(response.body));
+//   } catch (e) {
+//     rethrow;
+//   }
+// }
 
 Future<CreateInformationModel> createInformation(
     String title, String detail) async {

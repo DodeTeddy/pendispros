@@ -45,29 +45,32 @@ class _ProstheticWorkshopPageState extends State<ProstheticWorkshopPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-        child: Text('Data Bengkel Prostetik')
-      ),
-      //   endDrawer: Drawer(),
-      // appBar: AppBar(
-      //   backgroundColor: primaryColor,
-      //   shape: const RoundedRectangleBorder(
-      //     borderRadius: BorderRadius.only(
-      //       bottomLeft: Radius.circular(20),
-      //       bottomRight: Radius.circular(20)
-      //     )
-      //   ),
-      //   actions: [
-      //     Builder(
-      //       builder: (context) => IconButton(
-      //         icon: const Icon(Icons.filter_alt_outlined),
-      //         onPressed: () => Scaffold.of(context).openEndDrawer(),
-      //         tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-      //       ),
-      //     ),
-      //   ],
-      //   title: const Text('Data Penyandang Disabilitas'),
-      // ),
+        appBar: const CustomAppBar(
+          child: Padding(
+            padding: EdgeInsets.only(left: 30),
+            child: Text('Data Bengkel Prostetik'),
+          ),
+        ),
+        //   endDrawer: Drawer(),
+        // appBar: AppBar(
+        //   backgroundColor: primaryColor,
+        //   shape: const RoundedRectangleBorder(
+        //     borderRadius: BorderRadius.only(
+        //       bottomLeft: Radius.circular(20),
+        //       bottomRight: Radius.circular(20)
+        //     )
+        //   ),
+        //   actions: [
+        //     Builder(
+        //       builder: (context) => IconButton(
+        //         icon: const Icon(Icons.filter_alt_outlined),
+        //         onPressed: () => Scaffold.of(context).openEndDrawer(),
+        //         tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+        //       ),
+        //     ),
+        //   ],
+        //   title: const Text('Data Penyandang Disabilitas'),
+        // ),
         body: StreamBuilder(
             stream: getDataWorkshop(),
             builder: (context, snapshot) {

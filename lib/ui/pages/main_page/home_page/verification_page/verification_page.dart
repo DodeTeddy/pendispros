@@ -26,7 +26,8 @@ class _VerificationPageState extends State<VerificationPage> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController rightDisabilityController = TextEditingController();
   TextEditingController leftDisabilityController = TextEditingController();
-  TextEditingController prostheticDisabilityController = TextEditingController();
+  TextEditingController prostheticDisabilityController =
+      TextEditingController();
   TextEditingController addressController = TextEditingController();
   ProvinceModel? provinceModel;
   CityModel? cityModel;
@@ -192,20 +193,22 @@ class _VerificationPageState extends State<VerificationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 60),
           child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(widget.isAdmin ? 'Registrasi' : 'Verifikasi'),
-          const SizedBox(width: 10),
-          Image.asset(
-            widget.isDisability
-                ? 'assets/images/disability.png'
-                : 'assets/images/prosthetic.png',
-            scale: 25,
-          )
-        ],
-      )),
+            children: [
+              Text(widget.isAdmin ? 'Registrasi' : 'Verifikasi'),
+              const SizedBox(width: 10),
+              Image.asset(
+                widget.isDisability
+                    ? 'assets/images/disability.png'
+                    : 'assets/images/prosthetic.png',
+                scale: 25,
+              )
+            ],
+          ),
+        ),
+      ),
       body: ListView(
         children: [
           CustomContainer(
@@ -246,7 +249,8 @@ class _VerificationPageState extends State<VerificationPage> {
                         controller: phoneController,
                         title: 'Nomor Telepon',
                         onTap: () => null,
-                        isNumberField: true),
+                        isNumberField: true,
+                      ),
                 Visibility(
                   visible: widget.isDisability,
                   child: CustomDropDown(
@@ -265,7 +269,7 @@ class _VerificationPageState extends State<VerificationPage> {
                     }).toList(),
                   ),
                 ),
-                const SizedBox(height: 10),
+                if (widget.isDisability) const SizedBox(height: 10),
                 Visibility(
                     visible: widget.isDisability,
                     child: disabilityDdItem == 'Tangan'
@@ -332,31 +336,35 @@ class _VerificationPageState extends State<VerificationPage> {
                               ),
                             ],
                           )),
-                if (disabilityDdItem == 'Tangan') const SizedBox(height: 10),
+                if (disabilityDdItem == 'Tangan' && widget.isDisability)
+                  const SizedBox(height: 10),
                 Visibility(
-                    visible: widget.isDisability,
-                    child: disabilityDdItem == 'Tangan'
-                        ? CustomDropDown(
-                            title: 'Jenis Prostetik Yang Dibutuhkan',
-                            value: prostheticDisabilityDdItem,
-                            onChanged: (value) {
-                              setState(() {
-                                prostheticDisabilityDdItem = value.toString();
-                              });
-                            },
-                            items: prostheticDisability
-                                .map<DropdownMenuItem<String>>((value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                          )
-                        : CustomTextFormField(
-                            controller: prostheticDisabilityController,
-                            title: 'Jenis Prostetik Yang Dibutuhkan',
-                            onTap: () => null,
-                          )),
+                  visible: widget.isDisability,
+                  child: disabilityDdItem == 'Tangan'
+                      ? CustomDropDown(
+                          title: 'Jenis Prostetik Yang Dibutuhkan',
+                          value: prostheticDisabilityDdItem,
+                          onChanged: (value) {
+                            setState(() {
+                              prostheticDisabilityDdItem = value.toString();
+                            });
+                          },
+                          items: prostheticDisability
+                              .map<DropdownMenuItem<String>>((value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        )
+                      : CustomTextFormField(
+                          controller: prostheticDisabilityController,
+                          title: 'Jenis Prostetik Yang Dibutuhkan',
+                          onTap: () => null,
+                        ),
+                ),
+                if (disabilityDdItem == 'Tangan' && widget.isDisability)
+                  const SizedBox(height: 10),
                 CustomTextFormField(
                   controller: addressController,
                   title: 'Alamat',
