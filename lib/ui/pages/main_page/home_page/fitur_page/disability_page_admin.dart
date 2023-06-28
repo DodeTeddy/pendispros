@@ -16,6 +16,7 @@ import '../../../../../models/delete_dsandws_model.dart';
 import '../../../../../models/get_disability_data_model.dart';
 import '../../../../shared/theme/constant.dart';
 import '../../../../shared/widgets/custom_container.dart';
+import '../../../../shared/widgets/custom_search.dart';
 import '../../../../shared/widgets/profile_item.dart';
 
 class DisabilityPageAdmin extends StatefulWidget {
@@ -55,12 +56,12 @@ class _DisabilityPageAdminState extends State<DisabilityPageAdmin> {
   bool footPick = false;
 
   List<Datum> listData = [];
-  late Future<List<Datum>> _future;
+  String searching = '';
 
-  Future<List<Datum>> getDataDisability() async {
+  Future<List<Datum>> getDataDisability(String search) async {
     var prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
-    var url = Uri.parse('$baseUrl/disability');
+    var url = Uri.parse('$baseUrl/disability?search=$search');
     var header = {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token'
@@ -70,17 +71,12 @@ class _DisabilityPageAdminState extends State<DisabilityPageAdmin> {
       var response = await http.get(url, headers: header);
       GetDisabilityDataModel getData =
           GetDisabilityDataModel.fromJson(jsonDecode(response.body));
+      listData.clear();
       listData.addAll(getData.data.data);
       return listData;
     } catch (e) {
       rethrow;
     }
-  }
-
-  @override
-  void initState() {
-    _future = getDataDisability();
-    super.initState();
   }
 
   @override
@@ -90,7 +86,7 @@ class _DisabilityPageAdminState extends State<DisabilityPageAdmin> {
         child: Text('Data Penyandang Disabilitas'),
       ),
       body: FutureBuilder(
-        future: _future,
+        future: getDataDisability(searching),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var getDataDs = snapshot.data!;
@@ -121,130 +117,155 @@ class _DisabilityPageAdminState extends State<DisabilityPageAdmin> {
                       )
                     ],
                   )
-                : ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: getDataDs.length,
-                    itemBuilder: (context, index) => CustomContainer(
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 5, horizontal: 12),
-                      padding: const EdgeInsets.all(12),
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 40,
-                            width: 40,
-                            decoration: const BoxDecoration(
-                              color: secondaryColor,
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  image:
-                                      AssetImage('assets/images/logo_app.png')),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  getDataDs[index].name.capitalize(),
-                                  style: const TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600),
-                                  overflow: TextOverflow.ellipsis,
+                : Stack(
+                    children: [
+                      ListView.builder(
+                        padding: const EdgeInsets.only(top: 60),
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: getDataDs.length,
+                        itemBuilder: (context, index) => CustomContainer(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 12),
+                          padding: const EdgeInsets.all(12),
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 40,
+                                width: 40,
+                                decoration: const BoxDecoration(
+                                  color: secondaryColor,
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      image: AssetImage(
+                                          'assets/images/logo_app.png')),
                                 ),
-                                const SizedBox(height: 5),
-                                CustomText(
-                                    lable: 'Umur',
-                                    value:
-                                        '${getDataDs[index].age.toString()} Tahun'),
-                                CustomText(
-                                    lable: 'Disabilitas',
-                                    value: getDataDs[index].disability),
-                                CustomText(
-                                    lable: 'Kanan',
-                                    value: getDataDs[index].jenisAmputasiKanan),
-                                CustomText(
-                                    lable: 'Kiri',
-                                    value: getDataDs[index].jenisAmputasiKiri),
-                                CustomText(
-                                    lable: 'Prostetik Dibutuhkan',
-                                    value: getDataDs[index].jenisProstetik),
-                                const SizedBox(height: 10),
-                                ProfileItem(
-                                    icon: Icons.call,
-                                    text: getDataDs[index].phoneNumber),
-                                const SizedBox(height: 10),
-                                ProfileItem(
-                                    icon: getDataDs[index].user.username ==
-                                            'admin'
-                                        ? Icons.check_circle_rounded
-                                        : Icons.email_rounded,
-                                    text: getDataDs[index].user.username ==
-                                            'admin'
-                                        ? 'registrasi oleh admin'
-                                        : getDataDs[index].user.email),
-                                const SizedBox(height: 10),
-                                ProfileItem(
-                                  icon: Icons.pin_drop_rounded,
-                                  text:
-                                      '${getDataDs[index].address}, ${getDataDs[index].city.name},\n${getDataDs[index].province.provinceName}-Indonesia',
-                                )
-                              ],
-                            ),
-                          ),
-                          if (getDataDs[index].user.username == 'admin')
-                            Column(
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            UpdateDisabilityPage(
-                                          id: getDataDs[index].id.toString(),
-                                          name: getDataDs[index].name,
-                                          age: getDataDs[index].age.toString(),
-                                          phone: getDataDs[index].phoneNumber,
-                                          address: getDataDs[index].address,
-                                          disabilityDdItem:
-                                              getDataDs[index].disability,
-                                          rightDisabilityDdItem:
-                                              getDataDs[index]
-                                                  .jenisAmputasiKanan,
-                                          leftDisabilityDdItem: getDataDs[index]
-                                              .jenisAmputasiKiri,
-                                          prostheticDisabilityDdItem:
-                                              getDataDs[index].jenisProstetik,
-                                        ),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      getDataDs[index].name.capitalize(),
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    const SizedBox(height: 5),
+                                    CustomText(
+                                        lable: 'Umur',
+                                        value:
+                                            '${getDataDs[index].age.toString()} Tahun'),
+                                    CustomText(
+                                        lable: 'Disabilitas',
+                                        value: getDataDs[index].disability),
+                                    CustomText(
+                                        lable: 'Kanan',
+                                        value: getDataDs[index]
+                                            .jenisAmputasiKanan),
+                                    CustomText(
+                                        lable: 'Kiri',
+                                        value:
+                                            getDataDs[index].jenisAmputasiKiri),
+                                    CustomText(
+                                        lable: 'Prostetik Dibutuhkan',
+                                        value: getDataDs[index].jenisProstetik),
+                                    const SizedBox(height: 10),
+                                    ProfileItem(
+                                        icon: Icons.call,
+                                        text: getDataDs[index].phoneNumber),
+                                    const SizedBox(height: 10),
+                                    ProfileItem(
+                                        icon: getDataDs[index].user.username ==
+                                                'admin'
+                                            ? Icons.check_circle_rounded
+                                            : Icons.email_rounded,
+                                        text: getDataDs[index].user.username ==
+                                                'admin'
+                                            ? 'registrasi oleh admin'
+                                            : getDataDs[index].user.email),
+                                    const SizedBox(height: 10),
+                                    ProfileItem(
+                                      icon: Icons.pin_drop_rounded,
+                                      text:
+                                          '${getDataDs[index].address}, ${getDataDs[index].city.name},\n${getDataDs[index].province.provinceName}-Indonesia',
+                                    )
+                                  ],
+                                ),
+                              ),
+                              if (getDataDs[index].user.username == 'admin')
+                                Column(
+                                  children: [
+                                    IconButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                UpdateDisabilityPage(
+                                              id: getDataDs[index]
+                                                  .id
+                                                  .toString(),
+                                              name: getDataDs[index].name,
+                                              age: getDataDs[index]
+                                                  .age
+                                                  .toString(),
+                                              phone:
+                                                  getDataDs[index].phoneNumber,
+                                              address: getDataDs[index].address,
+                                              disabilityDdItem:
+                                                  getDataDs[index].disability,
+                                              rightDisabilityDdItem:
+                                                  getDataDs[index]
+                                                      .jenisAmputasiKanan,
+                                              leftDisabilityDdItem:
+                                                  getDataDs[index]
+                                                      .jenisAmputasiKiri,
+                                              prostheticDisabilityDdItem:
+                                                  getDataDs[index]
+                                                      .jenisProstetik,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      icon: const Icon(Icons.edit,
+                                          color: primaryColor, size: 25),
+                                    ),
+                                    IconButton(
+                                      onPressed: () => QuickAlert.show(
+                                          title: 'Apakah anda yakin?',
+                                          context: context,
+                                          type: QuickAlertType.confirm,
+                                          confirmBtnText: 'Ya',
+                                          onConfirmBtnTap: () =>
+                                              deleteData(getDataDs[index].id),
+                                          cancelBtnText: 'Tidak',
+                                          confirmBtnColor: primaryColor,
+                                          customAsset:
+                                              'assets/images/get_started.png',
+                                          backgroundColor: secondaryColor),
+                                      icon: const Icon(
+                                        Icons.delete_outline_rounded,
+                                        color: primaryColor,
+                                        size: 30,
                                       ),
-                                    );
-                                  },
-                                  icon: const Icon(Icons.edit,
-                                      color: primaryColor, size: 25),
-                                ),
-                                IconButton(
-                                  onPressed: () => QuickAlert.show(
-                                      title: 'Apakah anda yakin?',
-                                      context: context,
-                                      type: QuickAlertType.confirm,
-                                      confirmBtnText: 'Ya',
-                                      onConfirmBtnTap: () =>
-                                          deleteData(getDataDs[index].id),
-                                      cancelBtnText: 'Tidak',
-                                      confirmBtnColor: primaryColor,
-                                      customAsset:
-                                          'assets/images/get_started.png',
-                                      backgroundColor: secondaryColor),
-                                  icon: const Icon(Icons.delete_outline_rounded,
-                                      color: primaryColor, size: 30),
+                                    )
+                                  ],
                                 )
-                              ],
-                            )
-                        ],
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
+                      CustomSearch(
+                        onFieldSubmitted: (value) {
+                          searching = value;
+                          setState(() {
+                            getDataDisability(searching);
+                          });
+                        },
+                      )
+                    ],
                   );
           }
           return const DisabilityPageSkeleton();

@@ -10,7 +10,7 @@ import '../models/delete_information_model.dart';
 import '../models/edit_profile_model.dart';
 import '../models/get_information_model.dart';
 import '../models/get_notification_model.dart';
-import '../models/get_workshop_data_model.dart';
+// import '../models/get_workshop_data_model.dart';
 import '../models/logout_model.dart';
 import '../models/profile_detail_model.dart';
 import '../models/profile_model.dart';
@@ -216,19 +216,19 @@ Future<EditProfileModel> editProfile(
   }
 }
 
-Stream<GetWorkshopDataModel> getDataWorkshop() async* {
-  var prefs = await SharedPreferences.getInstance();
-  var token = prefs.getString('token');
-  var url = Uri.parse('$baseUrl/workshop');
-  var header = {'Accept': 'application/json', 'Authorization': 'Bearer $token'};
+// Stream<GetWorkshopDataModel> getDataWorkshop() async* {
+//   var prefs = await SharedPreferences.getInstance();
+//   var token = prefs.getString('token');
+//   var url = Uri.parse('$baseUrl/workshop');
+//   var header = {'Accept': 'application/json', 'Authorization': 'Bearer $token'};
 
-  try {
-    var response = await http.get(url, headers: header);
-    yield GetWorkshopDataModel.fromJson(jsonDecode(response.body));
-  } catch (e) {
-    rethrow;
-  }
-}
+//   try {
+//     var response = await http.get(url, headers: header);
+//     yield GetWorkshopDataModel.fromJson(jsonDecode(response.body));
+//   } catch (e) {
+//     rethrow;
+//   }
+// }
 
 // Future<GetDisabilityDataModel> getDataDisability() async {
 //   var prefs = await SharedPreferences.getInstance();

@@ -1,13 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quickalert/quickalert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tugas_akhir_app/services/service.dart';
 import 'package:tugas_akhir_app/ui/pages/main_page/home_page/fitur_page/prosthetic_workshop_page_skeleton.dart';
-
+import 'package:http/http.dart' as http;
 import '../../../../../models/delete_dsandws_model.dart';
+import '../../../../../models/get_workshop_data_model.dart';
 import '../../../../shared/theme/constant.dart';
 import '../../../../shared/widgets/custom_appbar.dart';
 import '../../../../shared/widgets/custom_container.dart';
+import '../../../../shared/widgets/custom_search.dart';
 import '../../../../shared/widgets/profile_item.dart';
 import 'update_page/update_prosthetic_page.dart';
 
@@ -46,6 +51,30 @@ class _ProstheticWorkshopPageAdminState
     }
   }
 
+  List<Datum> listData = [];
+  String searching = '';
+
+  Future<List<Datum>> getDataWorkshop(String search) async {
+    var prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+    var url = Uri.parse('$baseUrl/workshop?search=$search');
+    var header = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+
+    try {
+      var response = await http.get(url, headers: header);
+      GetWorkshopDataModel getData =
+          GetWorkshopDataModel.fromJson(jsonDecode(response.body));
+      listData.clear();
+      listData.addAll(getData.data.data);
+      return listData;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,32 +84,12 @@ class _ProstheticWorkshopPageAdminState
           child: Text('Data Bengkel Prostetik'),
         ),
       ),
-      //   endDrawer: Drawer(),
-      // appBar: AppBar(
-      //   backgroundColor: primaryColor,
-      //   shape: const RoundedRectangleBorder(
-      //     borderRadius: BorderRadius.only(
-      //       bottomLeft: Radius.circular(20),
-      //       bottomRight: Radius.circular(20)
-      //     )
-      //   ),
-      //   actions: [
-      //     Builder(
-      //       builder: (context) => IconButton(
-      //         icon: const Icon(Icons.filter_alt_outlined),
-      //         onPressed: () => Scaffold.of(context).openEndDrawer(),
-      //         tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-      //       ),
-      //     ),
-      //   ],
-      //   title: const Text('Data Bengkel Prostetik'),
-      // ),
-      body: StreamBuilder(
-        stream: getDataWorkshop(),
+      body: FutureBuilder(
+        future: getDataWorkshop(searching),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            var getDataWs = snapshot.data!.data;
-            return getDataWs.data.isEmpty
+            var getDataWs = snapshot.data!;
+            return getDataWs.isEmpty
                 ? Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -107,106 +116,121 @@ class _ProstheticWorkshopPageAdminState
                       )
                     ],
                   )
-                : ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: getDataWs.data.length,
-                    itemBuilder: (context, index) => CustomContainer(
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 5, horizontal: 12),
-                      padding: const EdgeInsets.all(12),
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 40,
-                            width: 40,
-                            decoration: const BoxDecoration(
-                              color: secondaryColor,
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  image:
-                                      AssetImage('assets/images/logo_app.png')),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                    getDataWs.data[index].workshopName
-                                        .capitalize(),
-                                    style: const TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600),
-                                    overflow: TextOverflow.ellipsis),
-                                const SizedBox(height: 10),
-                                ProfileItem(
-                                    icon: Icons.call,
-                                    text: getDataWs.data[index].phoneNumber),
-                                const SizedBox(height: 10),
-                                ProfileItem(
-                                    icon: getDataWs.data[index].user.username ==
-                                            'admin'
-                                        ? Icons.check_circle_rounded
-                                        : Icons.email_rounded,
-                                    text: getDataWs.data[index].user.username ==
-                                            'admin'
-                                        ? 'registrasi oleh admin'
-                                        : getDataWs.data[index].user.email),
-                                const SizedBox(height: 10),
-                                ProfileItem(
-                                  icon: Icons.pin_drop_rounded,
-                                  text:
-                                      '${getDataWs.data[index].address}, ${getDataWs.data[index].city.name},\n${getDataWs.data[index].province.provinceName}-Indonesia',
-                                )
-                              ],
-                            ),
-                          ),
-                          if (getDataWs.data[index].user.username == 'admin')
-                            Column(
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            UpdateProstheticPage(
-                                          id: getDataWs.data[index].id,
-                                          name: getDataWs
-                                              .data[index].workshopName,
-                                          phone:
-                                              getDataWs.data[index].phoneNumber,
-                                          address:
-                                              getDataWs.data[index].address,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  icon: const Icon(Icons.edit,
-                                      color: primaryColor, size: 25),
+                : Stack(
+                    children: [
+                      ListView.builder(
+                        padding: const EdgeInsets.only(top: 60),
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: getDataWs.length,
+                        itemBuilder: (context, index) => CustomContainer(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 12),
+                          padding: const EdgeInsets.all(12),
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 40,
+                                width: 40,
+                                decoration: const BoxDecoration(
+                                  color: secondaryColor,
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      image: AssetImage(
+                                          'assets/images/logo_app.png')),
                                 ),
-                                IconButton(
-                                  onPressed: () => QuickAlert.show(
-                                      title: 'Apakah anda yakin?',
-                                      context: context,
-                                      type: QuickAlertType.confirm,
-                                      confirmBtnText: 'Ya',
-                                      onConfirmBtnTap: () =>
-                                          deleteData(getDataWs.data[index].id),
-                                      cancelBtnText: 'Tidak',
-                                      confirmBtnColor: primaryColor,
-                                      customAsset:
-                                          'assets/images/get_started.png',
-                                      backgroundColor: secondaryColor),
-                                  icon: const Icon(Icons.delete_outline_rounded,
-                                      color: primaryColor, size: 30),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                        getDataWs[index]
+                                            .workshopName
+                                            .capitalize(),
+                                        style: const TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600),
+                                        overflow: TextOverflow.ellipsis),
+                                    const SizedBox(height: 10),
+                                    ProfileItem(
+                                        icon: Icons.call,
+                                        text: getDataWs[index].phoneNumber),
+                                    const SizedBox(height: 10),
+                                    ProfileItem(
+                                        icon: getDataWs[index].user.username ==
+                                                'admin'
+                                            ? Icons.check_circle_rounded
+                                            : Icons.email_rounded,
+                                        text: getDataWs[index].user.username ==
+                                                'admin'
+                                            ? 'registrasi oleh admin'
+                                            : getDataWs[index].user.email),
+                                    const SizedBox(height: 10),
+                                    ProfileItem(
+                                      icon: Icons.pin_drop_rounded,
+                                      text:
+                                          '${getDataWs[index].address}, ${getDataWs[index].city.name},\n${getDataWs[index].province.provinceName}-Indonesia',
+                                    )
+                                  ],
+                                ),
+                              ),
+                              if (getDataWs[index].user.username == 'admin')
+                                Column(
+                                  children: [
+                                    IconButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                UpdateProstheticPage(
+                                              id: getDataWs[index].id,
+                                              name:
+                                                  getDataWs[index].workshopName,
+                                              phone:
+                                                  getDataWs[index].phoneNumber,
+                                              address: getDataWs[index].address,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      icon: const Icon(Icons.edit,
+                                          color: primaryColor, size: 25),
+                                    ),
+                                    IconButton(
+                                      onPressed: () => QuickAlert.show(
+                                          title: 'Apakah anda yakin?',
+                                          context: context,
+                                          type: QuickAlertType.confirm,
+                                          confirmBtnText: 'Ya',
+                                          onConfirmBtnTap: () =>
+                                              deleteData(getDataWs[index].id),
+                                          cancelBtnText: 'Tidak',
+                                          confirmBtnColor: primaryColor,
+                                          customAsset:
+                                              'assets/images/get_started.png',
+                                          backgroundColor: secondaryColor),
+                                      icon: const Icon(
+                                          Icons.delete_outline_rounded,
+                                          color: primaryColor,
+                                          size: 30),
+                                    )
+                                  ],
                                 )
-                              ],
-                            )
-                        ],
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
+                      CustomSearch(
+                        onFieldSubmitted: (value) {
+                          searching = value;
+                          setState(() {
+                            getDataWorkshop(searching);
+                          });
+                        },
+                      )
+                    ],
                   );
           }
           return const ProstheticWorkshopPageSkeleton();
@@ -215,3 +239,24 @@ class _ProstheticWorkshopPageAdminState
     );
   }
 }
+
+      //   endDrawer: Drawer(),
+      // appBar: AppBar(
+      //   backgroundColor: primaryColor,
+      //   shape: const RoundedRectangleBorder(
+      //     borderRadius: BorderRadius.only(
+      //       bottomLeft: Radius.circular(20),
+      //       bottomRight: Radius.circular(20)
+      //     )
+      //   ),
+      //   actions: [
+      //     Builder(
+      //       builder: (context) => IconButton(
+      //         icon: const Icon(Icons.filter_alt_outlined),
+      //         onPressed: () => Scaffold.of(context).openEndDrawer(),
+      //         tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+      //       ),
+      //     ),
+      //   ],
+      //   title: const Text('Data Bengkel Prostetik'),
+      // ),
