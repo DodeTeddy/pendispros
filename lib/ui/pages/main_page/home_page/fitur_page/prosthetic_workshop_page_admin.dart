@@ -89,149 +89,150 @@ class _ProstheticWorkshopPageAdminState
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var getDataWs = snapshot.data!;
-            return getDataWs.isEmpty
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+            return Stack(
+              children: [
+                if (getDataWs.isEmpty)
+                  Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/logo_app.png',
-                            scale: 8,
-                          ),
-                          Text(
-                            appName,
-                            style: TextStyle(
-                                fontFamily:
-                                    GoogleFonts.cedarvilleCursive().fontFamily,
-                                fontSize: 40,
-                                color: primaryColor),
-                          )
-                        ],
-                      ),
-                      const Text(
-                        'Tidak ada data!',
-                        style: TextStyle(fontSize: 20, color: primaryColor),
-                      )
-                    ],
-                  )
-                : Stack(
-                    children: [
-                      ListView.builder(
-                        padding: const EdgeInsets.only(top: 60),
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: getDataWs.length,
-                        itemBuilder: (context, index) => CustomContainer(
-                          margin: const EdgeInsets.symmetric(
-                              vertical: 5, horizontal: 12),
-                          padding: const EdgeInsets.all(12),
-                          child: Row(
-                            children: [
-                              Container(
-                                height: 40,
-                                width: 40,
-                                decoration: const BoxDecoration(
-                                  color: secondaryColor,
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      image: AssetImage(
-                                          'assets/images/logo_app.png')),
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/images/logo_app.png',
+                                  scale: 8,
                                 ),
-                              ),
-                              const SizedBox(width: 10),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                        getDataWs[index]
-                                            .workshopName
-                                            .capitalize(),
-                                        style: const TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w600),
-                                        overflow: TextOverflow.ellipsis),
-                                    const SizedBox(height: 10),
-                                    ProfileItem(
-                                        icon: Icons.call,
-                                        text: getDataWs[index].phoneNumber),
-                                    const SizedBox(height: 10),
-                                    ProfileItem(
-                                        icon: getDataWs[index].user.username ==
-                                                'admin'
-                                            ? Icons.check_circle_rounded
-                                            : Icons.email_rounded,
-                                        text: getDataWs[index].user.username ==
-                                                'admin'
-                                            ? 'registrasi oleh admin'
-                                            : getDataWs[index].user.email),
-                                    const SizedBox(height: 10),
-                                    ProfileItem(
-                                      icon: Icons.pin_drop_rounded,
-                                      text:
-                                          '${getDataWs[index].address}, ${getDataWs[index].city.name},\n${getDataWs[index].province.provinceName}-Indonesia',
-                                    )
-                                  ],
-                                ),
-                              ),
-                              if (getDataWs[index].user.username == 'admin')
-                                Column(
-                                  children: [
-                                    IconButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                UpdateProstheticPage(
-                                              id: getDataWs[index].id,
-                                              name:
-                                                  getDataWs[index].workshopName,
-                                              phone:
-                                                  getDataWs[index].phoneNumber,
-                                              address: getDataWs[index].address,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      icon: const Icon(Icons.edit,
-                                          color: primaryColor, size: 25),
-                                    ),
-                                    IconButton(
-                                      onPressed: () => QuickAlert.show(
-                                          title: 'Apakah anda yakin?',
-                                          context: context,
-                                          type: QuickAlertType.confirm,
-                                          confirmBtnText: 'Ya',
-                                          onConfirmBtnTap: () =>
-                                              deleteData(getDataWs[index].id),
-                                          cancelBtnText: 'Tidak',
-                                          confirmBtnColor: primaryColor,
-                                          customAsset:
-                                              'assets/images/get_started.png',
-                                          backgroundColor: secondaryColor),
-                                      icon: const Icon(
-                                          Icons.delete_outline_rounded,
-                                          color: primaryColor,
-                                          size: 30),
-                                    )
-                                  ],
+                                Text(
+                                  appName,
+                                  style: TextStyle(
+                                      fontFamily:
+                                          GoogleFonts.cedarvilleCursive()
+                                              .fontFamily,
+                                      fontSize: 40,
+                                      color: primaryColor),
                                 )
+                              ],
+                            ),
+                            const Text(
+                              'Tidak ada data!',
+                              style:
+                                  TextStyle(fontSize: 20, color: primaryColor),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ListView.builder(
+                  padding: const EdgeInsets.only(top: 60),
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: getDataWs.length,
+                  itemBuilder: (context, index) => CustomContainer(
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 12),
+                    padding: const EdgeInsets.all(12),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 40,
+                          width: 40,
+                          decoration: const BoxDecoration(
+                            color: secondaryColor,
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image:
+                                    AssetImage('assets/images/logo_app.png')),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(getDataWs[index].workshopName.capitalize(),
+                                  style: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600),
+                                  overflow: TextOverflow.ellipsis),
+                              const SizedBox(height: 10),
+                              ProfileItem(
+                                  icon: Icons.call,
+                                  text: getDataWs[index].phoneNumber),
+                              const SizedBox(height: 10),
+                              ProfileItem(
+                                  icon:
+                                      getDataWs[index].user.username == 'admin'
+                                          ? Icons.check_circle_rounded
+                                          : Icons.email_rounded,
+                                  text:
+                                      getDataWs[index].user.username == 'admin'
+                                          ? 'registrasi oleh admin'
+                                          : getDataWs[index].user.email),
+                              const SizedBox(height: 10),
+                              ProfileItem(
+                                icon: Icons.pin_drop_rounded,
+                                text:
+                                    '${getDataWs[index].address}, ${getDataWs[index].city.name},\n${getDataWs[index].province.provinceName}-Indonesia',
+                              )
                             ],
                           ),
                         ),
-                      ),
-                      CustomSearch(
-                        onFieldSubmitted: (value) {
-                          searching = value;
-                          setState(() {
-                            getDataWorkshop(searching);
-                          });
-                        },
-                      )
-                    ],
-                  );
+                        if (getDataWs[index].user.username == 'admin')
+                          Column(
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          UpdateProstheticPage(
+                                        id: getDataWs[index].id,
+                                        name: getDataWs[index].workshopName,
+                                        phone: getDataWs[index].phoneNumber,
+                                        address: getDataWs[index].address,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                icon: const Icon(Icons.edit,
+                                    color: primaryColor, size: 25),
+                              ),
+                              IconButton(
+                                onPressed: () => QuickAlert.show(
+                                    title: 'Apakah anda yakin?',
+                                    context: context,
+                                    type: QuickAlertType.confirm,
+                                    confirmBtnText: 'Ya',
+                                    onConfirmBtnTap: () =>
+                                        deleteData(getDataWs[index].id),
+                                    cancelBtnText: 'Tidak',
+                                    confirmBtnColor: primaryColor,
+                                    customAsset:
+                                        'assets/images/get_started.png',
+                                    backgroundColor: secondaryColor),
+                                icon: const Icon(Icons.delete_outline_rounded,
+                                    color: primaryColor, size: 30),
+                              )
+                            ],
+                          )
+                      ],
+                    ),
+                  ),
+                ),
+                CustomSearch(
+                  onChanged: (value) {
+                    searching = value;
+                    setState(() {
+                      getDataWorkshop(searching);
+                    });
+                  },
+                )
+              ],
+            );
           }
           return const ProstheticWorkshopPageSkeleton();
         },

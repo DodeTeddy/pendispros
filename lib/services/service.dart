@@ -21,8 +21,8 @@ import '../models/update_dsandws_model.dart';
 import '../models/update_information_model.dart';
 import '../models/verification_model.dart';
 
-var baseUrl = 'http://192.168.1.101:8888/api'; //local
-// var baseUrl = 'https://eba9-103-156-165-15.ngrok-free.app/api'; //ngrok
+// var baseUrl = 'http://192.168.1.105:8888/api'; //local
+var baseUrl = 'https://4373-103-156-165-15.ngrok-free.app/api'; //ngrok
 var headerNoAuth = {'Accept': 'application/json'};
 
 Future<SignUpModel> signUp(

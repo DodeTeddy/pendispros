@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../theme/constant.dart';
 
 class CustomSearch extends StatelessWidget {
-  final Function(String) onFieldSubmitted;
-  const CustomSearch({super.key, required this.onFieldSubmitted});
+  final Function(String) onChanged;
+  const CustomSearch({super.key, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class CustomSearch extends StatelessWidget {
       child: Center(
         child: TextFormField(
           textInputAction: TextInputAction.search,
-          onFieldSubmitted: onFieldSubmitted,
+          onChanged: onChanged,
           cursorColor: Colors.grey,
           style: const TextStyle(color: primaryColor),
           decoration: const InputDecoration(

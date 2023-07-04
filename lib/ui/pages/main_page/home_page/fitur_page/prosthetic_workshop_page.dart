@@ -80,6 +80,128 @@ class _ProstheticWorkshopPageState extends State<ProstheticWorkshopPage> {
             child: Text('Data Bengkel Prostetik'),
           ),
         ),
+        body: FutureBuilder(
+            future: getDataWorkshop(searching),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                var getDataWs = snapshot.data!;
+                return Stack(
+                  children: [
+                    if (getDataWs.isEmpty)
+                      Column(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/logo_app.png',
+                                      scale: 8,
+                                    ),
+                                    Text(
+                                      appName,
+                                      style: TextStyle(
+                                        fontFamily:
+                                            GoogleFonts.cedarvilleCursive()
+                                                .fontFamily,
+                                        fontSize: 40,
+                                        color: primaryColor,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                const Text(
+                                  'Tidak ada data!',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: primaryColor,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ListView.builder(
+                      padding: const EdgeInsets.only(top: 60),
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: getDataWs.length,
+                      itemBuilder: (context, index) => CustomContainer(
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 12),
+                        padding: const EdgeInsets.all(12),
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 40,
+                              width: 40,
+                              decoration: const BoxDecoration(
+                                color: secondaryColor,
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: AssetImage(
+                                        'assets/images/logo_app.png')),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      getDataWs[index]
+                                          .workshopName
+                                          .capitalize(),
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600),
+                                      overflow: TextOverflow.ellipsis),
+                                  const SizedBox(height: 10),
+                                  ProfileItem(
+                                      icon: Icons.call,
+                                      text: getDataWs[index].phoneNumber),
+                                  const SizedBox(height: 10),
+                                  ProfileItem(
+                                      icon: getDataWs[index].user.username ==
+                                              'admin'
+                                          ? Icons.check_circle_rounded
+                                          : Icons.email_rounded,
+                                      text: getDataWs[index].user.username ==
+                                              'admin'
+                                          ? 'registrasi oleh admin'
+                                          : getDataWs[index].user.email),
+                                  const SizedBox(height: 10),
+                                  ProfileItem(
+                                    icon: Icons.pin_drop_rounded,
+                                    text:
+                                        '${getDataWs[index].address}, ${getDataWs[index].city.name},\n${getDataWs[index].province.provinceName}-Indonesia',
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    CustomSearch(
+                      onChanged: (value) {
+                        searching = value;
+                        setState(() {
+                          getDataWorkshop(searching);
+                        });
+                      },
+                    )
+                  ],
+                );
+              }
+              return const ProstheticWorkshopPageSkeleton();
+            }));
+  }
+}
+
         //   endDrawer: Drawer(),
         // appBar: AppBar(
         //   backgroundColor: primaryColor,
@@ -100,118 +222,3 @@ class _ProstheticWorkshopPageState extends State<ProstheticWorkshopPage> {
         //   ],
         //   title: const Text('Data Penyandang Disabilitas'),
         // ),
-        body: FutureBuilder(
-            future: getDataWorkshop(searching),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                var getDataWs = snapshot.data!;
-                return getDataWs.isEmpty
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/images/logo_app.png',
-                                scale: 8,
-                              ),
-                              Text(
-                                appName,
-                                style: TextStyle(
-                                    fontFamily: GoogleFonts.cedarvilleCursive()
-                                        .fontFamily,
-                                    fontSize: 40,
-                                    color: primaryColor),
-                              )
-                            ],
-                          ),
-                          const Text(
-                            'Tidak ada data!',
-                            style: TextStyle(fontSize: 20, color: primaryColor),
-                          )
-                        ],
-                      )
-                    : Stack(
-                        children: [
-                          ListView.builder(
-                            padding: const EdgeInsets.only(top: 60),
-                            physics: const BouncingScrollPhysics(),
-                            itemCount: getDataWs.length,
-                            itemBuilder: (context, index) => CustomContainer(
-                              margin: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 12),
-                              padding: const EdgeInsets.all(12),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    height: 40,
-                                    width: 40,
-                                    decoration: const BoxDecoration(
-                                      color: secondaryColor,
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                          image: AssetImage(
-                                              'assets/images/logo_app.png')),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                            getDataWs[index]
-                                                .workshopName
-                                                .capitalize(),
-                                            style: const TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w600),
-                                            overflow: TextOverflow.ellipsis),
-                                        const SizedBox(height: 10),
-                                        ProfileItem(
-                                            icon: Icons.call,
-                                            text: getDataWs[index].phoneNumber),
-                                        const SizedBox(height: 10),
-                                        ProfileItem(
-                                            icon: getDataWs[index]
-                                                        .user
-                                                        .username ==
-                                                    'admin'
-                                                ? Icons.check_circle_rounded
-                                                : Icons.email_rounded,
-                                            text: getDataWs[index]
-                                                        .user
-                                                        .username ==
-                                                    'admin'
-                                                ? 'registrasi oleh admin'
-                                                : getDataWs[index].user.email),
-                                        const SizedBox(height: 10),
-                                        ProfileItem(
-                                          icon: Icons.pin_drop_rounded,
-                                          text:
-                                              '${getDataWs[index].address}, ${getDataWs[index].city.name},\n${getDataWs[index].province.provinceName}-Indonesia',
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          CustomSearch(
-                            onFieldSubmitted: (value) {
-                              searching = value;
-                              setState(() {
-                                getDataWorkshop(searching);
-                              });
-                            },
-                          )
-                        ],
-                      );
-              }
-              return const ProstheticWorkshopPageSkeleton();
-            }));
-  }
-}

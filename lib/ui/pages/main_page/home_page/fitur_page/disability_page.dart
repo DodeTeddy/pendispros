@@ -83,130 +83,131 @@ class _DisabilityPageState extends State<DisabilityPage> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var getDataDs = snapshot.data!;
-            return getDataDs.isEmpty
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+            return Stack(
+              children: [
+                if (getDataDs.isEmpty)
+                  Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/logo_app.png',
-                            scale: 8,
-                          ),
-                          Text(
-                            appName,
-                            style: TextStyle(
-                                fontFamily:
-                                    GoogleFonts.cedarvilleCursive().fontFamily,
-                                fontSize: 40,
-                                color: primaryColor),
-                          )
-                        ],
-                      ),
-                      const Text(
-                        'Tidak ada data!',
-                        style: TextStyle(fontSize: 20, color: primaryColor),
-                      )
-                    ],
-                  )
-                : Stack(
-                    children: [
-                      ListView.builder(
-                        padding: const EdgeInsets.only(top: 60),
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: getDataDs.length,
-                        itemBuilder: (context, index) => CustomContainer(
-                            margin: const EdgeInsets.symmetric(
-                                vertical: 5, horizontal: 12),
-                            padding: const EdgeInsets.all(12),
-                            child: Row(
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Container(
-                                  height: 40,
-                                  width: 40,
-                                  decoration: const BoxDecoration(
-                                    color: secondaryColor,
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                        'assets/images/logo_app.png',
-                                      ),
-                                    ),
-                                  ),
+                                Image.asset(
+                                  'assets/images/logo_app.png',
+                                  scale: 8,
                                 ),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        getDataDs[index].name.capitalize(),
-                                        style: const TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w600),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      const SizedBox(height: 5),
-                                      CustomText(
-                                          lable: 'Umur',
-                                          value:
-                                              '${getDataDs[index].age.toString()} Tahun'),
-                                      CustomText(
-                                          lable: 'Disabilitas',
-                                          value: getDataDs[index].disability),
-                                      CustomText(
-                                          lable: 'Kanan',
-                                          value: getDataDs[index]
-                                              .jenisAmputasiKanan),
-                                      CustomText(
-                                          lable: 'Kiri',
-                                          value: getDataDs[index]
-                                              .jenisAmputasiKiri),
-                                      CustomText(
-                                          lable: 'Prostetik Dibutuhkan',
-                                          value:
-                                              getDataDs[index].jenisProstetik),
-                                      const SizedBox(height: 10),
-                                      ProfileItem(
-                                          icon: Icons.call,
-                                          text: getDataDs[index].phoneNumber),
-                                      const SizedBox(height: 10),
-                                      ProfileItem(
-                                          icon:
-                                              getDataDs[index].user.username ==
-                                                      'admin'
-                                                  ? Icons.check_circle_rounded
-                                                  : Icons.email_rounded,
-                                          text: getDataDs[index]
-                                                      .user
-                                                      .username ==
-                                                  'admin'
-                                              ? 'registrasi oleh admin'
-                                              : getDataDs[index].user.email),
-                                      const SizedBox(height: 10),
-                                      ProfileItem(
-                                        icon: Icons.pin_drop_rounded,
-                                        text:
-                                            '${getDataDs[index].address}, ${getDataDs[index].city.name},\n${getDataDs[index].province.provinceName}-Indonesia',
-                                      )
-                                    ],
-                                  ),
-                                ),
+                                Text(
+                                  appName,
+                                  style: TextStyle(
+                                      fontFamily:
+                                          GoogleFonts.cedarvilleCursive()
+                                              .fontFamily,
+                                      fontSize: 40,
+                                      color: primaryColor),
+                                )
                               ],
-                            )),
+                            ),
+                            const Text(
+                              'Tidak ada data!',
+                              style:
+                                  TextStyle(fontSize: 20, color: primaryColor),
+                            )
+                          ],
+                        ),
                       ),
-                      CustomSearch(
-                        onFieldSubmitted: (value) {
-                          searching = value;
-                          setState(() {
-                            getDataDisability(searching);
-                          });
-                        },
-                      )
                     ],
-                  );
+                  ),
+                ListView.builder(
+                  padding: const EdgeInsets.only(top: 60),
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: getDataDs.length,
+                  itemBuilder: (context, index) => CustomContainer(
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 12),
+                      padding: const EdgeInsets.all(12),
+                      child: Row(
+                        children: [
+                          Container(
+                            height: 40,
+                            width: 40,
+                            decoration: const BoxDecoration(
+                              color: secondaryColor,
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: AssetImage(
+                                  'assets/images/logo_app.png',
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  getDataDs[index].name.capitalize(),
+                                  style: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 5),
+                                CustomText(
+                                    lable: 'Umur',
+                                    value:
+                                        '${getDataDs[index].age.toString()} Tahun'),
+                                CustomText(
+                                    lable: 'Disabilitas',
+                                    value: getDataDs[index].disability),
+                                CustomText(
+                                    lable: 'Kanan',
+                                    value: getDataDs[index].jenisAmputasiKanan),
+                                CustomText(
+                                    lable: 'Kiri',
+                                    value: getDataDs[index].jenisAmputasiKiri),
+                                CustomText(
+                                    lable: 'Prostetik Dibutuhkan',
+                                    value: getDataDs[index].jenisProstetik),
+                                const SizedBox(height: 10),
+                                ProfileItem(
+                                    icon: Icons.call,
+                                    text: getDataDs[index].phoneNumber),
+                                const SizedBox(height: 10),
+                                ProfileItem(
+                                    icon: getDataDs[index].user.username ==
+                                            'admin'
+                                        ? Icons.check_circle_rounded
+                                        : Icons.email_rounded,
+                                    text: getDataDs[index].user.username ==
+                                            'admin'
+                                        ? 'registrasi oleh admin'
+                                        : getDataDs[index].user.email),
+                                const SizedBox(height: 10),
+                                ProfileItem(
+                                  icon: Icons.pin_drop_rounded,
+                                  text:
+                                      '${getDataDs[index].address}, ${getDataDs[index].city.name},\n${getDataDs[index].province.provinceName}-Indonesia',
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      )),
+                ),
+                CustomSearch(
+                  onChanged: (value) {
+                    searching = value;
+                    setState(() {
+                      getDataDisability(searching);
+                    });
+                  },
+                )
+              ],
+            );
           }
           return const DisabilityPageSkeleton();
         },
