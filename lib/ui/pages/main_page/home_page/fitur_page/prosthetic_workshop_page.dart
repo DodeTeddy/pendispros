@@ -64,7 +64,7 @@ class _ProstheticWorkshopPageState extends State<ProstheticWorkshopPage> {
       GetWorkshopDataModel getData =
           GetWorkshopDataModel.fromJson(jsonDecode(response.body));
       listData.clear();
-      listData.addAll(getData.data.data);
+      listData.addAll(getData.data);
       return listData;
     } catch (e) {
       rethrow;

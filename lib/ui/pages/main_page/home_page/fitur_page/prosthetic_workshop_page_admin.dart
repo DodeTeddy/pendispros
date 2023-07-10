@@ -68,7 +68,7 @@ class _ProstheticWorkshopPageAdminState
       GetWorkshopDataModel getData =
           GetWorkshopDataModel.fromJson(jsonDecode(response.body));
       listData.clear();
-      listData.addAll(getData.data.data);
+      listData.addAll(getData.data);
       return listData;
     } catch (e) {
       rethrow;
