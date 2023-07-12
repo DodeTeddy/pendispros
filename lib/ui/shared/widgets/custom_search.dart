@@ -19,7 +19,6 @@ class CustomSearch extends StatelessWidget {
       ),
       child: Center(
         child: TextFormField(
-          textInputAction: TextInputAction.search,
           onChanged: onChanged,
           cursorColor: Colors.grey,
           style: const TextStyle(color: primaryColor),

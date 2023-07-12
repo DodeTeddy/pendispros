@@ -73,7 +73,7 @@ class _DisabilityPageAdminState extends State<DisabilityPageAdmin> {
           GetDisabilityDataModel.fromJson(jsonDecode(response.body));
       listData.clear();
       listData.addAll(getData.data);
-      return listData;
+      return listData.reversed.toList();
     } catch (e) {
       rethrow;
     }

@@ -171,11 +171,14 @@ class _CreateInformationPageState extends State<CreateInformationPage> {
                                 height: 50,
                                 width: 50,
                                 decoration: const BoxDecoration(
-                                    color: secondaryColor,
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        image: AssetImage(
-                                            'assets/images/logo_app.png'))),
+                                  color: secondaryColor,
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                      'assets/images/logo_app.png',
+                                    ),
+                                  ),
+                                ),
                               ),
                               const SizedBox(width: 10),
                               Expanded(

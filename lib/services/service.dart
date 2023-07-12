@@ -21,7 +21,7 @@ import '../models/update_dsandws_model.dart';
 import '../models/update_information_model.dart';
 import '../models/verification_model.dart';
 
-var baseUrl = 'http://192.168.1.102:8888/api'; //local
+var baseUrl = 'https://2033-103-156-165-15.ngrok-free.app/api'; //local
 var headerNoAuth = {'Accept': 'application/json'};
 
 Future<SignUpModel> signUp(
@@ -305,19 +305,19 @@ Future<DeleteInformationModel> deleteInformation(int id) async {
   }
 }
 
-Future<GetNotificationModel> getNotification() async {
-  var prefs = await SharedPreferences.getInstance();
-  var token = prefs.getString('token');
-  var url = Uri.parse('$baseUrl/notification');
-  var header = {'Accept': 'application/json', 'Authorization': 'Bearer $token'};
+// Future<GetNotificationModel> getNotification() async {
+//   var prefs = await SharedPreferences.getInstance();
+//   var token = prefs.getString('token');
+//   var url = Uri.parse('$baseUrl/notification');
+//   var header = {'Accept': 'application/json', 'Authorization': 'Bearer $token'};
 
-  try {
-    var response = await http.get(url, headers: header);
-    return GetNotificationModel.fromJson(jsonDecode(response.body));
-  } catch (e) {
-    rethrow;
-  }
-}
+//   try {
+//     var response = await http.get(url, headers: header);
+//     return GetNotificationModel.fromJson(jsonDecode(response.body));
+//   } catch (e) {
+//     rethrow;
+//   }
+// }
 
 Future<UpadateDsAndWsModel> updateDisability(
   String id,

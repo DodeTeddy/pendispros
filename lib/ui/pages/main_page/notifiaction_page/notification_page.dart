@@ -1,11 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quickalert/quickalert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tugas_akhir_app/services/service.dart';
 import 'package:tugas_akhir_app/ui/pages/main_page/notifiaction_page/notification_page_skeleton.dart';
 import 'package:tugas_akhir_app/ui/shared/theme/constant.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_container.dart';
-
+import 'package:http/http.dart' as http;
+import '../../../../models/get_notification_model.dart';
 import '../../../shared/widgets/custom_appbar.dart';
 
 class NotificationPage extends StatefulWidget {
@@ -16,6 +20,29 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
+  List<Datum> listData = [];
+
+  Future<List<Datum>> getNotification() async {
+    var prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+    var url = Uri.parse('$baseUrl/notification');
+    var header = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+
+    try {
+      var response = await http.get(url, headers: header);
+      GetNotificationModel getData =
+          GetNotificationModel.fromJson(jsonDecode(response.body));
+      listData.clear();
+      listData.addAll(getData.data.data);
+      return listData.reversed.toList();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +56,7 @@ class _NotificationPageState extends State<NotificationPage> {
             future: getNotification(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                var notification = snapshot.data!.data.data;
+                var notification = snapshot.data!;
                 return notification.isEmpty
                     ? Column(
                         mainAxisAlignment: MainAxisAlignment.center,
