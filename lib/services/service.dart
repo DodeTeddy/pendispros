@@ -12,6 +12,7 @@ import '../models/edit_profile_model.dart';
 import '../models/get_information_model.dart';
 // import '../models/get_notification_model.dart';
 // import '../models/get_workshop_data_model.dart';
+import '../models/latest_data_model.dart';
 import '../models/logout_model.dart';
 import '../models/profile_detail_model.dart';
 import '../models/profile_model.dart';
@@ -22,7 +23,7 @@ import '../models/update_dsandws_model.dart';
 import '../models/update_information_model.dart';
 import '../models/verification_model.dart';
 
-var baseUrl = 'https://2dd9-103-156-165-15.ngrok-free.app/api';
+var baseUrl = 'https://a47a-103-156-165-15.ngrok-free.app/api';
 var headerNoAuth = {'Accept': 'application/json'};
 
 Future<SignUpModel> signUp(
@@ -451,6 +452,20 @@ Future<ChangeVerifiedModel> changeVerfieidInformation(
   try {
     var response = await http.post(url, headers: header, body: body);
     return ChangeVerifiedModel.fromJson(jsonDecode(response.body));
+  } catch (e) {
+    rethrow;
+  }
+}
+
+Future<GetLatestDataModel> getLatestData() async {
+  var prefs = await SharedPreferences.getInstance();
+  var token = prefs.getString('token');
+  var url = Uri.parse('$baseUrl/data');
+  var header = {'Accept': 'application/json', 'Authorization': 'Bearer $token'};
+
+  try {
+    var response = await http.get(url, headers: header);
+    return GetLatestDataModel.fromJson(jsonDecode(response.body));
   } catch (e) {
     rethrow;
   }

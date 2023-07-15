@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tugas_akhir_app/services/service.dart';
+import 'package:tugas_akhir_app/ui/pages/main_page/home_page/detail_data_page.dart';
 import 'package:tugas_akhir_app/ui/pages/main_page/home_page/home_page_skeleton.dart';
+import 'package:tugas_akhir_app/ui/pages/main_page/home_page/widgets/data_latest_widget.dart';
 import 'package:tugas_akhir_app/ui/shared/theme/constant.dart';
-
 import '../../../shared/widgets/custom_container.dart';
 import '../../onboarding_page/widgets/dot.dart';
 import 'fitur_page/fitur.dart';
@@ -167,13 +168,49 @@ class _HomePageState extends State<HomePage> {
                               Visibility(
                                   visible: isWorkshop,
                                   child: const FiturForProstheticWs()),
-                              SizedBox(height: isNotVerified ? 50 : 150),
+                              const SizedBox(height: 50),
                             ],
                           ),
                         ),
                         isAdmin
-                            ? Container(
-                                color: Colors.white,
+                            ? FutureBuilder(
+                                future: getLatestData(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    var latestData = snapshot.data;
+                                    return DataLatestWidget(
+                                        prostetikOnTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const DetailDataPage(
+                                                      isDisability: false),
+                                            ),
+                                          );
+                                        },
+                                        disabilitasOnTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const DetailDataPage(
+                                                        isDisability: true),
+                                              ));
+                                        },
+                                        disabilitasData: latestData!
+                                            .disability.length
+                                            .toString(),
+                                        prostetikData: latestData
+                                            .prosthetic.length
+                                            .toString());
+                                  }
+                                  return DataLatestWidget(
+                                      disabilitasOnTap: () => null,
+                                      prostetikOnTap: () => null,
+                                      disabilitasData: '0',
+                                      prostetikData: '0');
+                                },
                               )
                             : SizedBox(
                                 height: 160,
@@ -221,7 +258,7 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ],
                                 ),
-                              )
+                              ),
                       ],
                     ),
                   ),
