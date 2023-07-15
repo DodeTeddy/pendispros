@@ -10,12 +10,14 @@ class FiturForAdminOrNotVer extends StatelessWidget {
   final bool isDisabilty;
   final bool isProsthetic;
   final bool isNotVerified;
+  final bool isWaiting;
   const FiturForAdminOrNotVer(
       {super.key,
       this.isAdmin = false,
       this.isDisabilty = false,
       this.isProsthetic = false,
-      required this.isNotVerified});
+      required this.isNotVerified,
+      required this.isWaiting});
 
   void onTap(String navigation, BuildContext context) {
     if (isAdmin) {
@@ -59,18 +61,28 @@ class FiturForAdminOrNotVer extends StatelessWidget {
                 children: [
                   FiturIcon(
                       onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const VerificationPage(
-                                  isDisability: true, isAdmin: true))),
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => VerificationPage(
+                                isDisability: true,
+                                isAdmin: true,
+                                isWaiting: isWaiting,
+                              ),
+                            ),
+                          ),
                       asset: 'assets/images/disability.png',
                       title: 'Registrasi\nDisabiltas'),
                   FiturIcon(
                       onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const VerificationPage(
-                                  isDisability: false, isAdmin: true))),
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => VerificationPage(
+                                isDisability: false,
+                                isAdmin: true,
+                                isWaiting: isWaiting,
+                              ),
+                            ),
+                          ),
                       asset: 'assets/images/prosthetic.png',
                       title: 'Registrasi\nBengkel'),
                   FiturIcon(
@@ -89,18 +101,26 @@ class FiturForAdminOrNotVer extends StatelessWidget {
                   isDisabilty
                       ? FiturIcon(
                           onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
+                                context,
+                                MaterialPageRoute(
                                   builder: (context) => VerificationPage(
-                                      isDisability: isDisabilty))),
+                                    isDisability: isDisabilty,
+                                    isWaiting: isWaiting,
+                                  ),
+                                ),
+                              ),
                           asset: 'assets/images/disability.png',
                           title: 'Verifikasi\nDisabiltas')
                       : FiturIcon(
                           onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
+                                context,
+                                MaterialPageRoute(
                                   builder: (context) => VerificationPage(
-                                      isDisability: isDisabilty))),
+                                    isDisability: isDisabilty,
+                                    isWaiting: isWaiting,
+                                  ),
+                                ),
+                              ),
                           asset: 'assets/images/prosthetic.png',
                           title: 'Verifikasi\nBengkel'),
                   FiturIcon(

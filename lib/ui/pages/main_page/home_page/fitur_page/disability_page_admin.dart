@@ -12,6 +12,7 @@ import 'package:tugas_akhir_app/ui/shared/widgets/custom_appbar.dart';
 // import 'package:tugas_akhir_app/ui/shared/widgets/custom_drawer.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_text.dart';
 import 'package:http/http.dart' as http;
+import '../../../../../models/change_verified_model.dart';
 import '../../../../../models/delete_dsandws_model.dart';
 import '../../../../../models/get_disability_data_model.dart';
 import '../../../../shared/theme/constant.dart';
@@ -246,6 +247,63 @@ class _DisabilityPageAdminState extends State<DisabilityPageAdmin> {
                                   Icons.delete_outline_rounded,
                                   color: primaryColor,
                                   size: 30,
+                                ),
+                              )
+                            ],
+                          ),
+                        if (getDataDs[index].user.verifiedAs == 'waiting')
+                          Column(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  QuickAlert.show(
+                                    title: 'Apakah anda yakin?',
+                                    context: context,
+                                    type: QuickAlertType.confirm,
+                                    confirmBtnText: 'Ya',
+                                    onConfirmBtnTap: () async {
+                                      ChangeVerifiedModel changeVerifiedModel =
+                                          await changeVerfieid(
+                                        getDataDs[index].user.id.toString(),
+                                        getDataDs[index].user.role,
+                                      );
+                                      if (changeVerifiedModel.message ==
+                                          'Change Verification Success!') {
+                                        setState(() {
+                                          Navigator.pop(context);
+                                        });
+                                        if (!mounted) return;
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(const SnackBar(
+                                          content:
+                                              Text('Berhasil verifikasi Data'),
+                                          backgroundColor: Colors.green,
+                                          behavior: SnackBarBehavior.floating,
+                                        ));
+                                      } else {
+                                        setState(() {
+                                          Navigator.pop(context);
+                                        });
+                                        if (!mounted) return;
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(const SnackBar(
+                                          content:
+                                              Text('Gagal verifikasi Data'),
+                                          backgroundColor: Colors.red,
+                                          behavior: SnackBarBehavior.floating,
+                                        ));
+                                      }
+                                    },
+                                    cancelBtnText: 'Tidak',
+                                    confirmBtnColor: primaryColor,
+                                    customAsset:
+                                        'assets/images/get_started.png',
+                                    backgroundColor: secondaryColor,
+                                  );
+                                },
+                                child: const Text(
+                                  'Butuh\nVerfikasi',
+                                  textAlign: TextAlign.center,
                                 ),
                               )
                             ],

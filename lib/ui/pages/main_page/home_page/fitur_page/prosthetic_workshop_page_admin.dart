@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tugas_akhir_app/models/change_verified_model.dart';
 import 'package:tugas_akhir_app/services/service.dart';
 import 'package:tugas_akhir_app/ui/pages/main_page/home_page/fitur_page/prosthetic_workshop_page_skeleton.dart';
 import 'package:http/http.dart' as http;
@@ -203,19 +204,76 @@ class _ProstheticWorkshopPageAdminState
                               ),
                               IconButton(
                                 onPressed: () => QuickAlert.show(
+                                  title: 'Apakah anda yakin?',
+                                  context: context,
+                                  type: QuickAlertType.confirm,
+                                  confirmBtnText: 'Ya',
+                                  onConfirmBtnTap: () =>
+                                      deleteData(getDataWs[index].id),
+                                  cancelBtnText: 'Tidak',
+                                  confirmBtnColor: primaryColor,
+                                  customAsset: 'assets/images/get_started.png',
+                                  backgroundColor: secondaryColor,
+                                ),
+                                icon: const Icon(Icons.delete_outline_rounded,
+                                    color: primaryColor, size: 30),
+                              )
+                            ],
+                          ),
+                        if (getDataWs[index].user.verifiedAs == 'waiting')
+                          Column(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  QuickAlert.show(
                                     title: 'Apakah anda yakin?',
                                     context: context,
                                     type: QuickAlertType.confirm,
                                     confirmBtnText: 'Ya',
-                                    onConfirmBtnTap: () =>
-                                        deleteData(getDataWs[index].id),
+                                    onConfirmBtnTap: () async {
+                                      ChangeVerifiedModel changeVerifiedModel =
+                                          await changeVerfieid(
+                                        getDataWs[index].user.id.toString(),
+                                        getDataWs[index].user.role,
+                                      );
+                                      if (changeVerifiedModel.message ==
+                                          'Change Verification Success!') {
+                                        setState(() {
+                                          Navigator.pop(context);
+                                        });
+                                        if (!mounted) return;
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(const SnackBar(
+                                          content:
+                                              Text('Berhasil verifikasi Data'),
+                                          backgroundColor: Colors.green,
+                                          behavior: SnackBarBehavior.floating,
+                                        ));
+                                      } else {
+                                        setState(() {
+                                          Navigator.pop(context);
+                                        });
+                                        if (!mounted) return;
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(const SnackBar(
+                                          content:
+                                              Text('Gagal verifikasi Data'),
+                                          backgroundColor: Colors.red,
+                                          behavior: SnackBarBehavior.floating,
+                                        ));
+                                      }
+                                    },
                                     cancelBtnText: 'Tidak',
                                     confirmBtnColor: primaryColor,
                                     customAsset:
                                         'assets/images/get_started.png',
-                                    backgroundColor: secondaryColor),
-                                icon: const Icon(Icons.delete_outline_rounded,
-                                    color: primaryColor, size: 30),
+                                    backgroundColor: secondaryColor,
+                                  );
+                                },
+                                child: const Text(
+                                  'Butuh\nVerfikasi',
+                                  textAlign: TextAlign.center,
+                                ),
                               )
                             ],
                           )

@@ -26,73 +26,84 @@ class VerificationStatusDetailPage extends StatelessWidget {
           Visibility(
             visible: verifiedAs != 'notverified',
             child: CustomContainer(
-                margin: const EdgeInsets.only(top: 20, left: 12, right: 12),
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset('assets/icons/profile.svg'),
-                        const SizedBox(width: 10),
-                        Expanded(
-                            child: Text(name.toUpperCase(),
-                                style: const TextStyle(
-                                    fontSize: 20,
-                                    overflow: TextOverflow.ellipsis)))
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        const SizedBox(width: 35),
-                        Text(
-                            role == 'disability'
-                                ? 'Disabilitas pada $disability'
-                                : role == 'prosthetic'
-                                    ? 'Bengkel Prostetik'
-                                    : 'Not Verified',
-                            style: const TextStyle(fontSize: 15)),
-                      ],
-                    )
-                  ],
-                )),
+              margin: const EdgeInsets.only(top: 20, left: 12, right: 12),
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      SvgPicture.asset('assets/icons/profile.svg'),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          name.toUpperCase(),
+                          style: const TextStyle(
+                            fontSize: 20,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      const SizedBox(width: 35),
+                      Text(
+                        role == 'disability'
+                            ? 'Disabilitas pada $disability'
+                            : role == 'prosthetic'
+                                ? 'Bengkel Prostetik'
+                                : 'Not Verified',
+                        style: const TextStyle(fontSize: 15),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
           ),
           CustomContainer(
-              color: primaryColor,
-              margin: const EdgeInsets.only(top: 10, left: 12, right: 12),
-              padding: const EdgeInsets.all(20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const SizedBox(width: 0),
-                  Text(
-                    verifiedAs == 'notverified'
-                        ? 'Belum Terverifikasi'
-                        : 'Terverifikasi ${verifiedAs == 'disability' ? 'Penyandang Disabilitas' : 'Bengkel Prostetik'}',
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  Icon(
-                    verifiedAs == 'notverified'
-                        ? Icons.cancel_outlined
-                        : Icons.verified_outlined,
-                    color: Colors.white,
-                  ),
-                ],
-              )),
+            color: primaryColor,
+            margin: const EdgeInsets.only(top: 10, left: 12, right: 12),
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const SizedBox(width: 0),
+                Text(
+                  verifiedAs == 'notverified' || verifiedAs == 'waiting'
+                      ? 'Belum Terverifikasi'
+                      : 'Terverifikasi ${verifiedAs == 'disability' ? 'Penyandang Disabilitas' : 'Bengkel Prostetik'}',
+                  style: const TextStyle(color: Colors.white),
+                ),
+                Icon(
+                  verifiedAs == 'notverified' || verifiedAs == 'waiting'
+                      ? Icons.cancel_outlined
+                      : Icons.verified_outlined,
+                  color: Colors.white,
+                ),
+              ],
+            ),
+          ),
           const SizedBox(height: 10),
           GestureDetector(
-              onTap: () => verifiedAs == 'notverified'
-                  ? Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => VerificationPage(
-                              isDisability: role == 'disability')))
-                  : null,
-              child: Text(
-                  verifiedAs == 'notverified'
-                      ? 'Klik disini untuk verifikasi'
-                      : '',
-                  style: const TextStyle(fontSize: 15)))
+            onTap: () => verifiedAs == 'notverified'
+                ? Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => VerificationPage(
+                        isDisability: role == 'disability',
+                        isWaiting: verifiedAs == 'waiting',
+                      ),
+                    ),
+                  )
+                : null,
+            child: Text(
+              verifiedAs == 'notverified' ? 'Klik disini untuk verifikasi' : '',
+              style: const TextStyle(fontSize: 15),
+            ),
+          ),
         ],
       ),
     );

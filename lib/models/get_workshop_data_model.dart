@@ -104,12 +104,14 @@ class Province {
 }
 
 class User {
+  int id;
   String role;
   String verifiedAs;
   String email;
   String username;
 
   User({
+    required this.id,
     required this.role,
     required this.verifiedAs,
     required this.email,
@@ -117,6 +119,7 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
+        id: json["id"],
         role: json["role"],
         verifiedAs: json["verified_as"],
         email: json["email"],
@@ -124,6 +127,7 @@ class User {
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "role": role,
         "verified_as": verifiedAs,
         "email": email,

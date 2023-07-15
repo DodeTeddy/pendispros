@@ -13,8 +13,12 @@ import '../../../../shared/widgets/custom_textformfield.dart';
 class VerificationPage extends StatefulWidget {
   final bool isDisability;
   final bool isAdmin;
+  final bool isWaiting;
   const VerificationPage(
-      {super.key, required this.isDisability, this.isAdmin = false});
+      {super.key,
+      required this.isDisability,
+      this.isAdmin = false,
+      required this.isWaiting});
 
   @override
   State<VerificationPage> createState() => _VerificationPageState();
@@ -209,234 +213,251 @@ class _VerificationPageState extends State<VerificationPage> {
           ),
         ),
       ),
-      body: ListView(
-        children: [
-          CustomContainer(
-            padding: const EdgeInsets.all(20),
-            margin: const EdgeInsets.only(top: 15, left: 12, right: 12),
-            child: Column(
+      body: widget.isWaiting
+          ? const CustomContainer(
+              margin: EdgeInsets.all(10),
+              padding: EdgeInsets.all(10),
+              child: Text(
+                'Sedang diverifikasi oleh admin',
+                style: TextStyle(fontSize: 20),
+                textAlign: TextAlign.center,
+              ),
+            )
+          : ListView(
               children: [
-                CustomTextFormField(
-                  controller: nameController,
-                  title:
-                      widget.isDisability ? 'Nama' : 'Name Bengkel Prostetik',
-                  onTap: () => null,
-                ),
-                widget.isDisability
-                    ? Row(
-                        children: [
-                          Flexible(
-                            child: CustomTextFormField(
-                              controller: ageController,
-                              title: 'Umur',
-                              onTap: () => null,
-                              isNumberField: true,
-                            ),
-                          ),
-                          const SizedBox(width: 5),
-                          Flexible(
-                            flex: 4,
-                            child: CustomTextFormField(
+                CustomContainer(
+                  padding: const EdgeInsets.all(20),
+                  margin: const EdgeInsets.only(top: 15, left: 12, right: 12),
+                  child: Column(
+                    children: [
+                      CustomTextFormField(
+                        controller: nameController,
+                        title: widget.isDisability
+                            ? 'Nama'
+                            : 'Name Bengkel Prostetik',
+                        onTap: () => null,
+                      ),
+                      widget.isDisability
+                          ? Row(
+                              children: [
+                                Flexible(
+                                  child: CustomTextFormField(
+                                    controller: ageController,
+                                    title: 'Umur',
+                                    onTap: () => null,
+                                    isNumberField: true,
+                                  ),
+                                ),
+                                const SizedBox(width: 5),
+                                Flexible(
+                                  flex: 4,
+                                  child: CustomTextFormField(
+                                    controller: phoneController,
+                                    title: 'Nomor Telepon',
+                                    onTap: () => null,
+                                    isNumberField: true,
+                                  ),
+                                ),
+                              ],
+                            )
+                          : CustomTextFormField(
                               controller: phoneController,
                               title: 'Nomor Telepon',
                               onTap: () => null,
                               isNumberField: true,
                             ),
-                          ),
-                        ],
-                      )
-                    : CustomTextFormField(
-                        controller: phoneController,
-                        title: 'Nomor Telepon',
-                        onTap: () => null,
-                        isNumberField: true,
-                      ),
-                Visibility(
-                  visible: widget.isDisability,
-                  child: CustomDropDown(
-                    title: 'Disabilitas',
-                    value: disabilityDdItem,
-                    onChanged: (value) {
-                      setState(() {
-                        disabilityDdItem = value.toString();
-                      });
-                    },
-                    items: disability.map<DropdownMenuItem<String>>((value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
-                ),
-                if (widget.isDisability) const SizedBox(height: 10),
-                Visibility(
-                    visible: widget.isDisability,
-                    child: disabilityDdItem == 'Tangan'
-                        ? Row(
-                            children: [
-                              Flexible(
-                                child: CustomDropDown(
-                                  title: 'Amputasi Kanan',
-                                  value: rightDisabilityDdItem,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      rightDisabilityDdItem = value;
-                                    });
-                                  },
-                                  items: rightDisability
-                                      .map<DropdownMenuItem<String>>((value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                              const SizedBox(width: 10),
-                              Flexible(
-                                child: CustomDropDown(
-                                  title: 'Amputasi Kiri',
-                                  value: leftDisabilityDdItem,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      leftDisabilityDdItem = value;
-                                    });
-                                  },
-                                  items: leftDisability
-                                      .map<DropdownMenuItem<String>>((value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(
-                                        value,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                            ],
-                          )
-                        : Row(
-                            children: [
-                              Expanded(
-                                child: CustomTextFormField(
-                                  controller: rightDisabilityController,
-                                  title: 'Amputasi Kanan',
-                                  onTap: () => null,
-                                ),
-                              ),
-                              const SizedBox(width: 10),
-                              Expanded(
-                                child: CustomTextFormField(
-                                  controller: leftDisabilityController,
-                                  title: 'Amputasi Kiri',
-                                  onTap: () => null,
-                                ),
-                              ),
-                            ],
-                          )),
-                if (disabilityDdItem == 'Tangan' && widget.isDisability)
-                  const SizedBox(height: 10),
-                Visibility(
-                  visible: widget.isDisability,
-                  child: disabilityDdItem == 'Tangan'
-                      ? CustomDropDown(
-                          title: 'Jenis Prostetik Yang Dibutuhkan',
-                          value: prostheticDisabilityDdItem,
+                      Visibility(
+                        visible: widget.isDisability,
+                        child: CustomDropDown(
+                          title: 'Disabilitas',
+                          value: disabilityDdItem,
                           onChanged: (value) {
                             setState(() {
-                              prostheticDisabilityDdItem = value.toString();
+                              disabilityDdItem = value.toString();
                             });
                           },
-                          items: prostheticDisability
-                              .map<DropdownMenuItem<String>>((value) {
+                          items:
+                              disability.map<DropdownMenuItem<String>>((value) {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(value),
                             );
                           }).toList(),
-                        )
-                      : CustomTextFormField(
-                          controller: prostheticDisabilityController,
-                          title: 'Jenis Prostetik Yang Dibutuhkan',
-                          onTap: () => null,
                         ),
-                ),
-                if (disabilityDdItem == 'Tangan' && widget.isDisability)
-                  const SizedBox(height: 10),
-                CustomTextFormField(
-                  controller: addressController,
-                  title: 'Alamat',
-                  onTap: () => null,
-                ),
-                Row(
-                  children: [
-                    Flexible(
-                      child: CustomDropDown(
-                        title: 'Provinsi',
-                        value: provinceDdItem,
-                        onChanged: (value) {
-                          setState(() {
-                            provinceDdItem = value;
-                            var provinceIndexOf = provinceName.indexOf(value);
-                            idProvince = provinceId[provinceIndexOf];
-                            if (idProvince == 1) {
-                              setState(() {
-                                getCity(idProvince.toString());
-                              });
-                            } else {
-                              setState(() {
-                                getCity(idProvince.toString());
-                              });
-                            }
-                          });
-                        },
-                        items:
-                            provinceName.map<DropdownMenuItem<String>>((value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
                       ),
-                    ),
-                    const SizedBox(width: 10),
-                    Flexible(
-                      child: CustomDropDown(
-                        title: 'Kota/Kabupaten',
-                        value: cityDdItem,
-                        onChanged: (value) {
-                          setState(() {
-                            cityDdItem = value;
-                            var cityIndexOf = cityName.indexOf(value);
-                            idCity = cityId[cityIndexOf];
-                          });
-                        },
-                        items: cityName.map<DropdownMenuItem<String>>((value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(
-                              value,
-                              overflow: TextOverflow.ellipsis,
+                      if (widget.isDisability) const SizedBox(height: 10),
+                      Visibility(
+                          visible: widget.isDisability,
+                          child: disabilityDdItem == 'Tangan'
+                              ? Row(
+                                  children: [
+                                    Flexible(
+                                      child: CustomDropDown(
+                                        title: 'Amputasi Kanan',
+                                        value: rightDisabilityDdItem,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            rightDisabilityDdItem = value;
+                                          });
+                                        },
+                                        items: rightDisability
+                                            .map<DropdownMenuItem<String>>(
+                                                (value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Text(value),
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Flexible(
+                                      child: CustomDropDown(
+                                        title: 'Amputasi Kiri',
+                                        value: leftDisabilityDdItem,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            leftDisabilityDdItem = value;
+                                          });
+                                        },
+                                        items: leftDisability
+                                            .map<DropdownMenuItem<String>>(
+                                                (value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Text(
+                                              value,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : Row(
+                                  children: [
+                                    Expanded(
+                                      child: CustomTextFormField(
+                                        controller: rightDisabilityController,
+                                        title: 'Amputasi Kanan',
+                                        onTap: () => null,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Expanded(
+                                      child: CustomTextFormField(
+                                        controller: leftDisabilityController,
+                                        title: 'Amputasi Kiri',
+                                        onTap: () => null,
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                      if (disabilityDdItem == 'Tangan' && widget.isDisability)
+                        const SizedBox(height: 10),
+                      Visibility(
+                        visible: widget.isDisability,
+                        child: disabilityDdItem == 'Tangan'
+                            ? CustomDropDown(
+                                title: 'Jenis Prostetik Yang Dibutuhkan',
+                                value: prostheticDisabilityDdItem,
+                                onChanged: (value) {
+                                  setState(() {
+                                    prostheticDisabilityDdItem =
+                                        value.toString();
+                                  });
+                                },
+                                items: prostheticDisability
+                                    .map<DropdownMenuItem<String>>((value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                              )
+                            : CustomTextFormField(
+                                controller: prostheticDisabilityController,
+                                title: 'Jenis Prostetik Yang Dibutuhkan',
+                                onTap: () => null,
+                              ),
+                      ),
+                      if (disabilityDdItem == 'Tangan' && widget.isDisability)
+                        const SizedBox(height: 10),
+                      CustomTextFormField(
+                        controller: addressController,
+                        title: 'Alamat',
+                        onTap: () => null,
+                      ),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: CustomDropDown(
+                              title: 'Provinsi',
+                              value: provinceDdItem,
+                              onChanged: (value) {
+                                setState(() {
+                                  provinceDdItem = value;
+                                  var provinceIndexOf =
+                                      provinceName.indexOf(value);
+                                  idProvince = provinceId[provinceIndexOf];
+                                  if (idProvince == 1) {
+                                    setState(() {
+                                      getCity(idProvince.toString());
+                                    });
+                                  } else {
+                                    setState(() {
+                                      getCity(idProvince.toString());
+                                    });
+                                  }
+                                });
+                              },
+                              items: provinceName
+                                  .map<DropdownMenuItem<String>>((value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
                             ),
-                          );
-                        }).toList(),
+                          ),
+                          const SizedBox(width: 10),
+                          Flexible(
+                            child: CustomDropDown(
+                              title: 'Kota/Kabupaten',
+                              value: cityDdItem,
+                              onChanged: (value) {
+                                setState(() {
+                                  cityDdItem = value;
+                                  var cityIndexOf = cityName.indexOf(value);
+                                  idCity = cityId[cityIndexOf];
+                                });
+                              },
+                              items: cityName
+                                  .map<DropdownMenuItem<String>>((value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(
+                                    value,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                CustomButton(
-                  isLoading: isLoading,
-                  onTap: verification,
-                  title: widget.isAdmin ? 'Registrasi' : 'Verifikasi',
+                      const SizedBox(height: 20),
+                      CustomButton(
+                        isLoading: isLoading,
+                        onTap: verification,
+                        title: widget.isAdmin ? 'Registrasi' : 'Verifikasi',
+                      )
+                    ],
+                  ),
                 )
               ],
             ),
-          )
-        ],
-      ),
     );
   }
 }

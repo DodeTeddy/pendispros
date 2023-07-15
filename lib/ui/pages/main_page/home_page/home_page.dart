@@ -51,7 +51,8 @@ class _HomePageState extends State<HomePage> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               var profileData = snapshot.data;
-              if (profileData!.verifiedAs == 'notverified') {
+              if (profileData!.verifiedAs == 'notverified' ||
+                  profileData.verifiedAs == 'waiting') {
                 if (profileData.role == 'disability') {
                   headerTextVerified = 'Belum Terverifikasi';
                   textVerified = 'Penyandang Disabilitas';
@@ -155,8 +156,10 @@ class _HomePageState extends State<HomePage> {
                                   isAdmin: isAdmin,
                                   isDisabilty: diisabilityNotVer,
                                   isProsthetic: workshopNotVer,
-                                  isNotVerified: isNotVerified
-                                )
+                                  isNotVerified: isNotVerified,
+                                  isWaiting:
+                                      profileData.verifiedAs == 'waiting',
+                                ),
                               ),
                               Visibility(
                                   visible: isDisability,

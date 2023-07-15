@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:tugas_akhir_app/models/get_disability_data_model.dart';
+import '../models/change_verified_model.dart';
 import '../models/city_model.dart';
 import '../models/create_information_model.dart';
 import '../models/delete_dsandws_model.dart';
@@ -21,7 +22,7 @@ import '../models/update_dsandws_model.dart';
 import '../models/update_information_model.dart';
 import '../models/verification_model.dart';
 
-var baseUrl = 'https://6c77-103-156-165-15.ngrok-free.app/api';
+var baseUrl = 'https://2dd9-103-156-165-15.ngrok-free.app/api';
 var headerNoAuth = {'Accept': 'application/json'};
 
 Future<SignUpModel> signUp(
@@ -410,6 +411,26 @@ Future<DeleteDsAndWsModel> deleteProsthetic(int id) async {
   try {
     var response = await http.delete(url, headers: header);
     return DeleteDsAndWsModel.fromJson(jsonDecode(response.body));
+  } catch (e) {
+    rethrow;
+  }
+}
+
+Future<ChangeVerifiedModel> changeVerfieid(
+    String userId, String userRole) async {
+  var prefs = await SharedPreferences.getInstance();
+  var token = prefs.getString('token');
+  var url = Uri.parse('$baseUrl/verification/change');
+  var header = {'Accept': 'application/json', 'Authorization': 'Bearer $token'};
+
+  var body = {
+    'user_id': userId,
+    'user_role': userRole,
+  };
+
+  try {
+    var response = await http.post(url, headers: header, body: body);
+    return ChangeVerifiedModel.fromJson(jsonDecode(response.body));
   } catch (e) {
     rethrow;
   }
