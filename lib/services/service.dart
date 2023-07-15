@@ -435,3 +435,23 @@ Future<ChangeVerifiedModel> changeVerfieid(
     rethrow;
   }
 }
+
+Future<ChangeVerifiedModel> changeVerfieidInformation(
+    String informationId, String informationStatus) async {
+  var prefs = await SharedPreferences.getInstance();
+  var token = prefs.getString('token');
+  var url = Uri.parse('$baseUrl/information/change');
+  var header = {'Accept': 'application/json', 'Authorization': 'Bearer $token'};
+
+  var body = {
+    'information_id': informationId,
+    'information_status': informationStatus,
+  };
+
+  try {
+    var response = await http.post(url, headers: header, body: body);
+    return ChangeVerifiedModel.fromJson(jsonDecode(response.body));
+  } catch (e) {
+    rethrow;
+  }
+}

@@ -9,6 +9,7 @@ import 'package:tugas_akhir_app/ui/pages/main_page/notifiaction_page/notificatio
 import 'package:tugas_akhir_app/ui/shared/theme/constant.dart';
 import 'package:tugas_akhir_app/ui/shared/widgets/custom_container.dart';
 import 'package:http/http.dart' as http;
+import '../../../../models/change_verified_model.dart';
 import '../../../../models/get_notification_model.dart';
 import '../../../shared/widgets/custom_appbar.dart';
 
@@ -36,7 +37,7 @@ class _NotificationPageState extends State<NotificationPage> {
       GetNotificationModel getData =
           GetNotificationModel.fromJson(jsonDecode(response.body));
       listData.clear();
-      listData.addAll(getData.data.data);
+      listData.addAll(getData.data);
       return listData.reversed.toList();
     } catch (e) {
       rethrow;
@@ -174,11 +175,93 @@ class _NotificationPageState extends State<NotificationPage> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.end,
                                           children: [
-                                            Text(
-                                              'Create By ${notification[index].user.username.capitalize()}',
-                                              style: const TextStyle(
-                                                  color: inActiveColor),
-                                            ),
+                                            notification[index]
+                                                        .verifiedStatus ==
+                                                    'notverified'
+                                                ? GestureDetector(
+                                                    onTap: () {
+                                                      QuickAlert.show(
+                                                        title:
+                                                            'Apakah anda yakin?',
+                                                        context: context,
+                                                        type: QuickAlertType
+                                                            .confirm,
+                                                        confirmBtnText: 'Ya',
+                                                        onConfirmBtnTap:
+                                                            () async {
+                                                          ChangeVerifiedModel
+                                                              changeVerifiedModel =
+                                                              await changeVerfieidInformation(
+                                                                  notification[
+                                                                          index]
+                                                                      .id
+                                                                      .toString(),
+                                                                  'verified');
+                                                          if (changeVerifiedModel
+                                                                  .message ==
+                                                              'Change Verification Success!') {
+                                                            setState(() {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            });
+                                                            if (!mounted)
+                                                              return;
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(
+                                                                    const SnackBar(
+                                                              content: Text(
+                                                                  'Berhasil verifikasi Data'),
+                                                              backgroundColor:
+                                                                  Colors.green,
+                                                              behavior:
+                                                                  SnackBarBehavior
+                                                                      .floating,
+                                                            ));
+                                                          } else {
+                                                            setState(() {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            });
+                                                            if (!mounted)
+                                                              return;
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(
+                                                              const SnackBar(
+                                                                content: Text(
+                                                                  'Gagal verifikasi Data',
+                                                                ),
+                                                                backgroundColor:
+                                                                    Colors.red,
+                                                                behavior:
+                                                                    SnackBarBehavior
+                                                                        .floating,
+                                                              ),
+                                                            );
+                                                          }
+                                                        },
+                                                        cancelBtnText: 'Tidak',
+                                                        confirmBtnColor:
+                                                            primaryColor,
+                                                        customAsset:
+                                                            'assets/images/get_started.png',
+                                                        backgroundColor:
+                                                            secondaryColor,
+                                                      );
+                                                    },
+                                                    child: const Text(
+                                                      'Butuh Verifikasi',
+                                                      style: TextStyle(
+                                                        color: primaryColor,
+                                                      ),
+                                                    ),
+                                                  )
+                                                : Text(
+                                                    'Create By ${notification[index].user.username.capitalize()}',
+                                                    style: const TextStyle(
+                                                        color: inActiveColor),
+                                                  ),
                                           ],
                                         ),
                                       ],

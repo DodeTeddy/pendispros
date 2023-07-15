@@ -212,23 +212,29 @@ class _CreateInformationPageState extends State<CreateInformationPage> {
                                           context: context,
                                           type: QuickAlertType.confirm,
                                           confirmBtnText: 'Ya',
-                                          widget: Column(
-                                            children: [
-                                              CustomTextFormField(
-                                                isOnAlert: true,
-                                                controller: titleEditController,
-                                                title: 'Judul Informasi',
-                                                onTap: () => null,
+                                          widget: SizedBox(
+                                            height: 200,
+                                            child: SingleChildScrollView(
+                                              child: Column(
+                                                children: [
+                                                  CustomTextFormField(
+                                                    isOnAlert: true,
+                                                    controller:
+                                                        titleEditController,
+                                                    title: 'Judul Informasi',
+                                                    onTap: () => null,
+                                                  ),
+                                                  CustomTextFormField(
+                                                    isOnAlert: true,
+                                                    isText: true,
+                                                    controller:
+                                                        detailEditController,
+                                                    title: 'Detail Informasi',
+                                                    onTap: () => null,
+                                                  )
+                                                ],
                                               ),
-                                              CustomTextFormField(
-                                                isOnAlert: true,
-                                                isText: true,
-                                                controller:
-                                                    detailEditController,
-                                                title: 'Detail Informasi',
-                                                onTap: () => null,
-                                              )
-                                            ],
+                                            ),
                                           ),
                                           onConfirmBtnTap: () =>
                                               updateData(information[index].id),
