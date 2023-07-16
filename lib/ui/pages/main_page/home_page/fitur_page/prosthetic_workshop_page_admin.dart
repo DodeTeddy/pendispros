@@ -27,6 +27,13 @@ class ProstheticWorkshopPageAdmin extends StatefulWidget {
 
 class _ProstheticWorkshopPageAdminState
     extends State<ProstheticWorkshopPageAdmin> {
+  List image = [
+    'assets/images/catalog1.jpg',
+    'assets/images/catalog2.jpg',
+    'assets/images/catalog3.jpg',
+    'assets/images/catalog4.jpg'
+  ];
+
   void deleteData(int id) async {
     DeleteDsAndWsModel deleteDsAndWsModel = await deleteProsthetic(id);
     if (deleteDsAndWsModel.message == 'Delete Success!') {
@@ -131,153 +138,191 @@ class _ProstheticWorkshopPageAdminState
                   padding: const EdgeInsets.only(top: 60),
                   physics: const BouncingScrollPhysics(),
                   itemCount: getDataWs.length,
-                  itemBuilder: (context, index) => CustomContainer(
-                    margin:
-                        const EdgeInsets.symmetric(vertical: 5, horizontal: 12),
-                    padding: const EdgeInsets.all(12),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 40,
-                          width: 40,
-                          decoration: const BoxDecoration(
-                            color: secondaryColor,
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image:
-                                    AssetImage('assets/images/logo_app.png')),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(getDataWs[index].workshopName.capitalize(),
-                                  style: const TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600),
-                                  overflow: TextOverflow.ellipsis),
-                              const SizedBox(height: 10),
-                              ProfileItem(
-                                  icon: Icons.call,
-                                  text: getDataWs[index].phoneNumber),
-                              const SizedBox(height: 10),
-                              ProfileItem(
-                                  icon:
-                                      getDataWs[index].user.username == 'admin'
-                                          ? Icons.check_circle_rounded
-                                          : Icons.email_rounded,
-                                  text:
-                                      getDataWs[index].user.username == 'admin'
-                                          ? 'registrasi oleh admin'
-                                          : getDataWs[index].user.email),
-                              const SizedBox(height: 10),
-                              ProfileItem(
-                                icon: Icons.pin_drop_rounded,
-                                text:
-                                    '${getDataWs[index].address}, ${getDataWs[index].city.name},\n${getDataWs[index].province.provinceName}-Indonesia',
-                              )
-                            ],
-                          ),
-                        ),
-                        if (getDataWs[index].user.username == 'admin')
-                          Column(
-                            children: [
-                              IconButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          UpdateProstheticPage(
-                                        id: getDataWs[index].id,
-                                        name: getDataWs[index].workshopName,
-                                        phone: getDataWs[index].phoneNumber,
-                                        address: getDataWs[index].address,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                icon: const Icon(Icons.edit,
-                                    color: primaryColor, size: 25),
-                              ),
-                              IconButton(
-                                onPressed: () => QuickAlert.show(
-                                  title: 'Apakah anda yakin?',
-                                  context: context,
-                                  type: QuickAlertType.confirm,
-                                  confirmBtnText: 'Ya',
-                                  onConfirmBtnTap: () =>
-                                      deleteData(getDataWs[index].id),
-                                  cancelBtnText: 'Tidak',
-                                  confirmBtnColor: primaryColor,
-                                  customAsset: 'assets/images/get_started.png',
-                                  backgroundColor: secondaryColor,
+                  itemBuilder: (context, index) => GestureDetector(
+                    onTap: () {
+                      QuickAlert.show(
+                        context: context,
+                        type: QuickAlertType.custom,
+                        backgroundColor: secondaryColor,
+                        confirmBtnColor: primaryColor,
+                        customAsset: 'assets/images/get_started.png',
+                        title: 'Katalog Bengkel Prostetik',
+                        widget: SizedBox(
+                          height: 200,
+                          child: GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithMaxCrossAxisExtent(
+                                    maxCrossAxisExtent: 200,
+                                    childAspectRatio: 3 / 2,
+                                    crossAxisSpacing: 20,
+                                    mainAxisSpacing: 20),
+                            itemCount: image.length,
+                            itemBuilder: (context, index) => Container(
+                              decoration: BoxDecoration(
+                                color: primaryColor,
+                                borderRadius: BorderRadius.circular(20),
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                    image[index],
+                                  ),
+                                  fit: BoxFit.cover,
                                 ),
-                                icon: const Icon(Icons.delete_outline_rounded,
-                                    color: primaryColor, size: 30),
-                              )
-                            ],
+                              ),
+                            ),
                           ),
-                        if (getDataWs[index].user.verifiedAs == 'waiting')
-                          Column(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  QuickAlert.show(
+                        ),
+                      );
+                    },
+                    child: CustomContainer(
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 12),
+                      padding: const EdgeInsets.all(12),
+                      child: Row(
+                        children: [
+                          Container(
+                            height: 40,
+                            width: 40,
+                            decoration: const BoxDecoration(
+                              color: secondaryColor,
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image:
+                                      AssetImage('assets/images/logo_app.png')),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(getDataWs[index].workshopName.capitalize(),
+                                    style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600),
+                                    overflow: TextOverflow.ellipsis),
+                                const SizedBox(height: 10),
+                                ProfileItem(
+                                    icon: Icons.call,
+                                    text: getDataWs[index].phoneNumber),
+                                const SizedBox(height: 10),
+                                ProfileItem(
+                                    icon: getDataWs[index].user.username ==
+                                            'admin'
+                                        ? Icons.check_circle_rounded
+                                        : Icons.email_rounded,
+                                    text: getDataWs[index].user.username ==
+                                            'admin'
+                                        ? 'registrasi oleh admin'
+                                        : getDataWs[index].user.email),
+                                const SizedBox(height: 10),
+                                ProfileItem(
+                                  icon: Icons.pin_drop_rounded,
+                                  text:
+                                      '${getDataWs[index].address}, ${getDataWs[index].city.name},\n${getDataWs[index].province.provinceName}-Indonesia',
+                                )
+                              ],
+                            ),
+                          ),
+                          if (getDataWs[index].user.username == 'admin')
+                            Column(
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            UpdateProstheticPage(
+                                          id: getDataWs[index].id,
+                                          name: getDataWs[index].workshopName,
+                                          phone: getDataWs[index].phoneNumber,
+                                          address: getDataWs[index].address,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  icon: const Icon(Icons.edit,
+                                      color: primaryColor, size: 25),
+                                ),
+                                IconButton(
+                                  onPressed: () => QuickAlert.show(
                                     title: 'Apakah anda yakin?',
                                     context: context,
                                     type: QuickAlertType.confirm,
                                     confirmBtnText: 'Ya',
-                                    onConfirmBtnTap: () async {
-                                      ChangeVerifiedModel changeVerifiedModel =
-                                          await changeVerfieid(
-                                        getDataWs[index].user.id.toString(),
-                                        getDataWs[index].user.role,
-                                      );
-                                      if (changeVerifiedModel.message ==
-                                          'Change Verification Success!') {
-                                        setState(() {
-                                          Navigator.pop(context);
-                                        });
-                                        if (!mounted) return;
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(const SnackBar(
-                                          content:
-                                              Text('Berhasil verifikasi Data'),
-                                          backgroundColor: Colors.green,
-                                          behavior: SnackBarBehavior.floating,
-                                        ));
-                                      } else {
-                                        setState(() {
-                                          Navigator.pop(context);
-                                        });
-                                        if (!mounted) return;
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(const SnackBar(
-                                          content:
-                                              Text('Gagal verifikasi Data'),
-                                          backgroundColor: Colors.red,
-                                          behavior: SnackBarBehavior.floating,
-                                        ));
-                                      }
-                                    },
+                                    onConfirmBtnTap: () =>
+                                        deleteData(getDataWs[index].id),
                                     cancelBtnText: 'Tidak',
                                     confirmBtnColor: primaryColor,
                                     customAsset:
                                         'assets/images/get_started.png',
                                     backgroundColor: secondaryColor,
-                                  );
-                                },
-                                child: const Text(
-                                  'Butuh\nVerfikasi',
-                                  textAlign: TextAlign.center,
-                                ),
-                              )
-                            ],
-                          )
-                      ],
+                                  ),
+                                  icon: const Icon(Icons.delete_outline_rounded,
+                                      color: primaryColor, size: 30),
+                                )
+                              ],
+                            ),
+                          if (getDataWs[index].user.verifiedAs == 'waiting')
+                            Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    QuickAlert.show(
+                                      title: 'Apakah anda yakin?',
+                                      context: context,
+                                      type: QuickAlertType.confirm,
+                                      confirmBtnText: 'Ya',
+                                      onConfirmBtnTap: () async {
+                                        ChangeVerifiedModel
+                                            changeVerifiedModel =
+                                            await changeVerfieid(
+                                          getDataWs[index].user.id.toString(),
+                                          getDataWs[index].user.role,
+                                        );
+                                        if (changeVerifiedModel.message ==
+                                            'Change Verification Success!') {
+                                          setState(() {
+                                            Navigator.pop(context);
+                                          });
+                                          if (!mounted) return;
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                            content: Text(
+                                                'Berhasil verifikasi Data'),
+                                            backgroundColor: Colors.green,
+                                            behavior: SnackBarBehavior.floating,
+                                          ));
+                                        } else {
+                                          setState(() {
+                                            Navigator.pop(context);
+                                          });
+                                          if (!mounted) return;
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                            content:
+                                                Text('Gagal verifikasi Data'),
+                                            backgroundColor: Colors.red,
+                                            behavior: SnackBarBehavior.floating,
+                                          ));
+                                        }
+                                      },
+                                      cancelBtnText: 'Tidak',
+                                      confirmBtnColor: primaryColor,
+                                      customAsset:
+                                          'assets/images/get_started.png',
+                                      backgroundColor: secondaryColor,
+                                    );
+                                  },
+                                  child: const Text(
+                                    'Butuh\nVerfikasi',
+                                    textAlign: TextAlign.center,
+                                  ),
+                                )
+                              ],
+                            )
+                        ],
+                      ),
                     ),
                   ),
                 ),

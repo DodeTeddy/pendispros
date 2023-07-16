@@ -91,32 +91,33 @@ class _NotificationPageState extends State<NotificationPage> {
                         itemBuilder: (context, index) => GestureDetector(
                           onTap: () {
                             QuickAlert.show(
-                                context: context,
-                                type: QuickAlertType.custom,
-                                backgroundColor: secondaryColor,
-                                confirmBtnColor: primaryColor,
-                                customAsset: 'assets/images/get_started.png',
-                                widget: SizedBox(
-                                  height: 200,
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          notification[index]
-                                              .titleInformation
-                                              .capitalize(),
-                                          style: const TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        Text(notification[index]
-                                            .detailInformation
-                                            .capitalize())
-                                      ],
-                                    ),
+                              context: context,
+                              type: QuickAlertType.custom,
+                              backgroundColor: secondaryColor,
+                              confirmBtnColor: primaryColor,
+                              customAsset: 'assets/images/get_started.png',
+                              widget: SizedBox(
+                                height: 200,
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        notification[index]
+                                            .titleInformation
+                                            .capitalize(),
+                                        style: const TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Text(notification[index]
+                                          .detailInformation
+                                          .capitalize())
+                                    ],
                                   ),
-                                ));
+                                ),
+                              ),
+                            );
                           },
                           child: CustomContainer(
                               margin: const EdgeInsets.symmetric(
